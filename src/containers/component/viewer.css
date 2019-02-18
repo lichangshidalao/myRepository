@@ -1,0 +1,30 @@
+.bingMapStyle{
+    position: absolute;
+    margin-top: 30px;
+    margin-left: 20px;
+    z-index: 100;
+    width: 200px;
+}
+.antd_cards{
+    display: none;
+    position: absolute;
+}
+.CesiumcardsClass{
+    display: "none";
+    position: "absolute" ;
+    width: 240; 
+}
+.select_1{
+    position: absolute;
+    margin-top: 30px;
+    margin-left: 20px;
+    z-index: 100;
+    width: 200px;
+}
+.select_2{
+    position: absolute;
+    margin-top: 30px;
+    margin-left: 240px;
+    z-index: 100;
+    width: 200px;
+}
