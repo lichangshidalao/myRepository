@@ -28,3 +28,10 @@
     z-index: 100;
     width: 200px;
 }
+.baiduButton{
+    position: absolute;
+    margin-top: 30px;
+    margin-left: 60px;
+    width: 100px;
+    z-index: 70;
+}

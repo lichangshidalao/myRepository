@@ -22,12 +22,17 @@ const tileset3dtilesUrl = {
         {
             "name": "上地",
             "url": "http://localhost:8080/Apps/SampleData/shangdi/tileset.json"
+        },
+        {
+            "name": "wuhan",
+            "url": "http://localhost:8080/Apps/SampleData/wuhan/tileset.json"
         }
+
     ],
     "bimModel": [
         {
-            "name": "重庆bim模型",
-            "url": "http://localhost:8080/Apps/SampleData/bimnew/1-4-B2/all/structure/tileset.json"
+            "name": "B2-BIM",
+            "url": "http://localhost:8080/Apps/SampleData/B2-BIM/tileset.json"
         },
         {
             "name": "扬州污水场",
@@ -36,6 +41,10 @@ const tileset3dtilesUrl = {
         {
             "name": "组合池",
             "url": "http://localhost:8080/Apps/SampleData/model_2_15/tileset.json"
+        },
+        {
+            "name": "故宫",
+            "url": "http://localhost:8080/Apps/SampleData/gugong003/tileset.json"
         }
     ]
 }
@@ -75,6 +84,6 @@ const TDTURL_CONFIG = {
 const model_config = {
     //等高线
     contour: "http://localhost:8080/Apps/SampleData/rainier-countours.geojson",
-    beijing:"http://localhost:8080/Apps/SampleData/beijing.json"
+    beijing: "http://localhost:8080/Apps/SampleData/beijing.json"
 }
 export { tileset3dtilesUrl, ion_Token, TDTURL_CONFIG, model_config }

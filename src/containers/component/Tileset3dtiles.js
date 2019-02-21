@@ -40,7 +40,20 @@ class BingMap extends Component {
                 add3dtiles(viewer, tileset3dtilesUrl.cityModel[1].url)
                 break
             case "bim_chongqin":
-                add3dtiles(viewer, tileset3dtilesUrl.bimModel[0].url)
+                let b2 = add3dtiles(viewer, tileset3dtilesUrl.bimModel[0].url)
+                // let b2Positions = Cesium.Cartesian3.fromDegrees(119.22079894662423, 32.2419449187401, 1000);
+                let paramss = {
+                    tx: 110.5,  //模型中心X轴坐标（经度，单位：十进制度）
+                    ty: 30,     //模型中心Y轴坐标（纬度，单位：十进制度）  
+                    tz: 1120,    //模型中心Z轴坐标（高程，单位：米） 
+                    rx: 0,     //X轴（经度）方向旋转角度（单位：度）  
+                    ry: 0,     //Y轴（纬度）方向旋转角度（单位：度）  
+                    rz: 0,       //Z轴（高程）方向旋转角度（单位：度）
+                    scale: 10
+                };
+                update3dtilesMaxtrix(b2, paramss)
+                viewer.zoomTo(b2)
+                //cameraFlyto(viewer, b2Positions, 1000)
                 // transformTileset(tilesetBimChongqin, positions)
                 // cameraFlyto(viewer, positions, 1000)
                 break
@@ -107,8 +120,9 @@ class BingMap extends Component {
                     params.tz = 110
                     update3dtilesMaxtrix(bimZhuhe, params)
                 })
-
-
+                break
+            case "gugong":
+                add3dtiles(viewer, tileset3dtilesUrl.bimModel[3].url)
                 break
         }
     }
@@ -119,9 +133,10 @@ class BingMap extends Component {
                     <Option value="photography_osgb">保利osgb倾斜模型</Option>
                     <Option value="city_newyork">纽约城市模型</Option>
                     <Option value="city_chongqin">重庆智慧园区</Option>
-                    <Option value="bim_chongqin" disabled>重庆bim楼</Option>
+                    <Option value="bim_chongqin">重庆bim楼</Option>
                     <Option value="bim_ws">污水场</Option>
                     <Option value="bim_zhuhe">组合池</Option>
+                    <Option value="gugong">故宫</Option>
                 </Select>
             </div>
         );

@@ -14,6 +14,7 @@ import Shangdi from "../containers/component/Shangdi"
 import DataSources from "../containers/component/DataSources"
 import BaiduModel from "../containers/component/BaiduModel"
 import Flooding from "../containers/component/Flooding"
+import Weather from "../containers/component/Weather"
 
 
 const ROUTERS = [
@@ -69,6 +70,14 @@ const ROUTERS = [
                 link: '/SceneCover',
                 text: '场景蒙皮',
                 component: SceneCover,
+                type: 'item',
+                child: []
+            },
+            {
+                key: 'Weather',
+                link: '/Weather',
+                text: '天气特效',
+                component: Weather,
                 type: 'item',
                 child: []
             }

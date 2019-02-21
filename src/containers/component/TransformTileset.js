@@ -83,6 +83,7 @@ class Map extends Component {
 const setFlagStatus = (key, value) => {
     let numX = params.tx
     let numY = params.ty
+    let numZ = params.tz
     let rx = params.rx
     let ry = params.ry
     let rz = params.rz
@@ -136,9 +137,18 @@ const setFlagStatus = (key, value) => {
             // +
             scale += 0.1
             break;
+        case 88:
+            // +
+            numZ += 1
+            break;
+        case 90:
+            // +
+            numZ -= 1
+            break;
     }
     params.tx = numX
     params.ty = numY
+    params.tz = numZ
     params.rx = rx
     params.ry = ry
     params.rz = rz
