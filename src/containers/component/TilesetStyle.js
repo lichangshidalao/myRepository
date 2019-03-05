@@ -87,6 +87,7 @@ class BingMap extends Component {
                         viewer.container.appendChild(cards);
                         cards.style.bottom = viewer.canvas.clientHeight - movement.endPosition.y + 150 + 'px';
                         cards.style.left = movement.endPosition.x + 300 + 'px';
+                        console.log(movement.endPosition.x + 300)
                         cards.style.display = 'block';
                         let buildIDs = "this is build " + pickedFeature.getProperty('name');
                         this.setState({
@@ -115,7 +116,6 @@ class BingMap extends Component {
             case 'HIGHLIGHT':
                 tileset.colorBlendMode = Cesium.Cesium3DTileColorBlendMode.REPLACE
                 break
-
         }
     }
     render() {

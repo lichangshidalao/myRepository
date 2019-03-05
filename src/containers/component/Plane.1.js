@@ -14,9 +14,9 @@ const Option = Select.Option;
 let viewer, tileset
 //示例数据
 let params = {
-    tx: 119.0910393016583,  //模型中心X轴坐标（经度，单位：十进制度）
-    ty: 32.26718715540471,     //模型中心Y轴坐标（纬度，单位：十进制度）  
-    tz: 10,    //模型中心Z轴坐标（高程，单位：米） 
+    tx: 110.5,  //模型中心X轴坐标（经度，单位：十进制度）
+    ty: 30,     //模型中心Y轴坐标（纬度，单位：十进制度）  
+    tz: 1120,    //模型中心Z轴坐标（高程，单位：米） 
     rx: 0,     //X轴（经度）方向旋转角度（单位：度）  
     ry: 0,     //Y轴（纬度）方向旋转角度（单位：度）  
     rz: 0,       //Z轴（高程）方向旋转角度（单位：度）
@@ -24,8 +24,8 @@ let params = {
 };
 
 let originalParam
-//南北方向1米等于：360 / 40075016.68557849 =0.000008983152841195214 度（注：任意经度地球周长 40075016.68557849米）
-//东西方向1米等于：360 / 38274592.22115159 =0.000009405717451407729 度（注：38纬度地球周长 38274592.22115159  米）
+
+
 //速度取10m
 let speed = 0.0001
 let degree = 1
@@ -36,23 +36,21 @@ class Map extends Component {
     }
     componentDidMount() {
         viewer = viewerInit(this.refs.map)
+
+        let clippingPlanes = new Cesium.ClippingPlaneCollection({
+            planes: [
+                new Cesium.ClippingPlane(new Cesium.Cartesian3(0.0, 0.0, -1.0), 100.0)
+            ],
+            // enabled: false
+        });
         tileset = add3dtiles(viewer, tileset3dtilesUrl.bimModel[1].url)
         tileset.readyPromise.then(function (tileset) {
-            //深拷贝
-            originalParam = JSON.parse(JSON.stringify(params))
-            update3dtilesMaxtrix(tileset, params)
-            let shadowMap = viewer.shadowMap;
-            viewer.shadows = true
-            shadowMap.maxmimumDistance = 10000.0;
-            viewer.clock.startTime = new Cesium.JulianDate.fromIso8601('2013-12-25');
-            viewer.clock.multiplier = 6000.0;
-            //viewer.clock.shouldAnimate = true
-            viewer.scene.globe.enableLighting = true;
-            tileset.maximumScreenSpaceError = 1
+            tileset.clippingPlanes = clippingPlanes
         })
+
         document.addEventListener('keydown', (e) => {
-            setFlagStatus(e, true);
-            update3dtilesMaxtrix(tileset, params)
+            setFlagStatus(e);
+            createPlaneUpdateFunction(clippingPlanes)
         });
     }
     handleChange(value) {
@@ -80,7 +78,7 @@ class Map extends Component {
 
 //添加键盘监听事件
 // 根据键盘按键返回标志
-const setFlagStatus = (key, value) => {
+const setFlagStatus = (key) => {
     let numX = params.tx
     let numY = params.ty
     let numZ = params.tz
@@ -155,3 +153,24 @@ const setFlagStatus = (key, value) => {
     params.scale = scale
 }
 export default Map
+const createPlaneUpdateFunction = (clippingPlanes) => {
+    return () => {
+        //旋转
+        let mx = Cesium.Matrix3.fromRotationX(Cesium.Math.toRadians(params.rx));
+        let my = Cesium.Matrix3.fromRotationY(Cesium.Math.toRadians(params.ry));
+        let mz = Cesium.Matrix3.fromRotationZ(Cesium.Math.toRadians(params.rz));
+        let rotationX = Cesium.Matrix4.fromRotationTranslation(mx);
+        let rotationY = Cesium.Matrix4.fromRotationTranslation(my);
+        let rotationZ = Cesium.Matrix4.fromRotationTranslation(mz);
+        //平移   
+        let position = Cesium.Cartesian3.fromDegrees(params.tx, params.ty, params.tz);
+        let m = Cesium.Transforms.eastNorthUpToFixedFrame(position);
+        Cesium.Matrix4.multiply(m, rotationX, m);
+        Cesium.Matrix4.multiply(m, rotationY, m);
+        Cesium.Matrix4.multiply(m, rotationZ, m);
+
+        //let mp = clippingPlanes.modelMatrix
+        clippingPlanes.modelMatrix = m
+        return clippingPlanes;
+    };
+}

@@ -22,7 +22,7 @@ class App extends Component {
                     </Sider>
                     <Layout >
                         <Content>
-                            <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
+                            <div style={{ padding: 24, background: '#fff'}}>
                                 <Contents></Contents>
                             </div>
                         </Content>

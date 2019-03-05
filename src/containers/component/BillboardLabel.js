@@ -34,6 +34,8 @@ class Map extends Component {
                 const CameraPosition = Cesium.Cartesian3.fromDegrees(116.30477859375455, 40.03122907643513, 500)
                 cameraFlyto(viewer, CameraPosition)
                 break
+            case "label":
+                break
         }
     }
     render() {
@@ -42,9 +44,15 @@ class Map extends Component {
                 <Select defaultValue="pin" className="bingMapStyle" onChange={this.handleChange}>
                     <Option value="pin">pin</Option>
                     <Option value="image">image</Option>
+                    <Option value="label">自定义标签</Option>
                 </Select>
             </div>
         );
     }
 }
 export default Map
+const positionPopUp = (c) => {
+    var x = c.x - ($('#trackPopUpContent').width()) / 2;
+    var y = c.y - ($('#trackPopUpContent').height());
+    $('#trackPopUpContent').css('transform', 'translate3d(' + x + 'px, ' + y + 'px, 0)');
+}

@@ -31,6 +31,18 @@ const viewerInit = (cesiumContain) => {
     viewer.scene.screenSpaceCameraController.inertiaTranslate = 0 //相机惯性
     //3dtiles 调试
     //viewer.extend(Cesium.viewerCesium3DTilesInspectorMixin);
+
+    //homebutton
+    viewer.homeButton.viewModel.command.beforeExecute.addEventListener(function (e) {
+        e.cancel = true;
+        viewer.camera.flyTo({
+            //destination : Cesium.Rectangle.fromDegrees(89.5, 20.4, 110.4, 61.2)
+            destination: Cesium.Cartesian3.fromDegrees(102.39398424815259, 33.61420034522197, 20899778.430570062),
+            orientation: {
+                heading: Cesium.Math.toRadians(360)
+            }
+        });
+    });
     addTdtMap(viewer)
     return viewer
 }

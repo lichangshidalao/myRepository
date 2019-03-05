@@ -16,19 +16,12 @@ const cameraPosition = (viewer) => {
         cameraLongitude = Cesium.Math.toDegrees(p.longitude) + "°";;
         cameraLatitude = Cesium.Math.toDegrees(p.latitude) + "°";;
         cameraHeight = p.height + "米";
-        // console.log("head:" + cameraHeading)
-        // console.log("lon:" + cameraLongitude)
-        // console.log("lat:" + cameraLatitude)
-        // console.log("height:" + cameraHeight)
-        // console.log("roll" + camera.roll)
-        // console.log("pitch" + camera.pitch)
         cameraArray.push(cameraLongitude)
         cameraArray.push(cameraLatitude)
         cameraArray.push(cameraHeight)
         cameraArray.push(cameraHeading)
         cameraArray.push(camera.pitch)
         cameraArray.push(camera.roll)
-        //console.log(cameraArray)
     });
     let pickhandle = new Cesium.ScreenSpaceEventHandler(viewer.scene.canvas)
     let pickArray = []

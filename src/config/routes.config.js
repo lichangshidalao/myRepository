@@ -15,6 +15,10 @@ import DataSources from "../containers/component/DataSources"
 import BaiduModel from "../containers/component/BaiduModel"
 import Flooding from "../containers/component/Flooding"
 import Weather from "../containers/component/Weather"
+import Plane from "../containers/component/Plane"
+import ShadowAnalyis from "../containers/component/ShadowAnalyis"
+import CustomizeDiv from "../containers/component/CustomizeDiv"
+import EchartCesium from "../containers/component/EchartCesium"
 
 
 const ROUTERS = [
@@ -86,7 +90,7 @@ const ROUTERS = [
     {
         key: 'sub3',
         iconType: 'gift',
-        text: 'Entity',
+        text: 'Entity + 物件',
         type: 'SubMenu',
         child: [
             {
@@ -110,6 +114,22 @@ const ROUTERS = [
                 link: '/DataSources',
                 text: 'DataSources',
                 component: DataSources,
+                type: 'item',
+                child: []
+            },
+            {
+                key: 'CustomizeDiv',
+                link: '/CustomizeDiv',
+                text: '自定义标签',
+                component: CustomizeDiv,
+                type: 'item',
+                child: []
+            },
+            {
+                key: 'EchartCesium',
+                link: '/EchartCesium',
+                text: '整合echarts',
+                component: EchartCesium,
                 type: 'item',
                 child: []
             }
@@ -152,6 +172,14 @@ const ROUTERS = [
                 component: TransformTileset,
                 type: 'item',
                 child: []
+            },
+            {
+                key: 'Plane',
+                link: '/Plane',
+                text: '剖切',
+                component: Plane,
+                type: 'item',
+                child: []
             }
         ]
     },
@@ -182,6 +210,14 @@ const ROUTERS = [
                 link: '/Flooding',
                 text: '淹没分析',
                 component: Flooding,
+                type: 'item',
+                child: []
+            },
+            {
+                key: 'ShadowAnalyis',
+                link: '/ShadowAnalyis',
+                text: '阴影分析',
+                component: ShadowAnalyis,
                 type: 'item',
                 child: []
             }

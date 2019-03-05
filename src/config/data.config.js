@@ -39,6 +39,14 @@ const tileset3dtilesUrl = {
             "url": "http://localhost:8080/Apps/SampleData/ws/tileset.json"
         },
         {
+            "name": "精简污水场",
+            "url": "http://localhost:8080/Apps/SampleData/jingjian_ws/jingjian_ws/tileset.json"
+        },
+        {
+            "name": "污水场-2",
+            "url": "http://localhost:8080/Apps/SampleData/ws-2/ws/tileset.json"
+        },
+        {
             "name": "组合池",
             "url": "http://localhost:8080/Apps/SampleData/model_2_15/tileset.json"
         },

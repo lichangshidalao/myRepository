@@ -43,7 +43,7 @@ const update3dtilesMaxtrix = (tileset, params) => {
     //let mZoom = Cesium.Matrix4.fromScale(new Cesium.Cartesian3(2.0, 1.0, 1.0));
     //等比例缩放
     let mZoom = Cesium.Matrix4.fromScale(new Cesium.Cartesian3(params.scale, params.scale, params.scale));
-    
+
     //旋转、平移、缩放矩阵相乘  缩放
     Cesium.Matrix4.multiply(m, rotationX, m);
     Cesium.Matrix4.multiply(m, rotationY, m);
@@ -56,5 +56,37 @@ const update3dtilesMaxtrix = (tileset, params) => {
     //tileset.modelMatrix = m
 }
 
+
+//
+//矩阵方位角互转，参考https://blog.csdn.net/qq_40043761/article/details/81020823
+// 假设当前模型的经纬度坐标为{114, 30, 1000} 方位角{heading: 30, pitch: 20, roll: 10} 都是角度来计算 
+// 1. 根据坐标, 方位角计算模型矩阵
+// var position = Cesium.Cartesian3.fromDegrees(114, 30, 1000);
+// var heading = Cesium.Math.toRadians(30);
+// var pitch = Cesium.Math.toRadians(20);
+// var roll = Cesium.Math.toRadians(10);
+// var headingPitchRoll = new Cesium.HeadingPitchRoll(heading, pitch, roll);
+
+// var m = Cesium.Transforms.headingPitchRollToFixedFrame(position, headingPitchRoll, Cesium.Ellipsoid.WGS84, Cesium.Transforms.eastNorthUpToFixedFrame, new Cesium.Matrix4());
+// console.log(m);
+
+// // 2. 根据模型的矩阵求方位角
+// // 计算当前模型中心处的变换矩阵
+// var m1 = Cesium.Transforms.eastNorthUpToFixedFrame(Cesium.Cartesian3.fromDegrees(114, 30, 1000), Cesium.Ellipsoid.WGS84, new Cesium.Matrix4());
+// // 模型的矩阵
+// var m2 = m;
+// // 矩阵相除
+// var m3 = Cesium.Matrix4.multiply(Cesium.Matrix4.inverse(m1, new Cesium.Matrix4()), m2, new Cesium.Matrix4());
+// // 得到旋转矩阵
+// var mat3 = Cesium.Matrix4.getRotation(m3, new Cesium.Matrix3());
+// // 计算四元数
+// var q = Cesium.Quaternion.fromRotationMatrix(mat3);
+// // 计算旋转角(弧度)
+// var hpr = Cesium.HeadingPitchRoll.fromQuaternion(q);
+// // 得到角度
+// var heading = Cesium.Math.toDegrees(hpr.heading);
+// var pitch = Cesium.Math.toDegrees(hpr.pitch);
+// var roll = Cesium.Math.toDegrees(hpr.roll);
+// console.log('heading : ' + heading, 'pitch : ' + pitch, 'roll : ' + roll);
 export default transformTileset
 export { update3dtilesMaxtrix }

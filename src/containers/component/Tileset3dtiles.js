@@ -62,6 +62,7 @@ class BingMap extends Component {
                 const initialPositions = Cesium.Cartesian3.fromDegrees(119.22079894662423, 32.2419449187401, 1000);
                 transformTileset(bimws, initialPositions)
                 cameraFlyto(viewer, initialPositions, 1000)
+                bimws.colorBlendMode = Cesium.Cesium3DTileColorBlendMode.REPLACE
                 break
             case "bim_zhuhe":
                 //演示数组
@@ -69,7 +70,7 @@ class BingMap extends Component {
                 setInterval(() => {
                     factorsArray1.push("组合池结构3dm-5m标高池壁、隔墙及顶板结构")
                 }, 5000)
-                const bimZhuhe = add3dtiles(viewer, tileset3dtilesUrl.bimModel[2].url)
+                const bimZhuhe = add3dtiles(viewer, tileset3dtilesUrl.bimModel[4].url)
                 let pickArray = []
                 let pickhandle = new Cesium.ScreenSpaceEventHandler(viewer.scene.canvas)
                 pickhandle.setInputAction((movement) => {
@@ -121,7 +122,10 @@ class BingMap extends Component {
                     update3dtilesMaxtrix(bimZhuhe, params)
                 })
                 break
-            case "gugong":
+            case "jingjian-ws":
+                add3dtiles(viewer, tileset3dtilesUrl.bimModel[2].url)
+                break
+            case "ws-2":
                 add3dtiles(viewer, tileset3dtilesUrl.bimModel[3].url)
                 break
         }
@@ -136,7 +140,8 @@ class BingMap extends Component {
                     <Option value="bim_chongqin">重庆bim楼</Option>
                     <Option value="bim_ws">污水场</Option>
                     <Option value="bim_zhuhe">组合池</Option>
-                    <Option value="gugong">故宫</Option>
+                    <Option value="jingjian-ws">精简污水</Option>
+                    <Option value="ws-2">污水2</Option>
                 </Select>
             </div>
         );

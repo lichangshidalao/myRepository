@@ -7,7 +7,7 @@ import { getLonLat } from "../CesiumViewer/getLonLat";
 import cameraFlyto from "../CesiumViewer/cameraFlyto";
 import { Button } from 'antd';
 //const viewer
-let viewer
+let viewer, tileset
 const initialPosition = Cesium.Cartesian3.fromDegrees(114.27, 30.60, 1500);
 let headings = Cesium.Math.toRadians(0)
 let pitchs = Cesium.Math.toRadians(-90.0)
@@ -18,8 +18,16 @@ class Map extends Component {
     }
     componentDidMount() {
         viewer = viewerInit(this.refs.map)
-        let tileset = add3dtiles(viewer, tileset3dtilesUrl.cityModel[3].url, false)
-
+        let layer = new Cesium.UrlTemplateImageryProvider({
+            url: 'http://www.google.cn/maps/vt?lyrs=s@716&x={x}&y={y}&z={z}',
+            //url:'https://cesiumjs.org/tilesets/imagery/blackmarble',
+            credit: '',
+            tilingScheme: new Cesium.WebMercatorTilingScheme(),
+            maximumLevel: 18
+        })
+        viewer.imageryLayers.addImageryProvider(layer)
+        tileset = add3dtiles(viewer, tileset3dtilesUrl.cityModel[3].url, false)
+        tileset.show = false
 
         cameraFlyto(viewer, initialPosition, 1000, headings, pitchs)
 
@@ -29,9 +37,10 @@ class Map extends Component {
         camera.changed.addEventListener(() => {
             let pitch = Cesium.Math.toDegrees(camera.pitch)
             pitch < 0 ? numZ = (90 - Math.abs(pitch)) / 90 : numZ = 1
-            numZ == 0 ? tileset.show = false : tileset.show = true
-            tileset.show ? update3dtilesMaxtrixZ(tileset, numZ) : console.log(tileset.show)
-            console.log(pitch)
+            numZ < 0.1 ? tileset.show = false : tileset.show = true
+            if (tileset.show) {
+                update3dtilesMaxtrixZ(tileset, numZ)
+            }
         })
     }
     restartCamera() {
@@ -69,14 +78,6 @@ const update3dtilesMaxtrixZ = (tileset, pitch) => {
             Cesium.Matrix4.multiply(mC, mZoom, mC);
             tileset._root.transform = mC;
         }
-        //又位移问题
-        // let positionArray = getLonLat(tileset.boundingSphere.center)
-        // let position = Cesium.Cartesian3.fromDegrees(positionArray[0], positionArray[1], 0);
-        // let m = Cesium.Transforms.eastNorthUpToFixedFrame(position);
-        // Cesium.Matrix4.multiply(m, mZoom, m);
-        // //赋值给tileset 
-        // let mss = tileset.modelMatrix
-        // tileset.root.transform = Cesium.Matrix4.multiply(m, mss, m);
     })
 }
 export default Map
