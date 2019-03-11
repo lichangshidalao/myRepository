@@ -19,6 +19,7 @@ import Plane from "../containers/component/Plane"
 import ShadowAnalyis from "../containers/component/ShadowAnalyis"
 import CustomizeDiv from "../containers/component/CustomizeDiv"
 import EchartCesium from "../containers/component/EchartCesium"
+import SelectionInquire from "../containers/component/SelectionInquire"
 
 
 const ROUTERS = [
@@ -130,6 +131,14 @@ const ROUTERS = [
                 link: '/EchartCesium',
                 text: '整合echarts',
                 component: EchartCesium,
+                type: 'item',
+                child: []
+            },
+            {
+                key: 'SelectionInquire',
+                link: '/SelectionInquire',
+                text: '框选查询',
+                component: SelectionInquire,
                 type: 'item',
                 child: []
             }

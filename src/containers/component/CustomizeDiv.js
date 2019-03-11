@@ -36,12 +36,13 @@ class TerrainMap extends Component {
         //使用canvas绘制图片然后通过billboard加载
         const positionBillboard = Cesium.Cartesian3.fromDegrees(116.30477859375455, 40.03122907643513)
         let waters = document.getElementById('waters');
+        let images = drawCanvas(waters, "这是个图片测试", 60)
         let erss = init()
         let billboards = viewer.entities.add({
             name: 'Grocery store',
             position: positionBillboard,
             billboard: {
-                image: drawCanvas(waters, "testa", 60),
+                image: images,
                 //image: erss,
                 verticalOrigin: Cesium.VerticalOrigin.BOTTOM
             }

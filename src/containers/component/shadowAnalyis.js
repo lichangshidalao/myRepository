@@ -26,12 +26,14 @@ class Map extends Component {
         addTdtMap(viewer, "TDT_VEC_W")
         tileset = add3dtiles(viewer, tileset3dtilesUrl.cityModel[3].url, false)
         //tileset = add3dtiles(viewer, tileset3dtilesUrl.bimModel[1].url)
+        //阴影
         viewer.shadows = true
         let shadowMap = viewer.shadowMap;
         shadowMap.maxmimumDistance = 3000.0;
         viewer.clock.startTime = new Cesium.JulianDate(2458547, 52202.13500037328);
         viewer.clock.multiplier = 6000.0;
         //viewer.clock.shouldAnimate = true
+        
         viewer.scene.globe.enableLighting = true;
 
         cameraFlyto(viewer, initialPosition, 1000, headings, pitchs)
