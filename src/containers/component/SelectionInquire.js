@@ -12,6 +12,13 @@ class Map extends Component {
     componentDidMount() {
         //初始化视图
         let viewer = viewerInit(this.refs.map)
+        //google地图
+        let layer=new Cesium.UrlTemplateImageryProvider({
+            url:"http://mt1.google.cn/vt/lyrs=s&hl=zh-CN&x={x}&y={y}&z={z}&s=Gali"
+        })
+        viewer.imageryLayers.addImageryProvider(layer)
+        //天地图标注
+        viewer.imageryLayers.raiseToTop(viewer.imageryLayers.get(2))
 
         //设置起始点
         let [startP, endP] = [[], []]

@@ -12,7 +12,7 @@ const cameraFlyto = (viewer, positon = positions, height = 1000, heading = headi
         complete: function () {
             setTimeout(function () {
                 camera.flyTo({
-                    destination: Cesium.Cartesian3.fromDegrees(LonLatArray[0], LonLatArray[1], height),
+                    destination: Cesium.Cartesian3.fromDegrees(lon, lat, het),
                     orientation: {
                         heading: heading,
                         pitch: pitch

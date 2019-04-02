@@ -30,10 +30,12 @@ class Map extends Component {
         viewer.shadows = true
         let shadowMap = viewer.shadowMap;
         shadowMap.maxmimumDistance = 3000.0;
+        shadowMap.size = 2048;
+        //shadowMap.softShadows = true
         viewer.clock.startTime = new Cesium.JulianDate(2458547, 52202.13500037328);
         viewer.clock.multiplier = 6000.0;
         //viewer.clock.shouldAnimate = true
-        
+
         viewer.scene.globe.enableLighting = true;
 
         cameraFlyto(viewer, initialPosition, 1000, headings, pitchs)

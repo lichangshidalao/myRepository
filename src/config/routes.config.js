@@ -20,6 +20,7 @@ import ShadowAnalyis from "../containers/component/ShadowAnalyis"
 import CustomizeDiv from "../containers/component/CustomizeDiv"
 import EchartCesium from "../containers/component/EchartCesium"
 import SelectionInquire from "../containers/component/SelectionInquire"
+import Shigongmoni from "../containers/component/shigongmoni"
 
 
 const ROUTERS = [
@@ -227,6 +228,14 @@ const ROUTERS = [
                 link: '/ShadowAnalyis',
                 text: '阴影分析',
                 component: ShadowAnalyis,
+                type: 'item',
+                child: []
+            },
+            {
+                key: 'Shigongmoni',
+                link: '/Shigongmoni',
+                text: '施工模拟',
+                component: Shigongmoni,
                 type: 'item',
                 child: []
             }

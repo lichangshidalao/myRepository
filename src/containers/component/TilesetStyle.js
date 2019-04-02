@@ -107,13 +107,29 @@ class BingMap extends Component {
                     }
                 });
                 break
+            case 'style-Show':
+                //pick事件
+                let pickedFeature
+                handle.setInputAction((movement) => {
+                    pickedFeature = viewer.scene.pick(movement.position)
+                }, Cesium.ScreenSpaceEventType.LEFT_CLICK)
+                tileset.tileVisible.addEventListener((tile) => {
+                    var content = tile.content;
+                    var featuresLength = content.featuresLength;
+                    for (var i = 0; i < featuresLength; i++) {
+                        if (content.getFeature(i) === pickedFeature) {
+                            content.getFeature(i).show = false
+                        }
+                    }
+                });
+                break
             case 'HIGHLIGHT':
                 tileset.colorBlendMode = Cesium.Cesium3DTileColorBlendMode.HIGHLIGHT
                 break
-            case 'HIGHLIGHT':
+            case 'MIX':
                 tileset.colorBlendMode = Cesium.Cesium3DTileColorBlendMode.MIX
                 break
-            case 'HIGHLIGHT':
+            case 'REPLACE':
                 tileset.colorBlendMode = Cesium.Cesium3DTileColorBlendMode.REPLACE
                 break
         }
@@ -125,6 +141,7 @@ class BingMap extends Component {
                     <Option value="style-Height">style-Height</Option>
                     <Option value="style-Pick">style-Pick</Option>
                     <Option value="style-color">style-color</Option>
+                    <Option value="style-Show">style-Show</Option>
                 </Select>
                 <Select defaultValue="Color BlendMode" className="select_2" onChange={this.handleChange.bind(this)}>
                     <Option value="HIGHLIGHT">HIGHLIGHT </Option>
