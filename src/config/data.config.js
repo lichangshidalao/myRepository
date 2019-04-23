@@ -53,6 +53,10 @@ const tileset3dtilesUrl = {
         {
             "name": "故宫",
             "url": "http://localhost:8080/Apps/SampleData/gugong003/tileset.json"
+        },
+        {
+            "name": "老港",
+            "url": "http://localhost:8080/Apps/SampleData/laogang_tilt/tileset.json"
         }
     ]
 }
@@ -86,6 +90,12 @@ const TDTURL_CONFIG = {
         "&LAYER=cva&tileMatrixSet=c&TileMatrix={TileMatrix}&TileRow={TileRow}&TileCol={TileCol}" +
         "&style=default&format=tiles&tk=" + tk        //在线天地图矢量中文标记服务(经纬度)
 };
+const AMAP_CONFIG = {
+    Vector: "http://webst01.is.autonavi.com/appmaptile?style=7&x={x}&y={y}&z={z}",
+    Road: "http://wprd04.is.autonavi.com/appmaptile?x={x}&y={y}&z={z}&lang=zh_cn&size=1&scl=1&style=8&ltype=11",
+    Label: "http://wprd04.is.autonavi.com/appmaptile?x={x}&y={y}&z={z}&lang=zh_cn&size=1&scl=1&style=8&ltype=12",
+    Img: "http://webst01.is.autonavi.com/appmaptile?style=6&x={x}&y={y}&z={z}"
+}
 
 
 //model url 
@@ -94,4 +104,79 @@ const model_config = {
     contour: "http://localhost:8080/Apps/SampleData/rainier-countours.geojson",
     beijing: "http://localhost:8080/Apps/SampleData/beijing.json"
 }
-export { tileset3dtilesUrl, ion_Token, TDTURL_CONFIG, model_config }
+
+//tree data
+const tree_config = [
+    {
+        "key": "0-0",
+        "title": "地图底图",
+        "children": [
+            // {
+            //     "key": "0-0-0",
+            //     "title": "天地图影像",
+            //     "children": []
+            // },
+            {
+                "key": "0-0-1",
+                "title": "天地图矢量",
+                "children": [
+                ]
+            },
+            {
+                "key": "0-0-2",
+                "title": "高德矢量",
+                "children": [
+                ]
+            },
+            {
+                "key": "0-0-6",
+                "title": "高德影像",
+                "children": [
+                ]
+            },
+            // {
+            //     "key": "0-0-3",
+            //     "title": "天地图标注",
+            //     "children": [
+            //     ]
+            // },
+            {
+                "key": "0-0-4",
+                "title": "road",
+                "children": [
+                ]
+            },
+            {
+                "key": "0-0-5",
+                "title": "label",
+                "children": [
+                ]
+            }
+        ]
+    },
+    {
+        "key": "0-1",
+        "title": "三维模型",
+        "children": [
+            {
+                "key": "0-1-0",
+                "title": "污水场",
+                "children": [
+                ]
+            },
+            {
+                "key": "0-1-1",
+                "title": "保利倾斜摄影",
+                "children": [
+                ]
+            },
+            {
+                "key": "0-1-2",
+                "title": "纽约city",
+                "children": [
+                ]
+            }
+        ]
+    }
+]
+export { tileset3dtilesUrl, ion_Token, TDTURL_CONFIG, model_config, tree_config, AMAP_CONFIG }

@@ -126,7 +126,7 @@ class BingMap extends Component {
                 add3dtiles(viewer, tileset3dtilesUrl.bimModel[2].url)
                 break
             case "ws-2":
-                add3dtiles(viewer, tileset3dtilesUrl.bimModel[3].url)
+                add3dtiles(viewer, tileset3dtilesUrl.bimModel[6].url)
                 break
         }
     }

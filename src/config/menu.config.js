@@ -49,7 +49,7 @@ class MenuItems extends Component {
                 const ContentsChild = Routers[i].child
                 for (let j in ContentsChild) {
                     itemArray.push(
-                        <Menu.Item key={ContentsChild[j].key}><Link to={ContentsChild[j].link}>{ContentsChild[j].text}</Link></Menu.Item>
+                        <Menu.Item key={ContentsChild[j].key} disabled={ContentsChild[j].disabled}><Link to={ContentsChild[j].link}>{ContentsChild[j].text}</Link></Menu.Item>
                     )
                 }
                 menuArray.push(

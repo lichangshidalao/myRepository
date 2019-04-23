@@ -21,6 +21,7 @@ import CustomizeDiv from "../containers/component/CustomizeDiv"
 import EchartCesium from "../containers/component/EchartCesium"
 import SelectionInquire from "../containers/component/SelectionInquire"
 import Shigongmoni from "../containers/component/shigongmoni"
+import Layermanage from "../containers/component/LayerManage"
 
 
 const ROUTERS = [
@@ -31,13 +32,15 @@ const ROUTERS = [
         text: 'Helloworld My Workstation',
         component: Maps,
         type: 'item',
-        child: []
+        child: [],
+        disabled: false
     },
     {
         key: 'sub1',
         iconType: 'global',
         text: '图层',
         type: 'SubMenu',
+        disabled: false,
         child: [
             {
                 key: 'Tdt',
@@ -45,7 +48,8 @@ const ROUTERS = [
                 text: '天地图',
                 component: Tdt,
                 type: 'item',
-                child: []
+                child: [],
+                disabled: false
             },
             {
                 key: 'Terrain',
@@ -53,7 +57,8 @@ const ROUTERS = [
                 text: '地形',
                 component: Terrain,
                 type: 'item',
-                child: []
+                child: [],
+                disabled: false
             },
             {
                 key: 'BingMap',
@@ -61,7 +66,8 @@ const ROUTERS = [
                 text: 'BingMap',
                 component: BingMap,
                 type: 'item',
-                child: []
+                child: [],
+                disabled: false
             }
         ]
     },
@@ -70,6 +76,7 @@ const ROUTERS = [
         iconType: 'crown',
         text: 'PostProcessStage',
         type: 'SubMenu',
+        disabled: false,
         child: [
             {
                 key: 'SceneCover',
@@ -77,7 +84,8 @@ const ROUTERS = [
                 text: '场景蒙皮',
                 component: SceneCover,
                 type: 'item',
-                child: []
+                child: [],
+                disabled: false
             },
             {
                 key: 'Weather',
@@ -85,7 +93,8 @@ const ROUTERS = [
                 text: '天气特效',
                 component: Weather,
                 type: 'item',
-                child: []
+                child: [],
+                disabled: false
             }
         ]
     },
@@ -94,6 +103,7 @@ const ROUTERS = [
         iconType: 'gift',
         text: 'Entity + 物件',
         type: 'SubMenu',
+        disabled: false,
         child: [
             {
                 key: 'BillboardLabel',
@@ -101,7 +111,8 @@ const ROUTERS = [
                 text: 'BillboardLabel',
                 component: BillboardLabel,
                 type: 'item',
-                child: []
+                child: [],
+                disabled: false
             },
             {
                 key: 'DrawEntity',
@@ -109,7 +120,8 @@ const ROUTERS = [
                 text: 'DrawEntity',
                 component: DrawEntity,
                 type: 'item',
-                child: []
+                child: [],
+                disabled: false
             },
             {
                 key: 'DataSources',
@@ -117,7 +129,8 @@ const ROUTERS = [
                 text: 'DataSources',
                 component: DataSources,
                 type: 'item',
-                child: []
+                child: [],
+                disabled: false
             },
             {
                 key: 'CustomizeDiv',
@@ -125,7 +138,8 @@ const ROUTERS = [
                 text: '自定义标签',
                 component: CustomizeDiv,
                 type: 'item',
-                child: []
+                child: [],
+                disabled: false
             },
             {
                 key: 'EchartCesium',
@@ -133,7 +147,8 @@ const ROUTERS = [
                 text: '整合echarts',
                 component: EchartCesium,
                 type: 'item',
-                child: []
+                child: [],
+                disabled: false
             },
             {
                 key: 'SelectionInquire',
@@ -141,7 +156,8 @@ const ROUTERS = [
                 text: '框选查询',
                 component: SelectionInquire,
                 type: 'item',
-                child: []
+                child: [],
+                disabled: false
             }
         ]
     },
@@ -150,6 +166,7 @@ const ROUTERS = [
         iconType: 'build',
         text: '3dtiles',
         type: 'SubMenu',
+        disabled: false,
         child: [
             {
                 key: 'Tileset3dtiles',
@@ -157,7 +174,8 @@ const ROUTERS = [
                 text: '3dtilesExample',
                 component: Tileset3dtiles,
                 type: 'item',
-                child: []
+                child: [],
+                disabled: false
             },
             {
                 key: 'IonExample',
@@ -165,7 +183,8 @@ const ROUTERS = [
                 text: 'IonExample',
                 component: IonExample,
                 type: 'item',
-                child: []
+                child: [],
+                disabled: false
             },
             {
                 key: 'TilesetStyle',
@@ -173,7 +192,8 @@ const ROUTERS = [
                 text: '样式设置',
                 component: TilesetStyle,
                 type: 'item',
-                child: []
+                child: [],
+                disabled: false
             },
             {
                 key: 'TransformTileset',
@@ -181,7 +201,8 @@ const ROUTERS = [
                 text: '位置调整',
                 component: TransformTileset,
                 type: 'item',
-                child: []
+                child: [],
+                disabled: false
             },
             {
                 key: 'Plane',
@@ -189,7 +210,8 @@ const ROUTERS = [
                 text: '剖切',
                 component: Plane,
                 type: 'item',
-                child: []
+                child: [],
+                disabled: false
             }
         ]
     },
@@ -198,6 +220,7 @@ const ROUTERS = [
         iconType: 'radar-chart',
         text: '综合',
         type: 'SubMenu',
+        disabled: false,
         child: [
             {
                 key: 'Shangdi',
@@ -205,7 +228,8 @@ const ROUTERS = [
                 text: '上地社区',
                 component: Shangdi,
                 type: 'item',
-                child: []
+                child: [],
+                disabled: false
             },
             {
                 key: 'BaiduModel',
@@ -213,7 +237,8 @@ const ROUTERS = [
                 text: '百度模式',
                 component: BaiduModel,
                 type: 'item',
-                child: []
+                child: [],
+                disabled: false
             },
             {
                 key: 'Flooding',
@@ -221,7 +246,8 @@ const ROUTERS = [
                 text: '淹没分析',
                 component: Flooding,
                 type: 'item',
-                child: []
+                child: [],
+                disabled: false
             },
             {
                 key: 'ShadowAnalyis',
@@ -229,7 +255,8 @@ const ROUTERS = [
                 text: '阴影分析',
                 component: ShadowAnalyis,
                 type: 'item',
-                child: []
+                child: [],
+                disabled: false
             },
             {
                 key: 'Shigongmoni',
@@ -237,7 +264,17 @@ const ROUTERS = [
                 text: '施工模拟',
                 component: Shigongmoni,
                 type: 'item',
-                child: []
+                child: [],
+                disabled: true
+            },
+            {
+                key: 'Layermanage',
+                link: '/Layermanage',
+                text: '图层管理',
+                component: Layermanage,
+                type: 'item',
+                child: [],
+                disabled: false
             }
         ]
     }

@@ -53,4 +53,4 @@ const addLayerW = (url, layer) => {
     })
 }
 
-export { addTdtMap }
+export { addTdtMap, addLayerC, addLayerW }
