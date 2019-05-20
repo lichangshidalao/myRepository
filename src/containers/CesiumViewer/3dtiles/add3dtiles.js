@@ -3,7 +3,8 @@ const add3dtiles = (viewer, url, focus = true) => {
     const scene = viewer.scene
     const tileset = scene.primitives.add(
         new Cesium.Cesium3DTileset({
-            url: url
+            url: url,
+            debugShowBoundingVolume: false
         })
     );
     tileset.readyPromise.then((tileset) => {

@@ -22,6 +22,11 @@ import EchartCesium from "../containers/component/EchartCesium"
 import SelectionInquire from "../containers/component/SelectionInquire"
 import Shigongmoni from "../containers/component/shigongmoni"
 import Layermanage from "../containers/component/LayerManage"
+import Webglbase from "../containers/component/Webglbase"
+import Webglbase_02 from "../containers/component/Webglbase_02"
+import PolyM from "../containers/component/PolyM"
+import PolyLines from "../containers/component/PolyLines"
+import PropertyExample from "../containers/component/PropertyExample"
 
 
 const ROUTERS = [
@@ -95,6 +100,24 @@ const ROUTERS = [
                 type: 'item',
                 child: [],
                 disabled: false
+            },
+            {
+                key: 'PolyM',
+                link: '/PolyM',
+                text: '流动线',
+                component: PolyM,
+                type: 'item',
+                child: [],
+                disabled: false
+            },
+            {
+                key: 'PolyLines',
+                link: '/PolyLines',
+                text: '10w 流动线',
+                component: PolyLines,
+                type: 'item',
+                child: [],
+                disabled: false
             }
         ]
     },
@@ -157,7 +180,7 @@ const ROUTERS = [
                 component: SelectionInquire,
                 type: 'item',
                 child: [],
-                disabled: false
+                disabled: true
             }
         ]
     },
@@ -265,13 +288,49 @@ const ROUTERS = [
                 component: Shigongmoni,
                 type: 'item',
                 child: [],
-                disabled: true
+                disabled: false
             },
             {
                 key: 'Layermanage',
                 link: '/Layermanage',
                 text: '图层管理',
                 component: Layermanage,
+                type: 'item',
+                child: [],
+                disabled: false
+            },
+            {
+                key: 'PropertyExample',
+                link: '/PropertyExample',
+                text: 'PropertyExample',
+                component: PropertyExample,
+                type: 'item',
+                child: [],
+                disabled: false
+            }
+        ]
+    },
+    {
+        key: 'sub6',
+        iconType: 'credit-card',
+        text: 'webgl',
+        type: 'SubMenu',
+        disabled: true,
+        child: [
+            {
+                key: 'Webglbase',
+                link: '/Webglbase',
+                text: '点 线 三角',
+                component: Webglbase,
+                type: 'item',
+                child: [],
+                disabled: false
+            },
+            {
+                key: 'Webglbase_02',
+                link: '/Webglbase_02',
+                text: 'Webglbase_02',
+                component: Webglbase_02,
                 type: 'item',
                 child: [],
                 disabled: false

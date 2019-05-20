@@ -36,13 +36,13 @@ class Map extends Component {
     }
     componentDidMount() {
         viewer = viewerInit(this.refs.map)
-        tileset = add3dtiles(viewer, tileset3dtilesUrl.bimModel[1].url)
+        tileset = add3dtiles(viewer, tileset3dtilesUrl.bimModel[7].url)
         tileset.readyPromise.then(function (tileset) {
             //深拷贝
             originalParam = JSON.parse(JSON.stringify(params))
             update3dtilesMaxtrix(tileset, params)
             let shadowMap = viewer.shadowMap;
-            viewer.shadows = true
+            viewer.shadows = false
             shadowMap.maxmimumDistance = 10000.0;
             viewer.clock.startTime = new Cesium.JulianDate.fromIso8601('2013-12-25');
             viewer.clock.multiplier = 6000.0;

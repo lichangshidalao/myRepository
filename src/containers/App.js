@@ -22,11 +22,11 @@ class App extends Component {
                     </Sider>
                     <Layout >
                         <Content>
-                            <div style={{ padding: 24, background: '#fff'}}>
+                            <div style={{ padding: 24, background: '#fff' }}>
                                 <Contents></Contents>
                             </div>
                         </Content>
-                        <Footer style={{ textAlign: 'center' }}>Li Chang ©2018 Created by Ant React Cesium</Footer>
+                        <Footer style={{ textAlign: 'center'}}>Li Chang ©2019 Created by Ant React Cesium</Footer>
                     </Layout>
                 </Layout>
             </BrowserRouter>

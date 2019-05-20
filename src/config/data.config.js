@@ -57,6 +57,10 @@ const tileset3dtilesUrl = {
         {
             "name": "老港",
             "url": "http://localhost:8080/Apps/SampleData/laogang_tilt/tileset.json"
+        },
+        {
+            "name": "BIMT",
+            "url": "http://localhost:8080/Apps/SampleData/bimT/tileset.json"
         }
     ]
 }

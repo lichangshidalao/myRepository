@@ -70,7 +70,7 @@ class BingMap extends Component {
                 setInterval(() => {
                     factorsArray1.push("组合池结构3dm-5m标高池壁、隔墙及顶板结构")
                 }, 5000)
-                const bimZhuhe = add3dtiles(viewer, tileset3dtilesUrl.bimModel[4].url)
+                const bimZhuhe = add3dtiles(viewer, tileset3dtilesUrl.bimModel[7].url)
                 let pickArray = []
                 let pickhandle = new Cesium.ScreenSpaceEventHandler(viewer.scene.canvas)
                 pickhandle.setInputAction((movement) => {
@@ -89,7 +89,7 @@ class BingMap extends Component {
                     var content = tile.content;
                     var featuresLength = content.featuresLength;
                     for (var i = 0; i < featuresLength; i++) {
-                        content.getFeature(i).show = false
+                        content.getFeature(i).show = true
                         //content.getFeature(i).color = new Cesium.Color(1, 1, 1, 0.5);
                         let filename = content.getFeature(i).getProperty("file")
                         for (let j of factorsArray1) {
@@ -105,20 +105,20 @@ class BingMap extends Component {
                 });
                 //示例数据
                 let params = {
-                    tx: 110.5,  //模型中心X轴坐标（经度，单位：十进制度）
-                    ty: 30,     //模型中心Y轴坐标（纬度，单位：十进制度）  
-                    tz: 1120,    //模型中心Z轴坐标（高程，单位：米） 
-                    rx: 0,     //X轴（经度）方向旋转角度（单位：度）  
-                    ry: 0,     //Y轴（纬度）方向旋转角度（单位：度）  
-                    rz: 0,       //Z轴（高程）方向旋转角度（单位：度）
-                    scale: 1
+                    rx: -88,
+                    ry: 3,
+                    rz: -1,
+                    scale: 2,
+                    tx: 119.0910393016583,
+                    ty: 32.26718715540471,
+                    tz: 1000
                 };
 
                 bimZhuhe.readyPromise.then(function (tileset) {
                     let positionArray = getLonLat(bimZhuhe.boundingSphere.center)
-                    params.tx = positionArray[0]
-                    params.ty = positionArray[1]
-                    params.tz = 110
+                    // params.tx = positionArray[0]
+                    // params.ty = positionArray[1]
+                    // params.tz = 110
                     update3dtilesMaxtrix(bimZhuhe, params)
                 })
                 break

@@ -25,9 +25,17 @@ class Map extends Component {
         cameraPosition(viewer)
         addTdtMap(viewer, "TDT_VEC_W")
         tileset = add3dtiles(viewer, tileset3dtilesUrl.cityModel[3].url, false)
+        tileset.style = new Cesium.Cesium3DTileStyle({
+            color: 'vec4(0.5,0.5,0.5,1)'
+        });
         //tileset = add3dtiles(viewer, tileset3dtilesUrl.bimModel[1].url)
         //阴影
         viewer.shadows = true
+        let bloom = viewer.scene.postProcessStages.bloom
+        bloom.show = true
+        // bloom.uniforms.brightness = 10
+
+
         let shadowMap = viewer.shadowMap;
         shadowMap.maxmimumDistance = 3000.0;
         shadowMap.size = 2048;

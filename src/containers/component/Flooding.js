@@ -36,9 +36,10 @@ class TerrainMap extends Component {
                 extrudedHeight: 0,
                 perPositionHeight: true,
                 //material: river,
-                material: new Cesium.Color(0,69/256,107/256,0.8),
+                material: new Cesium.Color(0, 69 / 256, 107 / 256, 0.8),
                 outline: true,
-                outlineColor: Cesium.Color.BLACK
+                outlineColor: Cesium.Color.BLACK,
+               // classificationType: Cesium.ClassificationType.CESIUM_3D_TILE
             }
         })
         let waterHeight = 500
