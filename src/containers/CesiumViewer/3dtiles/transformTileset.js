@@ -28,6 +28,7 @@ let params = {
 
 //平移、贴地、旋转模型
 const update3dtilesMaxtrix = (tileset, params) => {
+    let Pmat = Cesium.Matrix4.fromArray(tileset._root.transform);
     //旋转
     let mx = Cesium.Matrix3.fromRotationX(Cesium.Math.toRadians(params.rx));
     let my = Cesium.Matrix3.fromRotationY(Cesium.Math.toRadians(params.ry));
@@ -54,6 +55,7 @@ const update3dtilesMaxtrix = (tileset, params) => {
     let mss = tileset.modelMatrix
     tileset.root.transform = Cesium.Matrix4.multiply(m, mss, m);
     //tileset.modelMatrix = m
+    return [Pmat, tileset.root.transform]
 }
 
 

@@ -36,7 +36,8 @@ const tileset3dtilesUrl = {
         },
         {
             "name": "扬州污水场",
-            "url": "http://localhost:8080/Apps/SampleData/ws/tileset.json"
+            "url": "http://localhost:8080/Apps/SampleData/ws/tileset.json",
+            "sceneTree":"http://localhost:8080/Apps/SampleData/ws/scenetree.json"
         },
         {
             "name": "精简污水场",

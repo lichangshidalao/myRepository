@@ -9,13 +9,13 @@ import { addTdtMap } from "../CesiumViewer/addTdtMap";
 import { update3dtilesMaxtrix } from "../CesiumViewer/3dtiles/transformTileset";
 //const viewer
 let params = {
-    rx: -88,
-    ry: 3,
-    rz: -1,
-    scale: 2,
+    rx: -90,
+    ry: -4,
+    rz: 0,
+    scale: 1,
     tx: 119.0910393016583,
     ty: 32.26718715540471,
-    tz: 62
+    tz: 0
 }
 let modelID = [], viewer, tileset, tilesetId = new Set()
 class Map extends Component {

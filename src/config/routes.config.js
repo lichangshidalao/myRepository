@@ -27,7 +27,9 @@ import Webglbase_02 from "../containers/component/Webglbase_02"
 import PolyM from "../containers/component/PolyM"
 import PolyLines from "../containers/component/PolyLines"
 import PropertyExample from "../containers/component/PropertyExample"
-
+import BimModel from "../containers/component/BimModel"
+import CircleScan from "../containers/component/CircleScan"
+import RadarScan from "../containers/component/RadarScan"
 
 const ROUTERS = [
     {
@@ -115,6 +117,24 @@ const ROUTERS = [
                 link: '/PolyLines',
                 text: '10w 流动线',
                 component: PolyLines,
+                type: 'item',
+                child: [],
+                disabled: false
+            },
+            {
+                key: 'CircleScan',
+                link: '/CircleScan',
+                text: '圆形放大扫描',
+                component: CircleScan,
+                type: 'item',
+                child: [],
+                disabled: false
+            },
+            {
+                key: 'RadarScan',
+                link: '/RadarScan',
+                text: '雷达扫描',
+                component: RadarScan,
                 type: 'item',
                 child: [],
                 disabled: false
@@ -286,6 +306,15 @@ const ROUTERS = [
                 link: '/Shigongmoni',
                 text: '施工模拟',
                 component: Shigongmoni,
+                type: 'item',
+                child: [],
+                disabled: false
+            },
+            {
+                key: 'BimModel',
+                link: '/BimModel',
+                text: 'BIM树',
+                component: BimModel,
                 type: 'item',
                 child: [],
                 disabled: false
