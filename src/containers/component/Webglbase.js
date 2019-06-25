@@ -63,7 +63,7 @@ class Map extends Component {
         let aposLocation = glLine.getAttribLocation(program, 'apos');
 
         //类型数组构造函数Float32Array创建顶点数组
-        let data = new Float32Array([0.5, 0.5, -0.5, 0.5, -0.5, -0.5, 0.5, -0.5]);
+        let data = new Float32Array([0.5, 0.5, -0.5, 0.6, -0.7, -0.5, 0.7, -0.8, 1]);
 
         //创建缓冲区对象
         let buffer = glLine.createBuffer();
@@ -72,12 +72,12 @@ class Map extends Component {
         //顶点数组data数据传入缓冲区
         glLine.bufferData(glLine.ARRAY_BUFFER, data, glLine.STATIC_DRAW);
         //缓冲区中的数据按照一定的规律传递给位置变量apos
-        glLine.vertexAttribPointer(aposLocation, 2, glLine.FLOAT, false, 0, 0);
+        glLine.vertexAttribPointer(aposLocation, 3, glLine.FLOAT, false, 0, 0);
         //允许数据传递
         glLine.enableVertexAttribArray(aposLocation);
 
         //开始绘制图形
-        glLine.drawArrays(glLine.LINE_LOOP, 0, 4);
+        glLine.drawArrays(glLine.LINE_LOOP, 0, 3);
 
 
     }

@@ -30,6 +30,7 @@ import PropertyExample from "../containers/component/PropertyExample"
 import BimModel from "../containers/component/BimModel"
 import CircleScan from "../containers/component/CircleScan"
 import RadarScan from "../containers/component/RadarScan"
+import DynamicDiv from "../containers/component/DynamicDiv"
 
 const ROUTERS = [
     {
@@ -144,7 +145,7 @@ const ROUTERS = [
     {
         key: 'sub3',
         iconType: 'gift',
-        text: 'Entity + 物件',
+        text: 'Entity + echarts',
         type: 'SubMenu',
         disabled: false,
         child: [
@@ -201,6 +202,15 @@ const ROUTERS = [
                 type: 'item',
                 child: [],
                 disabled: true
+            },
+            {
+                key: 'DynamicDiv',
+                link: '/DynamicDiv',
+                text: '自定义柱体弹窗',
+                component: DynamicDiv,
+                type: 'item',
+                child: [],
+                disabled: false
             }
         ]
     },
@@ -358,7 +368,7 @@ const ROUTERS = [
             {
                 key: 'Webglbase_02',
                 link: '/Webglbase_02',
-                text: 'Webglbase_02',
+                text: '渐变三角 图片纹理',
                 component: Webglbase_02,
                 type: 'item',
                 child: [],
