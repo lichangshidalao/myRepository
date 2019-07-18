@@ -31,6 +31,7 @@ import BimModel from "../containers/component/BimModel"
 import CircleScan from "../containers/component/CircleScan"
 import RadarScan from "../containers/component/RadarScan"
 import DynamicDiv from "../containers/component/DynamicDiv"
+import xingneng from "../containers/component/xingneng"
 
 const ROUTERS = [
     {
@@ -343,6 +344,15 @@ const ROUTERS = [
                 link: '/PropertyExample',
                 text: 'PropertyExample',
                 component: PropertyExample,
+                type: 'item',
+                child: [],
+                disabled: false
+            },
+            {
+                key: 'xingneng',
+                link: '/xingneng',
+                text: '性能测试',
+                component: xingneng,
                 type: 'item',
                 child: [],
                 disabled: false

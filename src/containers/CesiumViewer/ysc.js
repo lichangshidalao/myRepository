@@ -1,7 +1,8 @@
 /**
  * @author 跃焱邵隼
  * time 2019
- *
+ * blog:www.yueyanshaosun.cn
+ * qq/wx:571475926
  */
 (function (window,undefined) {
     var ysc={
@@ -18,6 +19,11 @@
         ,creatHtmlElement:creatHtmlElement
         ,addCircleRipple:addCircleRipple
         ,showDynamicLayer:showDynamicLayer
+        ,removeDynamicLayer:removeDynamicLayer
+        ,creatFlyLinesByCzml:creatFlyLinesByCzml
+        ,createLightScan:createLightScan
+        ,createLightScanFollowEntity:createLightScanFollowEntity
+        ,echartsCombineCesium:echartsCombineCesium
     };
     /**
      * 加载一个viewer，含常用地图，默认初始化属性
@@ -60,6 +66,7 @@
         }
         //天地图影像
         if(data.globalImagery&&data.globalImagery=="天地图"){
+            viewer.imageryLayers.remove(viewer.imageryLayers.get(0));//可以先清除默认的第一个影像 bing地图影像。 当然不作处理也行
             var url="http://t0.tianditu.com/img_w/wmts?service=wmts&request=GetTile&version=1.0.0&LAYER=img&tileMatrixSet=w&TileMatrix={TileMatrix}&TileRow={TileRow}&TileCol={TileCol}&style=default&format=tiles"+"&tk="+data.defaultKey;
             img= viewer.imageryLayers.addImageryProvider(new Cesium.WebMapTileServiceImageryProvider({
                 url: url,
@@ -73,6 +80,7 @@
         }
         //谷歌影像
         else if(data.globalImagery&&data.globalImagery=="谷歌"){
+            viewer.imageryLayers.remove(viewer.imageryLayers.get(0));//可以先清除默认的第一个影像 bing地图影像。 当然不作处理也行
             img= viewer.imageryLayers.addImageryProvider(
                 new Cesium.UrlTemplateImageryProvider({
                     url: "http://mt1.google.cn/vt/lyrs=s&hl=zh-CN&x={x}&y={y}&z={z}&s=Gali"
@@ -82,6 +90,7 @@
         }
         //arcGis影像
         else if(data.globalImagery&&data.globalImagery=="arcGis"){
+            viewer.imageryLayers.remove(viewer.imageryLayers.get(0));//可以先清除默认的第一个影像 bing地图影像。 当然不作处理也行
             img= viewer.imageryLayers.addImageryProvider(
                 new Cesium.ArcGisMapServerImageryProvider({
                     url : 'https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer'
@@ -91,6 +100,7 @@
         }
         //高德影像
         else if(data.globalImagery&&data.globalImagery=="高德"){
+            viewer.imageryLayers.remove(viewer.imageryLayers.get(0));//可以先清除默认的第一个影像 bing地图影像。 当然不作处理也行
             img= viewer.imageryLayers.addImageryProvider(
                 new Cesium.UrlTemplateImageryProvider({
                     maximumLevel:18,//最大缩放级别
@@ -104,14 +114,11 @@
         }
         //百度影像
         else if(data.globalImagery&&data.globalImagery=="百度"){
+            viewer.imageryLayers.remove(viewer.imageryLayers.get(0));//可以先清除默认的第一个影像 bing地图影像。 当然不作处理也行
             img= viewer.imageryLayers.addImageryProvider(
                 new Cesium.UrlTemplateImageryProvider({
                     maximumLevel:18,//最大缩放级别
                     url: "https://ss1.bdstatic.com/8bo_dTSlR1gBo1vgoIiO_jowehsv/tile/?qt=vtile&x={x}&y={y}&z={z}&styles=pl&udt=20180810&scaler=1&showtext=1",
-                    baseLayerPicker : false,
-                    style: "default",
-                    format: "image/png",
-                    tileMatrixSetID: "GoogleMapsCompatible"
                 })
             );
         }
@@ -666,7 +673,75 @@
 
         leftCilck(viewer,callback);
     }
+    /**
+     * czml方法创建飞行路径线+抛物线函数
+     */
+    function creatFlyLinesByCzml(viewer,data){
+        viewer.shouldAnimate=true;
+        var center=data.center,cities=data.points;
+        var dsArr=[];
+        for (var j = 0; j < cities.length; j++) {
+            var czml =[
+                {
+                    "id" : "document",
+                    "name" : "CZML Path",
+                    "version" : "1.0",
+                    "clock": { //定时
+                        "interval": "2019-05-27T10:00:00Z/2019-05-27T10:16:50Z", // 990/60=16.5
+                        "currentTime": "2019-05-27T10:00:00Z",//当前时间
+                        "multiplier": data.multiplier //动画的速度倍数
+                    }
+                },
+                {
+                    "id" : "path",
+                    "name" : "path with GPS flight data",
+                    "description" : "<p>Hang gliding flight log data from Daniel H. Friedman.<br>Icon created by Larisa Skosyrska from the Noun Project</p>",
+                    "availability" : "2019-05-27T10:00:00Z/2019-05-27T10:16:50Z",
+                    "path" : {
+                        "material" : { //线的材质
+                            "polylineOutline" : {
+                                "color" : {
+                                    "rgba" : data.lineColor
+                                },
+                                "outlineColor" : {
+                                    "rgba" : [0, 0, 0, 0]
+                                },
+                                "outlineWidth" : 0
+                            }
+                        },//路线的材质
+                        "width" : 2, //线的宽度
+                        "leadTime" :990,
+                        "trailTime" : 990,
+                        "resolution" : 5 //分辨率
+                    },
+                    "billboard" : { //加billboard 也可以加载其他entity cesium会自己解析
+                        "image":data.image,
+                        "scale": 0.5,
+                        "eyeOffset": {
+                            "cartesian": [ 0.0, 0.0, -10.0]
+                        }
+                    },
+                    "position" : {
+                        "epoch" : "2019-05-27T10:00:00Z",//动画起始时间
+                        "cartographicDegrees" :[],
+                    }
+                }];
+            var points = parabolaEquation({ pt1: center, pt2: cities[j],height:data.height,num: 100 });//100个点
+            var pointArr =[];
+            for (var i = 0;i < points.length; i++) {
+                pointArr.push(0+i*10,points[i][0],points[i][1],points[i][2]);//0+i*10;表示距离
+            }
+            czml[1].position.cartographicDegrees=pointArr;
+            if(cities[j].image){
+                czml[1].billboard.image=cities[j].image;
+            }
+            viewer.dataSources.add(Cesium.CzmlDataSource.load(czml)).then(function(ds) {
+                dsArr.push(ds);
+            });
+        }
 
+        return dsArr;
+    }
     /**
      * 左击事件, 主动屏蔽了 name=yscNoNeedEntity的实体,并返回实体的id
      */
@@ -742,15 +817,16 @@
                 return rotation2;
             }
             //如果有实体存在 先清除实体;
-            viewer.entities.removeById("ysDynamicLayerEntityNoNeed1");
-            viewer.entities.removeById("ysDynamicLayerEntityNoNeed2");
-            viewer.entities.removeById("ysDynamicLayerEntityNoNeed3");
+            //如果有实体存在 先清除实体;
+            viewer.entities.removeById(data.layerId+"_1");
+            viewer.entities.removeById(data.layerId+"_2");
+            viewer.entities.removeById(data.layerId+"_3");
             //构建entity
             var height=data.boxHeight,heightMax=data.boxHeightMax,heightDif=data.boxHeightDif;
             var goflog=true;
             //添加正方体
             viewer.entities.add({
-                id:"ysDynamicLayerEntityNoNeed1",
+                id:data.layerId+"_1",
                 name: "立方体盒子",
                 position: new Cesium.CallbackProperty(function () {
                     height=height+heightDif;
@@ -776,7 +852,7 @@
             });
             //添加底座一 外环
             viewer.entities.add({
-                id:"ysDynamicLayerEntityNoNeed2",
+                id:data.layerId+"_2",
                 name:"椭圆",
                 position :  Cesium.Cartesian3.fromDegrees(lon,lat),
                 ellipse : {
@@ -808,7 +884,7 @@
             });
             //添加底座二 内环
             viewer.entities.add({
-                id:"ysDynamicLayerEntityNoNeed3",
+                id:data.layerId+"_3",
                 name:"椭圆",
                 position :  Cesium.Cartesian3.fromDegrees(lon,lat),
                 ellipse : {
@@ -841,7 +917,7 @@
 
         function addLayer() {
             //添加div
-            var divPosition= Cesium.Cartesian3.fromDegrees(lon,lat,data.boxHeightMax);
+            var divPosition= Cesium.Cartesian3.fromDegrees(lon,lat,data.boxHeightMax);//data.boxHeightMax为undef也没事
             element.css({opacity:1});
             element.find(".line").animate({
                 width:50//线的宽度
@@ -850,6 +926,422 @@
             });
             ysc.creatHtmlElement(viewer,element,divPosition,[10,-(parseInt(element.css("height")))],true); //当为true的时候，表示当element在地球背面会自动隐藏。默认为false，置为false，不会这样。但至少减轻判断计算压力
         }
+    }
+    /**
+     * 移除动态弹窗 为了方便 这里的移除 是真的移除，因此 到时是需要重建弹窗的doom的;
+     */
+    function removeDynamicLayer(viewer,data){
+        viewer.entities.removeById(data.layerId+"_1");
+        viewer.entities.removeById(data.layerId+"_2");
+        viewer.entities.removeById(data.layerId+"_3");
+        data.element.remove();
+    }
+    /**
+     * 添加自定义灯光扫描;
+     */
+    /*
+    * 求圆周上等分点的坐标
+    * ox,oy为圆心坐标
+    * r为半径
+    * count为等分个数
+    */
+    function createLightScan_getCirclePoints(r, ox, oy, count){
+        var point = []; //结果
+        var radians = (Math.PI / 180) * Math.round(360 / count), //弧度
+            i = 0;
+        for(; i < count; i++){
+            var x = ox + r * Math.sin(radians * i),
+                y = oy + r * Math.cos(radians * i);
+            point.unshift({x:x,y:y}); //为保持数据顺时针
+        }
+        return point;
+    }
+    //生成 entityCList面--形成圆锥
+    function createLightScan_entityCList(viewer,point,data) {
+        var lon=data.observer[0],lat=data.observer[1],h=data.observer[2];
+        var entityCList=[];
+        //创建 面
+        for(var i=0;i<point.length;i++){
+            // viewer.entities.add({ //切割的点
+            //     position : Cesium.Cartesian3.fromDegrees(point[i].x,point[i].y),
+            //     point : {
+            //         color : Cesium.Color.RED,
+            //         pixelSize : 8
+            //     }
+            // });
+            var  hierarchy;
+            if(i==(point.length-1)){
+                hierarchy=new Cesium.PolygonHierarchy(Cesium.Cartesian3.fromDegreesArrayHeights(
+                    [
+                        lon,lat,h,
+                        point[i].x,point[i].y,0,
+                        point[0].x,point[0].y,0
+                    ]))
+            }else{
+                hierarchy=new Cesium.PolygonHierarchy(Cesium.Cartesian3.fromDegreesArrayHeights(
+                    [
+                        lon,lat,h,
+                        point[i].x,point[i].y,0,
+                        point[i+1].x,point[i+1].y,0
+                    ]))
+            }
+
+            var entityC= viewer.entities.add({
+                name:"三角形",
+                polygon : {
+                    hierarchy:hierarchy,
+                    outline : false,
+                    perPositionHeight:true,//允许三角形使用点的高度
+                    material :data.material
+                }
+            });
+            entityCList.push(entityC);
+        }
+
+        return entityCList
+    }
+    //改变所有面的位置
+    function createLightScan_changeAllPosition(data,entityCList,point){
+        //改变每个面的位置
+        for(var i=0;i<entityCList.length;i++){
+            if(i!=entityCList.length-1){
+                createLightScan_changeOnePosition(data,entityCList[i],[point[i].x, point[i].y, point[i+1].x, point[i+1].y]); //中间arr 代表的是点的坐标
+            }else{
+                createLightScan_changeOnePosition(data,entityCList[i],[point[i].x, point[i].y, point[0].x, point[0].y]);
+            }
+        }
+    }
+    //改变每个面的位置
+    function createLightScan_changeOnePosition(data,entity,arr){
+        var positionList=data.positionList;
+        var x,y,x0,y0,X0,Y0,n=0,a=0;//x代表差值 x0代表差值等分后的值，X0表示每次回调改变的值。a表示回调的循环窜次数，n表示扫描的坐标个数
+        function f(i){
+            x= positionList[i+1][0]-positionList[i][0];//差值
+            y= positionList[i+1][1]-positionList[i][1];//差值
+            x0=x/data.number;//将差值等分500份
+            y0=y/data.number;
+            a=0;
+        }
+        f(n);
+        entity.polygon.hierarchy=new Cesium.CallbackProperty(function () { //回调函数
+            if((Math.abs(X0)>=Math.abs(x))&&(Math.abs(Y0)>=Math.abs(y))){ //当等分差值大于等于差值的时候 就重新计算差值和等分差值  Math.abs
+                n=n+1;
+                if(n==positionList.length-1){
+                    n=0;
+                }
+                arr[0]= arr[0]+X0;
+                arr[1]= arr[1]+Y0;
+                arr[2]= arr[2]+X0;
+                arr[3]= arr[3]+Y0;
+                f(n);//重新赋值 x y x0 y0
+            }
+            X0=a*x0;//将差值的等份逐渐递增。直到大于差值 会有精度丢失,所以扩大再加 x0=x0+0.0001
+            Y0=a*y0;//将差值的等份逐渐递增。直到大于差值 会有精度丢失,所以扩大再加
+            a++;
+            return  new Cesium.PolygonHierarchy(Cesium.Cartesian3.fromDegreesArrayHeights(
+                [
+                    data.observer[0],data.observer[1],data.observer[2],
+                    arr[0]+X0,arr[1]+Y0,0,
+                    arr[2]+X0,arr[3]+Y0,0
+                ]))
+        },false)
+    }
+    //主函数 灯光随着打点坐标变化
+    function createLightScan(viewer,data){
+        //生成分割点
+        var point=createLightScan_getCirclePoints(data.circle[0],data.circle[1],data.circle[2],data.circle[3]);
+        //生成 entityCList 圆锥
+        var entityCList=createLightScan_entityCList(viewer,point,data);
+        //运行
+        createLightScan_changeAllPosition(data,entityCList,point);
+        return entityCList;
+    }
+    //主函数  灯光随着模型变化
+    function createLightScanFollowEntity(viewer,data,model){
+        //生成分割点
+        var point=createLightScan_getCirclePoints(data.circle[0],data.circle[1],data.circle[2],data.circle[3]);
+        //生成 entityCList 圆锥
+        var entityCList=createLightScan_entityCList(viewer,point,data);
+
+        // 实时获取模型的经纬度。
+        viewer.scene.postRender.addEventListener(function () {
+            var center =model.position.getValue(viewer.clock.currentTime);//获取模型当前位置 //世界坐标（笛卡尔坐标）
+            if(center){
+                var ellipsoid=viewer.scene.globe.ellipsoid;
+                var cartographic=ellipsoid.cartesianToCartographic(center);
+                var lon=Cesium.Math.toDegrees(cartographic.longitude);
+                var lat=Cesium.Math.toDegrees(cartographic.latitude);
+                //var height=cartographic.height;
+                //console.log(lon+";"+lat+";"+height);
+                var X0=lon-data.circle[1],Y0=lat-data.circle[2]; //差值
+                for(var i=0;i<entityCList.length;i++){
+                    if(i==(entityCList.length-1)){
+                        f(entityCList[i],[point[i].x, point[i].y, point[0].x, point[0].y],X0,Y0);
+                    }else{
+                        f(entityCList[i],[point[i].x, point[i].y, point[i+1].x, point[i+1].y],X0,Y0);
+                    }
+                }
+            }
+        });
+        //修改每一个entity
+        function f(entity,arr,X0,Y0) {
+            entity.polygon.hierarchy=new Cesium.CallbackProperty(function () { //回调函数
+                return  new Cesium.PolygonHierarchy(Cesium.Cartesian3.fromDegreesArrayHeights(
+                    [
+                        data.observer[0],data.observer[1],data.observer[2],//观察点
+                        arr[0]+X0,arr[1]+Y0,0,
+                        arr[2]+X0,arr[3]+Y0,0
+                    ]))
+            },false)
+        }
+        return entityCList;
+    }
+    /**
+     * cesium结合echarts
+     * */
+    function echartsCombineCesium(viewer,option){
+        //坐标转换及事件监听
+        (function(e) {
+            var t = {};
+            function n(r) {
+                if (t[r]) return t[r].exports;
+                var i = t[r] = {
+                    i: r,
+                    l: !1,
+                    exports: {}
+                };
+                return e[r].call(i.exports, i, i.exports, n),
+                    i.l = !0,
+                    i.exports
+            }
+            n.m = e,
+                n.c = t,
+                n.d = function(e, t, r) {
+                    n.o(e, t) || Object.defineProperty(e, t, {
+                        enumerable: !0,
+                        get: r
+                    })
+                },
+                n.r = function(e) {
+                    "undefined" != typeof Symbol && Symbol.toStringTag && Object.defineProperty(e, Symbol.toStringTag, {
+                        value: "Module"
+                    }),
+                        Object.defineProperty(e, "__esModule", {
+                            value: !0
+                        })
+                },
+                n.t = function(e, t) {
+                    if (1 & t && (e = n(e)), 8 & t) return e;
+                    if (4 & t && "object" == typeof e && e && e.__esModule) return e;
+                    var r = Object.create(null);
+                    if (n.r(r), Object.defineProperty(r, "default", {
+                        enumerable: !0,
+                        value: e
+                    }), 2 & t && "string" != typeof e) for (var i in e) n.d(r, i,
+                        function(t) {
+                            return e[t]
+                        }.bind(null, i));
+                    return r
+                },
+                n.n = function(e) {
+                    var t = e && e.__esModule ?
+                        function() {
+                            return e.
+                                default
+                        }:
+                        function() {
+                            return e
+                        };
+                    return n.d(t, "a", t),
+                        t
+                },
+                n.o = function(e, t) {
+                    return Object.prototype.hasOwnProperty.call(e, t)
+                },
+                n.p = "",
+                n(n.s = 0)
+        })([function(e, t, n) {e.exports = n(1)},function(e, t, n) {
+            echarts ? n(2).load() : console.error("missing echarts lib")
+        },function(e, t, n) {
+            "use strict";
+            function r(e, t) {
+                for (var n = 0; n < t.length; n++) {
+                    var r = t[n];
+                    r.enumerable = r.enumerable || !1,
+                        r.configurable = !0,
+                    "value" in r && (r.writable = !0),
+                        Object.defineProperty(e, r.key, r)
+                }
+            }
+            n.r(t);
+            var i = function() {
+                function e(t, n) { !
+                    function(e, t) {
+                        if (! (e instanceof t)) throw new TypeError("Cannot call a class as a function")
+                    } (this, e),
+                    this._viewer = t,
+                    this.dimensions = ["lng", "lat"],
+                    this._mapOffset = [0, 0],
+                    this._api = n
+                }
+                var t, n, i;
+                return t = e,
+                    i = [{
+                        key: "create",
+                        value: function(t, n) {
+                            var r;
+                            t.eachComponent("GLMap",
+                                function(t) { (r = new e(echarts.cesiumViewer, n)).setMapOffset(t.__mapOffset || [0, 0]),
+                                    t.coordinateSystem = r
+                                }),
+                                t.eachSeries(function(e) {
+                                    "GLMap" === e.get("coordinateSystem") && (e.coordinateSystem = r)
+                                })
+                        }
+                    },
+                        {
+                            key: "dimensions",
+                            get: function() {
+                                return ["lng", "lat"]
+                            }
+                        }],
+                (n = [{
+                    key: "setMapOffset",
+                    value: function(e) {
+                        return this._mapOffset = e,
+                            this
+                    }
+                },
+                    {
+                        key: "getViewer",
+                        value: function() {
+                            return this._viewer
+                        }
+                    },
+                    {
+                        key: "dataToPoint",
+                        value: function(e) {
+                            var t = this._viewer.scene,
+                                n = [0, 0],
+                                r = Cesium.Cartesian3.fromDegrees(e[0], e[1]);
+                            if (!r) return n;
+                            if (t.mode === Cesium.SceneMode.SCENE3D && Cesium.Cartesian3.angleBetween(t.camera.position, r) > Cesium.Math.toRadians(80)) return ! 1;
+                            var i = t.cartesianToCanvasCoordinates(r);
+                            return i ? [i.x - this._mapOffset[0], i.y - this._mapOffset[1]] : n
+                        }
+                    },
+                    {
+                        key: "pointToData",
+                        value: function(e) {
+                            var t = this._mapOffset,
+                                n = viewer.scene.globe.ellipsoid,
+                                r = new Cesium.cartesian3(e[1] + t, e[2] + t[2], 0),
+                                i = n.cartesianToCartographic(r);
+                            return [i.lng, i.lat]
+                        }
+                    },
+                    {
+                        key: "getViewRect",
+                        value: function() {
+                            var e = this._api;
+                            return new echarts.graphic.BoundingRect(0, 0, e.getWidth(), e.getHeight())
+                        }
+                    },
+                    {
+                        key: "getRoamTransform",
+                        value: function() {
+                            return echarts.matrix.create()
+                        }
+                    }]) && r(t.prototype, n),
+                i && r(t, i),
+                    e
+            } ();
+            echarts.extendComponentModel({
+                type: "GLMap",
+                getViewer: function() {
+                    return echarts.cesiumViewer
+                },
+                defaultOption: {
+                    roam: !1
+                }
+            }),
+                echarts.extendComponentView({
+                    type: "GLMap",
+                    init: function(e, t) {
+                        this.api = t,
+                            echarts.cesiumViewer.scene.postRender.addEventListener(this.moveHandler, this)
+                    },
+                    moveHandler: function(e, t) {
+                        this.api.dispatchAction({
+                            type: "GLMapRoam"
+                        })
+                    },
+                    render: function(e, t, n) {},
+                    dispose: function(e) {
+                        echarts.cesiumViewer.scene.postRender.removeEventListener(this.moveHandler, this)
+                    }
+                });
+            function a() {
+                echarts.registerCoordinateSystem("GLMap", i),
+                    echarts.registerAction({
+                            type: "GLMapRoam",
+                            event: "GLMapRoam",
+                            update: "updateLayout"
+                        },
+                        function(e, t) {})
+            }
+            n.d(t, "load",
+                function() {
+                    return a
+                })
+        }]);
+
+        //开始
+        echarts.cesiumViewer = viewer;
+        function CesiumEcharts(t, e) {
+            this._mapContainer = t;
+            this._overlay = this._createChartOverlay();
+            this._overlay.setOption(e)
+        }
+        CesiumEcharts.prototype._createChartOverlay = function() {
+            var t = this._mapContainer.scene;
+            t.canvas.setAttribute('tabIndex', 0);
+            var e = document.createElement('div');
+            e.style.position = 'absolute';
+            e.style.top = '0px';
+            e.style.left = '0px';
+            e.style.width = t.canvas.width + 'px';
+            e.style.height = t.canvas.height + 'px';
+            e.style.pointerEvents = 'none';
+            e.setAttribute('id','ys-cesium-echarts');
+            e.setAttribute('class', 'echartMap');
+            this._mapContainer.container.appendChild(e);
+
+            this._echartsContainer = e;
+
+            return echarts.init(e)
+        };
+        CesiumEcharts.prototype.dispose = function() {
+            this._echartsContainer && (this._mapContainer.container.removeChild(this._echartsContainer), (this._echartsContainer = null)), this._overlay && (this._overlay.dispose(), (this._overlay = null))
+        };
+        CesiumEcharts.prototype.updateOverlay = function(t) {
+            this._overlay && this._overlay.setOption(t)
+        };
+        CesiumEcharts.prototype.getMap = function() {
+            return this._mapContainer
+        };
+        CesiumEcharts.prototype.getOverlay = function() {
+            return this._overlay
+        };
+        CesiumEcharts.prototype.show = function() {
+            document.getElementById(this._id).style.visibility = 'visible'
+        };
+        CesiumEcharts.prototype.hide = function() {
+            document.getElementById(this._id).style.visibility = 'hidden'
+        };
+
+        new CesiumEcharts(viewer,option);
+        // return CesiumEcharts
     }
 
     window.ysc=ysc;
