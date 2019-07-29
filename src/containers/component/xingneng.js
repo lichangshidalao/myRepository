@@ -54,16 +54,37 @@ class Map extends Component {
             asynchronous: false
         }));
     }
+    //线性能测试
     handclickLine() {
         this.setState({
             lineNumber: this.state.lineNumber + 1
         })
+        let pData = []
+        for (let i = 0; i < 10000; i++) {
+            let cartesian3 = Cesium.Cartesian3.fromDegrees(Math.random() * 100, Math.random() * 100, 1000)
+            pData.push(cartesian3)
+        }
+        viewer.scene.primitives.add(new Cesium.Primitive({
+            geometryInstances: new Cesium.GeometryInstance({
+                geometry: new Cesium.PolylineGeometry({
+                    positions: pData,
+                    width: 10.0,
+                    vertexFormat: Cesium.PolylineColorAppearance.VERTEX_FORMAT
+                }),
+                attributes: {
+                    color: Cesium.ColorGeometryInstanceAttribute.fromColor(Cesium.Color.AQUA)
+                }
+            }),
+            appearance: new Cesium.PolylineColorAppearance({
+                translucent: false
+            })
+        }));
     }
     render() {
         return (
             <div className="map-image" ref="map" id="cesiumContain">
                 <Button className="baiduButton" onClick={this.handclick.bind(this)}>{this.state.number > 0 ? this.state.number : "点"}</Button>
-                <Button className="baiduButton2" onClick={this.handclickLine.bind(this)}>{this.state.lineNumber > 0 ? this.state.lineNumber : "线"}</Button>
+                {/* <Button className="baiduButton2" onClick={this.handclickLine.bind(this)}>{this.state.lineNumber > 0 ? this.state.lineNumber : "线"}</Button> */}
             </div>
         );
     }

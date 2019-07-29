@@ -32,6 +32,8 @@ import CircleScan from "../containers/component/CircleScan"
 import RadarScan from "../containers/component/RadarScan"
 import DynamicDiv from "../containers/component/DynamicDiv"
 import xingneng from "../containers/component/xingneng"
+import Water from "../containers/component/Water"
+import EchartsFly from "../containers/component/EchartsFly"
 
 const ROUTERS = [
     {
@@ -140,6 +142,15 @@ const ROUTERS = [
                 type: 'item',
                 child: [],
                 disabled: false
+            },
+            {
+                key: 'Water',
+                link: '/Water',
+                text: '水面纹理',
+                component: Water,
+                type: 'item',
+                child: [],
+                disabled: false
             }
         ]
     },
@@ -191,6 +202,15 @@ const ROUTERS = [
                 link: '/EchartCesium',
                 text: '整合echarts',
                 component: EchartCesium,
+                type: 'item',
+                child: [],
+                disabled: false
+            },
+            {
+                key: 'EchartsFly',
+                link: '/EchartsFly',
+                text: '飞行图',
+                component: EchartsFly,
                 type: 'item',
                 child: [],
                 disabled: false
