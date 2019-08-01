@@ -52,8 +52,8 @@ const tileset3dtilesUrl = {
             "url": "http://localhost:8080/Apps/SampleData/model_2_15/tileset.json"
         },
         {
-            "name": "故宫",
-            "url": "http://localhost:8080/Apps/SampleData/gugong003/tileset.json"
+            "name": "球",
+            "url": "http://localhost:8080/Apps/SampleData/ball/tileset.json"
         },
         {
             "name": "老港",
@@ -62,6 +62,18 @@ const tileset3dtilesUrl = {
         {
             "name": "BIMT",
             "url": "http://localhost:8080/Apps/SampleData/bimT/tileset.json"
+        },
+        {
+            "name": "精简老港模型",
+            "url": "http://localhost:8080/Apps/SampleData/laogang/tileset.json"
+        },
+        {
+            "name": "max老港模型",
+            "url": "http://localhost:8080/Apps/SampleData/0731/tileset.json"
+        },
+        {
+            "name": "老港模型0801",
+            "url": "http://localhost:8080/Apps/SampleData/laogang0801/tileset.json"
         }
     ]
 }

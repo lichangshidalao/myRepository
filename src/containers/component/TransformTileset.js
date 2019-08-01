@@ -36,7 +36,7 @@ class Map extends Component {
     }
     componentDidMount() {
         viewer = viewerInit(this.refs.map)
-        tileset = add3dtiles(viewer, tileset3dtilesUrl.bimModel[7].url)
+        tileset = add3dtiles(viewer, tileset3dtilesUrl.bimModel[8].url)
         tileset.readyPromise.then(function (tileset) {
             //深拷贝
             originalParam = JSON.parse(JSON.stringify(params))
@@ -50,6 +50,16 @@ class Map extends Component {
             viewer.scene.globe.enableLighting = true;
             tileset.maximumScreenSpaceError = 1
         })
+        tileset.tileVisible.addEventListener(function (tile) {
+            let content = tile.content
+            let featuresLength = content.featuresLength;
+            for (let i = 0; i < featuresLength; i++) {
+                content.getFeature(i).color = new Cesium.Color(105 / 255, 105 / 255, 105 / 255, 1)
+            }
+        });
+
+
+
         document.addEventListener('keydown', (e) => {
             setFlagStatus(e, true);
             update3dtilesMaxtrix(tileset, params)

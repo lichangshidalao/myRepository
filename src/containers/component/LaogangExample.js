@@ -4,7 +4,6 @@ import viewerInit from "../CesiumViewer/viewer";
 import { tileset3dtilesUrl } from "../../config/data.config";
 import add3dtiles from "../CesiumViewer/3dtiles/add3dtiles";
 import { update3dtilesMaxtrix } from "../CesiumViewer/3dtiles/transformTileset";
-import { Input } from 'antd';
 import green from '../img/green2.jpg'
 import './viewer.css';
 import { IntegerStep } from '../antdComponent/slider';
@@ -40,7 +39,7 @@ class Map extends Component {
         tileset.readyPromise.then(function (tileset) {
             update3dtilesMaxtrix(tileset, params)
             let shadowMap = viewer.shadowMap;
-            viewer.shadows = true
+            //viewer.shadows = true
             shadowMap.maxmimumDistance = 10000.0;
             let startTime = new Cesium.JulianDate(2458696, 57273.178999936106)
             viewer.clock.startTime = startTime
@@ -61,31 +60,31 @@ class Map extends Component {
             console.log(viewer.clock.currentTime)
         }, Cesium.ScreenSpaceEventType.LEFT_CLICK)
     }
-    getColorR(e) {
+    getColorR(value) {
         this.setState({
-            red: e.target.value
+            red: value
         })
-        modelColor(this.state.red, this.state.green, this.state.blue)
     }
-    getColorG(e) {
+    getColorG(value) {
         this.setState({
-            green: e.target.value
+            green: value
         })
-        modelColor(this.state.red, this.state.green, this.state.blue)
     }
-    getColorB(e) {
+    getColorB(value) {
         this.setState({
-            blue: e.target.value
+            blue: value
         })
+    }
+    componentWillUpdate(){
         modelColor(this.state.red, this.state.green, this.state.blue)
     }
     render() {
         return (
             <div className="map-image" ref="map" id="cesiumContain">
-                <div className="baiduButton">
-                    <Input id="red" defaultValue={this.state.red} onPressEnter={this.getColorR.bind(this)} />
-                    <Input id="green" defaultValue={this.state.green} onPressEnter={this.getColorG.bind(this)} />
-                    <Input id="blue" defaultValue={this.state.blue} onPressEnter={this.getColorB.bind(this)} />
+                <div className="sildersLaogang">
+                    <IntegerStep getColor={this.getColorR.bind(this)}></IntegerStep>
+                    <IntegerStep getColor={this.getColorG.bind(this)}></IntegerStep>
+                    <IntegerStep getColor={this.getColorB.bind(this)}></IntegerStep>
                 </div>
             </div>
         );

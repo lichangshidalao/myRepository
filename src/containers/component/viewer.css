@@ -123,3 +123,10 @@
     top: 0px;
     bottom: 0px;
 }
+.sildersLaogang{
+    position: absolute;
+    margin-top: 30px;
+    margin-left: 60px;
+    width: 300px;
+    z-index: 70;
+}

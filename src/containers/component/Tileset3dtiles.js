@@ -21,6 +21,7 @@ class BingMap extends Component {
     }
     componentDidMount() {
         viewer = viewerInit(this.refs.map)
+        viewer.shadows = true
         //viewer.extend(Cesium.viewerCesium3DTilesInspectorMixin);
         addBingMapLayer(viewer, Cesium.BingMapsStyle.CANVAS_LIGHT)
     }
@@ -71,6 +72,7 @@ class BingMap extends Component {
                     factorsArray1.push("组合池结构3dm-5m标高池壁、隔墙及顶板结构")
                 }, 5000)
                 const bimZhuhe = add3dtiles(viewer, tileset3dtilesUrl.bimModel[7].url)
+                bimZhuhe.colorBlendMode = Cesium.Cesium3DTileColorBlendMode.REPLACE;
                 let pickArray = []
                 let pickhandle = new Cesium.ScreenSpaceEventHandler(viewer.scene.canvas)
                 pickhandle.setInputAction((movement) => {
@@ -128,6 +130,31 @@ class BingMap extends Component {
             case "ws-2":
                 add3dtiles(viewer, tileset3dtilesUrl.bimModel[6].url)
                 break
+            case "ball":
+                add3dtiles(viewer, tileset3dtilesUrl.bimModel[5].url)
+                //viewer.zoomTo()
+                viewer.clock.startTime = new Cesium.JulianDate(2458547, 52202.13500037328);
+                viewer.clock.multiplier = 6000.0;
+                viewer.clock.shouldAnimate = true
+                break
+            case "maxlaogang":
+                let laogangMax=add3dtiles(viewer, tileset3dtilesUrl.bimModel[9].url)
+                laogangMax.readyPromise.then(function (laogangMax) {
+                    let shadowMap = viewer.shadowMap;
+                    viewer.shadows = true
+                    shadowMap.maxmimumDistance = 10000.0;
+                    let startTime = new Cesium.JulianDate(2458696, 57273.178999936106)
+                    viewer.clock.startTime = startTime
+                    viewer.clock.multiplier = 6000.0;
+                })
+                laogangMax.tileVisible.addEventListener(function (tile) {
+                    let content = tile.content
+                    let featuresLength = content.featuresLength;
+                    for (let i = 0; i < featuresLength; i++) {
+                        content.getFeature(i).color = new Cesium.Color(90 / 255, 90 / 255, 90 / 255, 1)
+                    }
+                });
+                break
         }
     }
     render() {
@@ -142,6 +169,8 @@ class BingMap extends Component {
                     <Option value="bim_zhuhe">组合池</Option>
                     <Option value="jingjian-ws">精简污水</Option>
                     <Option value="ws-2">污水2</Option>
+                    <Option value="ball">球</Option>
+                    <Option value="maxlaogang">max老港</Option>
                 </Select>
             </div>
         );

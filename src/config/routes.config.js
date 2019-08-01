@@ -34,6 +34,7 @@ import DynamicDiv from "../containers/component/DynamicDiv"
 import xingneng from "../containers/component/xingneng"
 import Water from "../containers/component/Water"
 import EchartsFly from "../containers/component/EchartsFly"
+import LaogangExample from "../containers/component/LaogangExample"
 
 const ROUTERS = [
     {
@@ -373,6 +374,15 @@ const ROUTERS = [
                 link: '/xingneng',
                 text: '性能测试',
                 component: xingneng,
+                type: 'item',
+                child: [],
+                disabled: false
+            },
+            {
+                key: 'LaogangExample',
+                link: '/LaogangExample',
+                text: '老港实例',
+                component: LaogangExample,
                 type: 'item',
                 child: [],
                 disabled: false
