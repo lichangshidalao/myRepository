@@ -65,7 +65,8 @@ const tileset3dtilesUrl = {
         },
         {
             "name": "精简老港模型",
-            "url": "http://localhost:8080/Apps/SampleData/laogang/tileset.json"
+            "url": "http://localhost:8080/Apps/SampleData/laogang/tileset.json",
+            "sceneTree":"http://localhost:8080/Apps/SampleData/laogang/scenetree.json"
         },
         {
             "name": "max老港模型",

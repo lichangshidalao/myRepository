@@ -34,7 +34,7 @@ const cameraPosition = (viewer) => {
         pickArray.push(longitudeString)
         pickArray.push(latitudeString)
         pickArray.push(height)
-        console.log(pickArray)
+        //console.log(pickArray)
         console.log(cameraArray)
     }, Cesium.ScreenSpaceEventType.LEFT_CLICK)
 }

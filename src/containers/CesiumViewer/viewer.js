@@ -1,7 +1,7 @@
 import Cesium from "cesium/Cesium";
 import { OpenStreetMapNominatimGeocoder } from "../CesiumViewer/customGeocoder"
 import { addTdtMap } from "../CesiumViewer/addTdtMap"
-const viewerInit = (cesiumContain) => {
+const viewerInit = (cesiumContain, istdt = true) => {
     Cesium.Ion.defaultAccessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJkNTVjZjRlZS1mYTY2LTQyZTAtOWY1Ny1mOWM5MjY0ODE5ZWQiLCJpZCI6NTgzOSwic2NvcGVzIjpbImFzciIsImdjIl0sImlhdCI6MTU0NDQyNjczNn0.KPT4FCM796s36bHKerYvZghrRm-w44uoYYZOOw1y8eY"
     //Cesium.Ion.defaultAccessToken = ion_Token
     // Create the Cesium Viewer
@@ -43,7 +43,9 @@ const viewerInit = (cesiumContain) => {
             }
         });
     });
-    addTdtMap(viewer)
+    if (istdt) {
+        addTdtMap(viewer)
+    }
     return viewer
 }
 

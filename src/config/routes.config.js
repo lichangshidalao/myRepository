@@ -35,6 +35,7 @@ import xingneng from "../containers/component/xingneng"
 import Water from "../containers/component/Water"
 import EchartsFly from "../containers/component/EchartsFly"
 import LaogangExample from "../containers/component/LaogangExample"
+import FlyModels from "../containers/component/FlyModels"
 
 const ROUTERS = [
     {
@@ -280,6 +281,15 @@ const ROUTERS = [
                 disabled: false
             },
             {
+                key: 'LaogangExample',
+                link: '/LaogangExample',
+                text: '模型调色',
+                component: LaogangExample,
+                type: 'item',
+                child: [],
+                disabled: false
+            },
+            {
                 key: 'Plane',
                 link: '/Plane',
                 text: '剖切',
@@ -379,10 +389,10 @@ const ROUTERS = [
                 disabled: false
             },
             {
-                key: 'LaogangExample',
-                link: '/LaogangExample',
-                text: '老港实例',
-                component: LaogangExample,
+                key: 'FlyModels',
+                link: '/FlyModels',
+                text: '定点飞行',
+                component: FlyModels,
                 type: 'item',
                 child: [],
                 disabled: false
