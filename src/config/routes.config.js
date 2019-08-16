@@ -36,6 +36,7 @@ import Water from "../containers/component/Water"
 import EchartsFly from "../containers/component/EchartsFly"
 import LaogangExample from "../containers/component/LaogangExample"
 import FlyModels from "../containers/component/FlyModels"
+import Jichang from "../containers/component/Jichang"
 
 const ROUTERS = [
     {
@@ -393,6 +394,15 @@ const ROUTERS = [
                 link: '/FlyModels',
                 text: '定点飞行',
                 component: FlyModels,
+                type: 'item',
+                child: [],
+                disabled: false
+            },
+            {
+                key: 'Jichang',
+                link: '/Jichang',
+                text: '机场项目',
+                component: Jichang,
                 type: 'item',
                 child: [],
                 disabled: false

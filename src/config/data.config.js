@@ -69,13 +69,22 @@ const tileset3dtilesUrl = {
             "sceneTree":"http://localhost:8080/Apps/SampleData/laogang/scenetree.json"
         },
         {
-            "name": "max老港模型",
-            "url": "http://localhost:8080/Apps/SampleData/0731/tileset.json"
+            "name": "精简老港模型2",
+            "url": "http://localhost:8080/Apps/SampleData/laogangwaike/tileset.json",
+            "sceneTree":"http://localhost:8080/Apps/SampleData/laogangwaike/scenetree.json"
         },
         {
-            "name": "老港模型0801",
-            "url": "http://localhost:8080/Apps/SampleData/laogang0801/tileset.json"
+            "name": "精简老港模型",
+            "url": "http://localhost:8080/Apps/SampleData/jichang/tileset.json",
+            "sceneTree":"http://localhost:8080/Apps/SampleData/laogangwaike/scenetree.json"
+        },
+        {
+            "name": "精简老港模型",
+            "url": "http://localhost:8080/Apps/SampleData/ssa/tileset.json",
+            "sceneTree":"http://localhost:8080/Apps/SampleData/ssa/scenetree.json"
         }
+
+
     ]
 }
 

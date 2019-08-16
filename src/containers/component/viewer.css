@@ -49,6 +49,14 @@
     z-index: 70;
 }
 
+.baiduButton3 {
+    position: absolute;
+    margin-top: 30px;
+    margin-left: 300px;
+    width: 100px;
+    z-index: 70;
+}
+
 .treeStyleBox {
     position: fixed;
     margin-top: 0px;

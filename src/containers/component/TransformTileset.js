@@ -14,12 +14,22 @@ const Option = Select.Option;
 let viewer, tileset
 //示例数据
 let params = {
-    tx: 119.0910393016583,  //模型中心X轴坐标（经度，单位：十进制度）
-    ty: 32.26718715540471,     //模型中心Y轴坐标（纬度，单位：十进制度）  
+    tx: 116.42721600000016,//模型中心X轴坐标（经度，单位：十进制度）
+    ty: 39.497370999999646,//模型中心Y轴坐标（纬度，单位：十进制度）  
     tz: 10,    //模型中心Z轴坐标（高程，单位：米） 
     rx: 0,     //X轴（经度）方向旋转角度（单位：度）  
     ry: 0,     //Y轴（纬度）方向旋转角度（单位：度）  
-    rz: 0,       //Z轴（高程）方向旋转角度（单位：度）
+    rz: 7,       //Z轴（高程）方向旋转角度（单位：度）
+    scale: 20.4
+}
+
+let params2 = {
+    tx: 116.42721600000016,//模型中心X轴坐标（经度，单位：十进制度）
+    ty: 39.497370999999646,//模型中心Y轴坐标（纬度，单位：十进制度）  
+    tz: 10,    //模型中心Z轴坐标（高程，单位：米） 
+    rx: 0,     //X轴（经度）方向旋转角度（单位：度）  
+    ry: 0,     //Y轴（纬度）方向旋转角度（单位：度）  
+    rz: 7,       //Z轴（高程）方向旋转角度（单位：度）
     scale: 1
 }
 
@@ -36,7 +46,16 @@ class Map extends Component {
     }
     componentDidMount() {
         viewer = viewerInit(this.refs.map)
-        tileset = add3dtiles(viewer, tileset3dtilesUrl.bimModel[8].url)
+        var startTime = new Cesium.JulianDate(2458701, 50386.178999936106);
+        var stopTime = Cesium.JulianDate.addSeconds(startTime, 15, new Cesium.JulianDate());
+        viewer.clock.startTime = startTime.clone();  // 开始时间
+        viewer.clock.stopTime = stopTime.clone();     // 结速时间
+        viewer.clock.currentTime = startTime.clone(); // 当前时间
+        viewer.clock.clockRange = Cesium.ClockRange.CLAMPED; // 行为方式
+        viewer.clock.multiplier = 1
+        viewer.clock.shouldAnimate = true
+        viewer.clock.clockStep = Cesium.ClockStep.SYSTEM_CLOCK_MULTIPLIER; // 时钟设置为当前系统时间; 忽略所有其他设置。
+        tileset = add3dtiles(viewer, tileset3dtilesUrl.bimModel[10].url)
         tileset.readyPromise.then(function (tileset) {
             //深拷贝
             originalParam = JSON.parse(JSON.stringify(params))
@@ -50,19 +69,33 @@ class Map extends Component {
             viewer.scene.globe.enableLighting = true;
             tileset.maximumScreenSpaceError = 1
         })
-        tileset.tileVisible.addEventListener(function (tile) {
-            let content = tile.content
-            let featuresLength = content.featuresLength;
-            for (let i = 0; i < featuresLength; i++) {
-                content.getFeature(i).color = new Cesium.Color(105 / 255, 105 / 255, 105 / 255, 1)
-            }
-        });
+        let Stileset = add3dtiles(viewer, tileset3dtilesUrl.bimModel[11].url)
+        Stileset.readyPromise.then(function (tileset) {
+            //深拷贝
+            originalParam = JSON.parse(JSON.stringify(params))
+            update3dtilesMaxtrix(tileset, params2)
+            let shadowMap = viewer.shadowMap;
+            viewer.shadows = false
+            shadowMap.maxmimumDistance = 10000.0;
+            viewer.clock.startTime = new Cesium.JulianDate.fromIso8601('2013-12-25');
+            viewer.clock.multiplier = 6000.0;
+            //viewer.clock.shouldAnimate = true
+            viewer.scene.globe.enableLighting = true;
+            tileset.maximumScreenSpaceError = 1
+        })
+        // tileset.tileVisible.addEventListener(function (tile) {
+        //     let content = tile.content
+        //     let featuresLength = content.featuresLength;
+        //     for (let i = 0; i < featuresLength; i++) {
+        //         content.getFeature(i).color = new Cesium.Color(105 / 255, 105 / 255, 105 / 255, 1)
+        //     }
+        // });
 
 
 
         document.addEventListener('keydown', (e) => {
             setFlagStatus(e, true);
-            update3dtilesMaxtrix(tileset, params)
+            update3dtilesMaxtrix(Stileset, params)
         });
     }
     handleChange(value) {

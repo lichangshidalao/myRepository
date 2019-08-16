@@ -4,6 +4,7 @@ import viewerInit from "../CesiumViewer/viewer";
 import { addTdtMap } from "../CesiumViewer/addTdtMap";
 import { Button } from 'antd';
 import './viewer.css';
+// import treesmodel from '../../data/shu.glb'
 
 
 //const viewer
@@ -14,7 +15,8 @@ class Map extends Component {
         this.state = {
             buttonstatus: true,
             number: 0,
-            lineNumber: 0
+            lineNumber: 0,
+            modelT: 0
         }
     }
     componentDidMount() {
@@ -80,11 +82,32 @@ class Map extends Component {
             })
         }));
     }
+    //模型性能测试
+    handclickModel() {
+        this.setState({
+            modelT: this.state.modelT + 1
+        })
+        for (let i = 0; i < 5000; i++) {
+            let cartesian3 = Cesium.Cartesian3.fromDegrees(Math.random() * 100, Math.random() * 100, 1000)
+            let entiss = viewer.entities.add({
+                name: "trees",
+                position: cartesian3,
+                model: {
+                    uri: "http://localhost:8080/Apps/SampleData/shu.glb",
+                },
+                scale: 10
+            });
+            if(i==0){
+                viewer.zoomTo(entiss)
+            }
+        }
+    }
     render() {
         return (
             <div className="map-image" ref="map" id="cesiumContain">
                 <Button className="baiduButton" onClick={this.handclick.bind(this)}>{this.state.number > 0 ? this.state.number : "点"}</Button>
-                {/* <Button className="baiduButton2" onClick={this.handclickLine.bind(this)}>{this.state.lineNumber > 0 ? this.state.lineNumber : "线"}</Button> */}
+                <Button className="baiduButton2" onClick={this.handclickLine.bind(this)}>{this.state.lineNumber > 0 ? this.state.lineNumber : "线"}</Button>
+                <Button className="baiduButton3" onClick={this.handclickModel.bind(this)}>{this.state.modelT > 0 ? this.state.modelT : "模型"}</Button>
             </div>
         );
     }

@@ -90,6 +90,7 @@ module.exports = [{
         //contentBase: path.join(__dirname, "dist"),
         contentBase: path.join(__dirname, 'public'),
         port: 8083,
-        historyApiFallback: true
+        historyApiFallback: true,
+        host: '0.0.0.0'
     }
 }];

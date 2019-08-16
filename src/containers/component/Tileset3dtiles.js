@@ -139,21 +139,14 @@ class BingMap extends Component {
                 break
             case "maxlaogang":
                 let laogangMax=add3dtiles(viewer, tileset3dtilesUrl.bimModel[9].url)
-                laogangMax.readyPromise.then(function (laogangMax) {
-                    let shadowMap = viewer.shadowMap;
-                    viewer.shadows = true
-                    shadowMap.maxmimumDistance = 10000.0;
-                    let startTime = new Cesium.JulianDate(2458696, 57273.178999936106)
-                    viewer.clock.startTime = startTime
-                    viewer.clock.multiplier = 6000.0;
-                })
-                laogangMax.tileVisible.addEventListener(function (tile) {
-                    let content = tile.content
-                    let featuresLength = content.featuresLength;
-                    for (let i = 0; i < featuresLength; i++) {
-                        content.getFeature(i).color = new Cesium.Color(90 / 255, 90 / 255, 90 / 255, 1)
-                    }
-                });
+                // laogangMax.readyPromise.then(function (laogangMax) {
+                //     let shadowMap = viewer.shadowMap;
+                //     viewer.shadows = true
+                //     shadowMap.maxmimumDistance = 10000.0;
+                //     let startTime = new Cesium.JulianDate(2458696, 57273.178999936106)
+                //     viewer.clock.startTime = startTime
+                //     viewer.clock.multiplier = 6000.0;
+                // })
                 break
         }
     }
