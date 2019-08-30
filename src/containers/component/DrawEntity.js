@@ -35,7 +35,7 @@ class Map extends Component {
         }
         let tileset = viewer.scene.primitives.add(
             new Cesium.Cesium3DTileset({
-                url: "http://172.16.108.211:8082/data/ssa/tileset.json",
+                url: "http://localhost:8082/data/ssa/tileset.json",
                 debugShowBoundingVolume: false
             })
         );
