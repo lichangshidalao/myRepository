@@ -7,7 +7,7 @@ import { update3dtilesMaxtrix } from "../CesiumViewer/3dtiles/transformTileset";
 import { getLonLat } from "../CesiumViewer/getLonLat";
 import { Select } from 'antd';
 import './viewer.css';
-
+import { addTdtMap } from "../CesiumViewer/addTdtMap"; 
 
 //const viewer
 const Option = Select.Option;
@@ -46,6 +46,7 @@ class Map extends Component {
     }
     componentDidMount() {
         viewer = viewerInit(this.refs.map)
+        //addTdtMap(viewer, "TDT_VEC_W")
         var startTime = new Cesium.JulianDate(2458701, 50386.178999936106);
         var stopTime = Cesium.JulianDate.addSeconds(startTime, 15, new Cesium.JulianDate());
         viewer.clock.startTime = startTime.clone();  // 开始时间
@@ -67,22 +68,26 @@ class Map extends Component {
             viewer.clock.multiplier = 6000.0;
             //viewer.clock.shouldAnimate = true
             viewer.scene.globe.enableLighting = true;
-            tileset.maximumScreenSpaceError = 1
+            tileset.maximumScreenSpaceError = 0.1
+            tileset.dynamicScreenSpaceError = true
+            tileset.maximumMemoryUsage = 2048
+            tileset.preferLeaves = true
+            tileset.immediatelyLoadDesiredLevelOfDetail = true
         })
-        let Stileset = add3dtiles(viewer, tileset3dtilesUrl.bimModel[11].url)
-        Stileset.readyPromise.then(function (tileset) {
-            //深拷贝
-            originalParam = JSON.parse(JSON.stringify(params))
-            update3dtilesMaxtrix(tileset, params2)
-            let shadowMap = viewer.shadowMap;
-            viewer.shadows = false
-            shadowMap.maxmimumDistance = 10000.0;
-            viewer.clock.startTime = new Cesium.JulianDate.fromIso8601('2013-12-25');
-            viewer.clock.multiplier = 6000.0;
-            //viewer.clock.shouldAnimate = true
-            viewer.scene.globe.enableLighting = true;
-            tileset.maximumScreenSpaceError = 1
-        })
+        // let Stileset = add3dtiles(viewer, tileset3dtilesUrl.bimModel[11].url)
+        // Stileset.readyPromise.then(function (tileset) {
+        //     //深拷贝
+        //     originalParam = JSON.parse(JSON.stringify(params))
+        //     update3dtilesMaxtrix(tileset, params2)
+        //     let shadowMap = viewer.shadowMap;
+        //     viewer.shadows = false
+        //     shadowMap.maxmimumDistance = 10000.0;
+        //     viewer.clock.startTime = new Cesium.JulianDate.fromIso8601('2013-12-25');
+        //     viewer.clock.multiplier = 6000.0;
+        //     //viewer.clock.shouldAnimate = true
+        //     viewer.scene.globe.enableLighting = true;
+        //     tileset.maximumScreenSpaceError = 1
+        // })
         // tileset.tileVisible.addEventListener(function (tile) {
         //     let content = tile.content
         //     let featuresLength = content.featuresLength;
@@ -95,7 +100,7 @@ class Map extends Component {
 
         document.addEventListener('keydown', (e) => {
             setFlagStatus(e, true);
-            update3dtilesMaxtrix(Stileset, params)
+            update3dtilesMaxtrix(tileset, params)
         });
     }
     handleChange(value) {

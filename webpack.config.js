@@ -8,6 +8,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const cesiumSource = 'node_modules/cesium/Source';
 const cesiumWorkers = '../Build/Cesium/Workers';
 const APP_PATH = path.resolve(__dirname, '../src');
+const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
 
 module.exports = [{
     devtool: "source-map",
@@ -82,9 +83,20 @@ module.exports = [{
             minChunks: function (module) {
                 return module.context && module.context.indexOf('cesium') !== -1;
             }
-        })
+        }),
+        // new webpack.optimize.UglifyJsPlugin({    //压缩代码
+        //     compress: {
+        //         warnings: false
+        //     },
+        //     except: ['$super', '$', 'exports', 'require']    //排除关键字
+        // })
     ],
-
+    // optimization: {
+    //     minimize: true,
+    //     minimizer: [
+    //         new UglifyJSPlugin()
+    //     ]
+    // },
     // development server options
     devServer: {
         //contentBase: path.join(__dirname, "dist"),
