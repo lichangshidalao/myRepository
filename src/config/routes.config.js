@@ -37,6 +37,7 @@ import EchartsFly from "../containers/component/EchartsFly"
 import LaogangExample from "../containers/component/LaogangExample"
 import FlyModels from "../containers/component/FlyModels"
 import Jichang from "../containers/component/Jichang"
+import LizhiforShanXia from "../containers/component/LizhiforShanXia"
 
 const ROUTERS = [
     {
@@ -151,6 +152,15 @@ const ROUTERS = [
                 link: '/Water',
                 text: '水面纹理',
                 component: Water,
+                type: 'item',
+                child: [],
+                disabled: false
+            },
+            {
+                key: 'LizhiforShanXia',
+                link: '/WaLizhiforShanXiater',
+                text: '粒子系统',
+                component: LizhiforShanXia,
                 type: 'item',
                 child: [],
                 disabled: false

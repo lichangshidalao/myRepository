@@ -31,57 +31,79 @@ const tileset3dtilesUrl = {
     ],
     "bimModel": [
         {
+            "id":1,
             "name": "B2-BIM",
             "url": "http://localhost:8080/Apps/SampleData/B2-BIM/tileset.json"
         },
         {
+            "id":2,
             "name": "扬州污水场",
             "url": "http://localhost:8080/Apps/SampleData/ws/tileset.json",
             "sceneTree":"http://localhost:8080/Apps/SampleData/ws/scenetree.json"
         },
         {
+            "id":3,
             "name": "精简污水场",
             "url": "http://localhost:8080/Apps/SampleData/jingjian_ws/jingjian_ws/tileset.json"
         },
         {
+            "id":4,
             "name": "污水场-2",
             "url": "http://localhost:8080/Apps/SampleData/ws-2/ws/tileset.json"
         },
         {
+            "id":5,
             "name": "组合池",
             "url": "http://localhost:8080/Apps/SampleData/model_2_15/tileset.json"
         },
         {
+            "id":6,
             "name": "球",
             "url": "http://localhost:8080/Apps/SampleData/ball/tileset.json"
         },
         {
+            "id":7,
             "name": "老港",
             "url": "http://localhost:8080/Apps/SampleData/laogang_tilt/tileset.json"
         },
         {
+            "id":8,
             "name": "BIMT",
             "url": "http://localhost:8080/Apps/SampleData/bimT/tileset.json"
         },
         {
+            "id":9,
             "name": "精简老港模型",
             "url": "http://localhost:8080/Apps/SampleData/laogang/tileset.json",
             "sceneTree":"http://localhost:8080/Apps/SampleData/laogang/scenetree.json"
         },
         {
+            "id":10,
             "name": "精简老港模型2",
             "url": "http://localhost:8080/Apps/SampleData/laogangwaike/tileset.json",
             "sceneTree":"http://localhost:8080/Apps/SampleData/laogangwaike/scenetree.json"
         },
         {
+            "id":11,
             "name": "精简老港模型",
             "url": "http://localhost:8080/Apps/SampleData/jichang/tileset.json",
             "sceneTree":"http://localhost:8080/Apps/SampleData/laogangwaike/scenetree.json"
         },
         {
-            "name": "精简老港模型",
+            "id":12,
+            "name": "daxing",
             "url": "http://localhost:8080/Apps/SampleData/ssa/tileset.json",
             "sceneTree":"http://localhost:8080/Apps/SampleData/ssa/scenetree.json"
+        },
+        {
+            "id":13,
+            "name": "daxing2",
+            "url": "172.16.108.203:9002/api/folder/3c744bce08944c1eaa556a425010e55e"
+        },
+        {
+            "id":14,
+            "name": "shanxia",
+            "url": "http://localhost:8080/Apps/SampleData/shanxia/tileset.json"
         }
 
 

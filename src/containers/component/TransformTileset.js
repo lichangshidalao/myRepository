@@ -7,32 +7,31 @@ import { update3dtilesMaxtrix } from "../CesiumViewer/3dtiles/transformTileset";
 import { getLonLat } from "../CesiumViewer/getLonLat";
 import { Select } from 'antd';
 import './viewer.css';
-import { addTdtMap } from "../CesiumViewer/addTdtMap"; 
+import { addTdtMap } from "../CesiumViewer/addTdtMap";
 
 //const viewer
 const Option = Select.Option;
 let viewer, tileset
 //示例数据
+// let params = {
+//     tx: 116.42721600000016,//模型中心X轴坐标（经度，单位：十进制度）
+//     ty: 39.497370999999646,//模型中心Y轴坐标（纬度，单位：十进制度）  
+//     tz: 10,    //模型中心Z轴坐标（高程，单位：米） 
+//     rx: 0,     //X轴（经度）方向旋转角度（单位：度）  
+//     ry: 0,     //Y轴（纬度）方向旋转角度（单位：度）  
+//     rz: 7,       //Z轴（高程）方向旋转角度（单位：度）
+//     scale: 20.4
+// }
+
 let params = {
-    tx: 116.42721600000016,//模型中心X轴坐标（经度，单位：十进制度）
-    ty: 39.497370999999646,//模型中心Y轴坐标（纬度，单位：十进制度）  
-    tz: 10,    //模型中心Z轴坐标（高程，单位：米） 
-    rx: 0,     //X轴（经度）方向旋转角度（单位：度）  
-    ry: 0,     //Y轴（纬度）方向旋转角度（单位：度）  
-    rz: 7,       //Z轴（高程）方向旋转角度（单位：度）
-    scale: 20.4
+    rx: 0,
+    ry: 0,
+    rz: 1,
+    scale: 1,
+    tx: 111.0031011243053,
+    ty: 30.823530721441738,
+    tz: 101.00875082991314,
 }
-
-let params2 = {
-    tx: 116.42721600000016,//模型中心X轴坐标（经度，单位：十进制度）
-    ty: 39.497370999999646,//模型中心Y轴坐标（纬度，单位：十进制度）  
-    tz: 10,    //模型中心Z轴坐标（高程，单位：米） 
-    rx: 0,     //X轴（经度）方向旋转角度（单位：度）  
-    ry: 0,     //Y轴（纬度）方向旋转角度（单位：度）  
-    rz: 7,       //Z轴（高程）方向旋转角度（单位：度）
-    scale: 1
-}
-
 let originalParam
 //南北方向1米等于：360 / 40075016.68557849 =0.000008983152841195214 度（注：任意经度地球周长 40075016.68557849米）
 //东西方向1米等于：360 / 38274592.22115159 =0.000009405717451407729 度（注：38纬度地球周长 38274592.22115159  米）
@@ -56,7 +55,7 @@ class Map extends Component {
         viewer.clock.multiplier = 1
         viewer.clock.shouldAnimate = true
         viewer.clock.clockStep = Cesium.ClockStep.SYSTEM_CLOCK_MULTIPLIER; // 时钟设置为当前系统时间; 忽略所有其他设置。
-        tileset = add3dtiles(viewer, tileset3dtilesUrl.bimModel[10].url)
+        tileset = add3dtiles(viewer, tileset3dtilesUrl.bimModel[13].url)
         tileset.readyPromise.then(function (tileset) {
             //深拷贝
             originalParam = JSON.parse(JSON.stringify(params))
@@ -74,27 +73,19 @@ class Map extends Component {
             tileset.preferLeaves = true
             tileset.immediatelyLoadDesiredLevelOfDetail = true
         })
-        // let Stileset = add3dtiles(viewer, tileset3dtilesUrl.bimModel[11].url)
-        // Stileset.readyPromise.then(function (tileset) {
-        //     //深拷贝
-        //     originalParam = JSON.parse(JSON.stringify(params))
-        //     update3dtilesMaxtrix(tileset, params2)
-        //     let shadowMap = viewer.shadowMap;
-        //     viewer.shadows = false
-        //     shadowMap.maxmimumDistance = 10000.0;
-        //     viewer.clock.startTime = new Cesium.JulianDate.fromIso8601('2013-12-25');
-        //     viewer.clock.multiplier = 6000.0;
-        //     //viewer.clock.shouldAnimate = true
-        //     viewer.scene.globe.enableLighting = true;
-        //     tileset.maximumScreenSpaceError = 1
-        // })
-        // tileset.tileVisible.addEventListener(function (tile) {
-        //     let content = tile.content
-        //     let featuresLength = content.featuresLength;
-        //     for (let i = 0; i < featuresLength; i++) {
-        //         content.getFeature(i).color = new Cesium.Color(105 / 255, 105 / 255, 105 / 255, 1)
-        //     }
-        // });
+        let pickhandle = new Cesium.ScreenSpaceEventHandler(viewer.scene.canvas)
+        let pickArray = []
+        pickhandle.setInputAction((momvent) => {
+            let cartesian = viewer.scene.pickPosition(momvent.position)
+            var cartographic = Cesium.Cartographic.fromCartesian(cartesian);
+            var longitudeString = Cesium.Math.toDegrees(cartographic.longitude);
+            var latitudeString = Cesium.Math.toDegrees(cartographic.latitude);
+            let height = cartographic.height
+            pickArray.push(longitudeString)
+            pickArray.push(latitudeString)
+            pickArray.push(height)
+            console.log(pickArray)
+        }, Cesium.ScreenSpaceEventType.LEFT_CLICK)
 
 
 
