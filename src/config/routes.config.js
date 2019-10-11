@@ -38,6 +38,7 @@ import LaogangExample from "../containers/component/LaogangExample"
 import FlyModels from "../containers/component/FlyModels"
 import Jichang from "../containers/component/Jichang"
 import LizhiforShanXia from "../containers/component/LizhiforShanXia"
+import Clamp3dtile from "../containers/component/Clamp3dtile"
 
 const ROUTERS = [
     {
@@ -158,7 +159,7 @@ const ROUTERS = [
             },
             {
                 key: 'LizhiforShanXia',
-                link: '/WaLizhiforShanXiater',
+                link: '/LizhiforShanXia',
                 text: '粒子系统',
                 component: LizhiforShanXia,
                 type: 'item',
@@ -260,6 +261,15 @@ const ROUTERS = [
                 link: '/Tileset3dtiles',
                 text: '3dtilesExample',
                 component: Tileset3dtiles,
+                type: 'item',
+                child: [],
+                disabled: false
+            },
+            {
+                key: 'Clamp3dtile',
+                link: '/Clamp3dtile',
+                text: 'Clamp3dtile',
+                component: Clamp3dtile,
                 type: 'item',
                 child: [],
                 disabled: false
@@ -415,7 +425,7 @@ const ROUTERS = [
                 component: Jichang,
                 type: 'item',
                 child: [],
-                disabled: false
+                disabled: true
             }
         ]
     },

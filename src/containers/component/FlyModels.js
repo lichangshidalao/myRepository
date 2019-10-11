@@ -44,18 +44,33 @@ class Map extends Component {
         tileset.readyPromise.then(function (tileset) {
             update3dtilesMaxtrix(tileset, params)
         })
+        tileset.tileVisible.addEventListener(function (tile) {
+            let content = tile.content
+            let featuresLength = content.featuresLength;
+            for (let i = 0; i < featuresLength; i++) {
+                let featureName = content.getFeature(i).getProperty('name')
+                if (featureName.indexOf("FRMWORK") != -1 || featureName.indexOf("COOLINGTOWER-TS") != -1 ||
+                    featureName.indexOf("COOLINGTOWER-R") != -1 || featureName.indexOf("棱锥") != -1) {
+                    content.getFeature(i).color = new Cesium.Color(0.5, 0.5, 0.5, 0.5)
+                }
+                if (featureName.indexOf("子面域") != -1) {
+                    content.getFeature(i).show = false
+                }
+                if (featureName.indexOf("表面") != -1) {
+                    content.getFeature(i).show = false
+                }
+                if (featureName.indexOf("Column") != -1) {
+                    content.getFeature(i).show = false
+                }
+                if (featureName.indexOf("YQJHJ") != -1) {
+                    content.getFeature(i).show = false
+                }
+                if (featureName.indexOf("Beam") != -1) {
+                    content.getFeature(i).show = false
+                }
+            }
+        });
         let position = Cesium.Cartesian3.fromDegrees(119.09283930165836, 32.26718715540471, 20)
-        // viewer.scene.camera.flyTo({
-        //     destination: Cesium.Cartesian3.fromDegrees(119.09265712240679, 32.25776506851074, 200), // 点的坐标
-        //     orientation: {
-        //         heading: Cesium.Math.toRadians(358),
-        //         pitch: Cesium.Math.toRadians(-15),
-        //         roll: 0.0
-        //     },
-        //     complete: () => {
-        //         viewer.clock.onTick.addEventListener(Exection);
-        //     }
-        // });
         // 相机看点的角度，如果大于0那么则是从地底往上看，所以要为负值，这里取-30度
         var pitch = Cesium.Math.toRadians(-30);
         // 给定飞行一周所需时间，比如10s, 那么每秒转动度数

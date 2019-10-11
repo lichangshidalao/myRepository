@@ -7,9 +7,10 @@ import { update3dtilesMaxtrix } from "../CesiumViewer/3dtiles/transformTileset";
 import { Select } from 'antd';
 import './viewer.css';
 import smoke from '../img/smoke.png';
+import { Button } from 'antd';
 //const viewer
 const Option = Select.Option;
-let viewer, tileset
+let viewer, tileset, startTime, stopTime
 //示例数据
 let params = {
     rx: 0,
@@ -31,17 +32,47 @@ let viewModel = {
     endScale: 1.0,
     particleSize: 12.0
 };
+var cometOptions = {
+    numberOfSystems: 100.0,
+    iterationOffset: 0.003,
+    cartographicStep: 0.0000001,
+    baseRadius: 0.0005,
+
+    colorOptions: [{
+        red: 0.6,
+        green: 0.6,
+        blue: 0.6,
+        alpha: 1.0
+    }, {
+        red: 0.6,
+        green: 0.6,
+        blue: 0.9,
+        alpha: 0.9
+    }, {
+        red: 0.5,
+        green: 0.5,
+        blue: 0.7,
+        alpha: 0.5
+    }]
+};
+
+var rocketSystems = [];
+var cometSystems = [];
 class Map extends Component {
     constructor() {
         super()
-        this.state = {}
+        this.state = {
+            buttonstatus: true
+        }
     }
     componentDidMount() {
         viewer = viewerInit(this.refs.map)
-        cameraPick()
+        viewer.terrainProvider = Cesium.createWorldTerrain();
+
+        //cameraPick()
         //addTdtMap(viewer, "TDT_VEC_W")
-        var startTime = new Cesium.JulianDate(2458701, 50386.178999936106);
-        var stopTime = Cesium.JulianDate.addSeconds(startTime, 150, new Cesium.JulianDate());
+        startTime = new Cesium.JulianDate(2458701, 50386.178999936106);
+        stopTime = Cesium.JulianDate.addSeconds(startTime, 150, new Cesium.JulianDate());
         viewer.clock.startTime = startTime.clone();  // 开始时间
         viewer.clock.stopTime = stopTime.clone();     // 结速时间
         viewer.clock.currentTime = startTime.clone(); // 当前时间
@@ -55,84 +86,97 @@ class Map extends Component {
             tileset.maximumScreenSpaceError = 0.1
             tileset.maximumMemoryUsage = 2048
         })
-        viewer.camera.flyTo({
-            destination: Cesium.Cartesian3.fromDegrees(111.03078136912833, 30.79941581911459, 1572.731311696497),
+        viewer.camera.setView({
+            destination: Cesium.Cartesian3.fromDegrees(110.99108511985287, 30.800919052338482, 700.8483848774696),
             orientation: {
-                heading: 5.482060686307038,
-                pitch: -0.40006260338313404
-            }
-        });
-        let positionP = [111.00264593231053, 30.82167852617643, 24.885706579556796, 111.00393501591243, 30.822875045186112, 19.359242752687436, 111.0049872970562, 30.82385172409606, 22.12041052013481]
-
-        let scene = viewer.scene;
-        let Matrix42 = new Cesium.Matrix4.fromTranslation(Cesium.Cartesian3.fromDegrees(positionP[0], positionP[1], positionP[2] + 1000))
-        // let mx = Cesium.Matrix3.fromRotationX(Cesium.Math.toRadians(180));
-        // let my = Cesium.Matrix3.fromRotationY(Cesium.Math.toRadians(180));
-        // let mz = Cesium.Matrix3.fromRotationZ(Cesium.Math.toRadians(50));
-        // let rotationX = Cesium.Matrix4.fromRotationTranslation(mx);
-        // let rotationY = Cesium.Matrix4.fromRotationTranslation(my);
-        // let rotationZ = Cesium.Matrix4.fromRotationTranslation(mz);
-        // Cesium.Matrix4.multiply(Matrix42, rotationZ, Matrix42);
-        let particleSystem = scene.primitives.add(new Cesium.ParticleSystem({
-            modelMatrix: Matrix42,
-            image: smoke,
-
-            startColor: Cesium.Color.LIGHTSEAGREEN.withAlpha(0.7),
-            endColor: Cesium.Color.WHITE.withAlpha(0.0),
-
-            startScale: viewModel.startScale,
-            endScale: viewModel.endScale,
-
-            minimumParticleLife: viewModel.minimumParticleLife,
-            maximumParticleLife: viewModel.maximumParticleLife,
-
-            minimumSpeed: viewModel.minimumSpeed,
-            maximumSpeed: viewModel.maximumSpeed,
-
-            imageSize: new Cesium.Cartesian2(viewModel.particleSize, viewModel.particleSize),
-
-            emissionRate: viewModel.emissionRate,
-
-            // bursts: [
-            //     // these burst will occasionally sync to create a multicolored effect
-            //     new Cesium.ParticleBurst({ time: 5.0, minimum: 10, maximum: 100 }),
-            //     new Cesium.ParticleBurst({ time: 10.0, minimum: 50, maximum: 100 }),
-            //     new Cesium.ParticleBurst({ time: 15.0, minimum: 200, maximum: 300 })
-            // ],
-
-            lifetime: 16.0,
-
-            emitter: new Cesium.CircleEmitter(2.0),
-
-            emitterModelMatrix: computeEmitterModelMatrix(),
-
-            updateCallback: applyGravity
-        }));
-
-        viewer.scene.preUpdate.addEventListener(function (scene, time) {
-
-            let ss = Cesium.JulianDate.secondsDifference(time, startTime)/1000
-            console.log(ss)
-            let position = Cesium.Cartesian3.fromDegrees(positionP[0]-ss, positionP[1], positionP[2] + 1000);
-            let m = Cesium.Transforms.eastNorthUpToFixedFrame(position);
-
-            particleSystem.modelMatrix = m;
-
-            // Account for any changes to the emitter model matrix.
-            particleSystem.emitterModelMatrix = computeEmitterModelMatrix();
-
-            // Spin the emitter if enabled.
-            if (viewModel.spin) {
-                viewModel.heading += 1.0;
-                viewModel.pitch += 1.0;
-                viewModel.roll += 1.0;
+                heading: 0.45143324028440723,
+                pitch: -0.18677209650507454
             }
         });
 
     }
+    clockStatus() {
+        this.setState({
+            buttonstatus: !this.state.buttonstatus
+        })
+        //let positionP = [111.00264593231053, 30.82167852617643, 24.885706579556796, 111.00393501591243, 30.822875045186112, 19.359242752687436, 111.0049872970562, 30.82385172409606, 22.12041052013481]
+        let position = Cesium.Cartesian3.fromDegrees(111.00466804104207, 30.822159854936658, 101.33561785899792)
+        let m = Cesium.Transforms.eastNorthUpToFixedFrame(position, undefined, new Cesium.Matrix4())
+        var particleSystem = viewer.scene.primitives.add(new Cesium.ParticleSystem({
+            // Particle appearance
+            image: smoke,
+            startColor: Cesium.Color.LIGHTSEAGREEN.withAlpha(0.7),
+            endColor: Cesium.Color.WHITE.withAlpha(0.0),
+            startScale: 6.0,
+            endScale: 10.0,
+            particleLife: 1.0,
+            // minimumParticleLife: 4,
+            // maximumParticleLife: 5,
+            speed: 0.1,
+            imageSize: new Cesium.Cartesian2(10, 10),
+            lifetime: 10.0,
+            emissionRate: 3000,
+            //emitterModelMatrix: computeEmitterModelMatrix(),
+            // Particle system parameters
+            modelMatrix: m,
+            updateCallback: applyGravity,
+            emitter: new Cesium.CircleEmitter(200),
+        }));
+        //left
+        let postionArray = [
+            110.98868828229502, 30.80918546604266, 0,
+            110.94778507144127, 30.84568699318446, 0,
+            110.98877956551782, 30.87537192213377, 0,
+            111.02476302708561, 30.844146544356665, 0
+        ]
+        viewer.entities.add({
+            polygon: {
+                hierarchy: Cesium.Cartesian3.fromDegreesArrayHeights(postionArray),
+                extrudedHeight: new Cesium.CallbackProperty((time, result) => {
+                    let number = 120 - Cesium.JulianDate.secondsDifference(time, startTime) * 4;
+                    return number > 50 ? number : 50
+                }, false),
+                perPositionHeight: true,
+                //material: river,
+                material: new Cesium.Color(0, 69 / 256, 107 / 256, 0.8),
+                //material: new Cesium.Color(28/255, 78 / 256, 93 / 256, 0.7),
+                outline: false,
+                //outlineColor: Cesium.Color.BLACK,
+                // classificationType: Cesium.ClassificationType.CESIUM_3D_TILE
+            }
+        })
+        //right
+        let watersp = [
+            110.99447315300142, 30.814342311724936, 0,
+            111.01798147753898, 30.8370376354796, 0,
+            111.05096580030867, 30.841128571780164, 0,
+            111.02553939188924, 30.779859535635484, 0
+        ]
+        viewer.entities.add({
+            polygon: {
+                hierarchy: Cesium.Cartesian3.fromDegreesArrayHeights(watersp),
+                extrudedHeight: new Cesium.CallbackProperty((time, result) => {
+                    let number = 50 + Cesium.JulianDate.secondsDifference(time, startTime) * 4;
+                    if (number > 100) {
+                        //viewer.scene.primitives.remove(particleSystem)
+                        particleSystem.loop = false
+                    }
+                    return number > 120 ? 120 : number
+                }, false),
+                perPositionHeight: true,
+                //material: river,
+                material: new Cesium.Color(0, 69 / 256, 107 / 256, 0.8),
+                //material: new Cesium.Color(28/255, 78 / 256, 93 / 256, 0.7),
+                outline: false,
+                //outlineColor: Cesium.Color.BLACK,
+                // classificationType: Cesium.ClassificationType.CESIUM_3D_TILE
+            }
+        })
+    }
     render() {
         return (
             <div className="map-image" ref="map" id="cesiumContain">
+                <Button className="baiduButton" onClick={this.clockStatus.bind(this)} icon={this.state.buttonstatus ? "check-circle" : "stop"}>{this.state.buttonstatus ? "启动" : "暂停"}</Button>
             </div>
         );
     }
@@ -170,26 +214,33 @@ const cameraPick = () => {
         console.log(cameraArray)
     }, Cesium.ScreenSpaceEventType.LEFT_CLICK)
 }
-let gravityScratch = new Cesium.Cartesian3();
+var gravityScratch = new Cesium.Cartesian3();
+let numbers = 0.00005
 function applyGravity(p, dt) {
-    // We need to compute a local up vector for each particle in geocentric space.
+    // 计算每个粒子的向上向量（相对地心） 
     var position = p.position;
 
     Cesium.Cartesian3.normalize(position, gravityScratch);
-    Cesium.Cartesian3.multiplyByScalar(gravityScratch, viewModel.gravity * dt, gravityScratch);
+    Cesium.Cartesian3.multiplyByScalar(gravityScratch, -100 * dt, gravityScratch);
 
-    p.velocity = Cesium.Cartesian3.add(p.velocity, gravityScratch, p.velocity);
+    //p.velocity = Cesium.Cartesian3.add(p.velocity, gravityScratch, p.velocity);
+
+    var cartographic = Cesium.Cartographic.fromCartesian(position);
+    var longitudeString = Cesium.Math.toDegrees(cartographic.longitude);
+    var latitudeString = Cesium.Math.toDegrees(cartographic.latitude);
+    var height = cartographic.height
+
+    var p11 = longitudeString + numbers * Math.sin(90)
+    var p12 = latitudeString + numbers * Math.sin(-90)
+    p.position = height > 20 ? Cesium.Cartesian3.fromDegrees(p11, p12, height - 10) : Cesium.Cartesian3.fromDegrees(p11, p12, 20)
+    //p.position = Cesium.Cartesian3.fromDegrees(longitudeString + numbers, latitudeString, height - 10)
 }
-var emitterModelMatrix = new Cesium.Matrix4();
-var translation = new Cesium.Cartesian3();
-var rotation = new Cesium.Quaternion();
-var hpr = new Cesium.HeadingPitchRoll();
-var trs = new Cesium.TranslationRotationScale();
 function computeEmitterModelMatrix() {
-    hpr = Cesium.HeadingPitchRoll.fromDegrees(0.0, 0.0, 0.0, hpr);
-    trs.translation = Cesium.Cartesian3.fromElements(-4.0, 0.0, 1.4, translation);
-    trs.rotation = Cesium.Quaternion.fromHeadingPitchRoll(hpr, rotation);
-
-    return Cesium.Matrix4.fromTranslationRotationScale(trs, emitterModelMatrix);
+    let hpr = Cesium.HeadingPitchRoll.fromDegrees(0, 0, 0, new Cesium.HeadingPitchRoll());
+    var trs = new Cesium.TranslationRotationScale();
+    trs.translation = Cesium.Cartesian3.fromElements(0, 0, 0, new Cesium.Cartesian3());
+    trs.rotation = Cesium.Quaternion.fromHeadingPitchRoll(hpr, new Cesium.Quaternion());
+    return Cesium.Matrix4.fromTranslationRotationScale(trs, new Cesium.Matrix4());
 }
+
 export default Map

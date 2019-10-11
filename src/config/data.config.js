@@ -49,7 +49,7 @@ const tileset3dtilesUrl = {
         {
             "id":4,
             "name": "污水场-2",
-            "url": "http://localhost:8080/Apps/SampleData/ws-2/ws/tileset.json"
+            "url": "http://localhost:8080/Apps/SampleData/ws3/ws/tileset.json"
         },
         {
             "id":5,
