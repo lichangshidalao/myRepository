@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Cesium from "cesium/Cesium";
 import viewerInit from "../CesiumViewer/viewer";
-import './viewer.css';
+import '../component/viewer.css';
 import { height } from 'window-size';
 
 

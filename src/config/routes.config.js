@@ -8,7 +8,7 @@ import BillboardLabel from "../containers/component/BillboardLabel";
 import Tileset3dtiles from "../containers/component/Tileset3dtiles";
 import IonExample from "../containers/component/IonExample";
 import TilesetStyle from "../containers/component/TilesetStyle"
-import TransformTileset from "../containers/component/TransformTileset";
+import TransformTileset from "../containers/component/TransformTilesetA";
 import DrawEntity from "../containers/component/DrawEntity"
 import Shangdi from "../containers/component/Shangdi"
 import DataSources from "../containers/component/DataSources"
@@ -22,8 +22,8 @@ import EchartCesium from "../containers/component/EchartCesium"
 import SelectionInquire from "../containers/component/SelectionInquire"
 import Shigongmoni from "../containers/component/shigongmoni"
 import Layermanage from "../containers/component/LayerManage"
-import Webglbase from "../containers/component/Webglbase"
-import Webglbase_02 from "../containers/component/Webglbase_02"
+import Webglbase from "../containers/webgl/Webglbase"
+import Webglbase_02 from "../containers/webgl/Webglbase_02"
 import PolyM from "../containers/component/PolyM"
 import PolyLines from "../containers/component/PolyLines"
 import PropertyExample from "../containers/component/PropertyExample"
@@ -39,6 +39,8 @@ import FlyModels from "../containers/component/FlyModels"
 import Jichang from "../containers/component/Jichang"
 import LizhiforShanXia from "../containers/component/LizhiforShanXia"
 import Clamp3dtile from "../containers/component/Clamp3dtile"
+import ShanxiaPh from "../containers/component/ShanxiaPh"
+import Webglbase_03 from "../containers/webgl/Webglbase_03"
 
 const ROUTERS = [
     {
@@ -338,6 +340,15 @@ const ROUTERS = [
                 disabled: false
             },
             {
+                key: 'ShanxiaPh',
+                link: '/ShanxiaPh',
+                text: '三峡',
+                component: ShanxiaPh,
+                type: 'item',
+                child: [],
+                disabled: false
+            },
+            {
                 key: 'BaiduModel',
                 link: '/BaiduModel',
                 text: '百度模式',
@@ -450,6 +461,15 @@ const ROUTERS = [
                 link: '/Webglbase_02',
                 text: '渐变三角 图片纹理',
                 component: Webglbase_02,
+                type: 'item',
+                child: [],
+                disabled: false
+            },
+            {
+                key: 'Webglbase_03',
+                link: '/Webglbase_03',
+                text: '渐变立方体 图片纹理 旋转',
+                component: Webglbase_03,
                 type: 'item',
                 child: [],
                 disabled: false

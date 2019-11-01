@@ -104,9 +104,17 @@ const tileset3dtilesUrl = {
             "id":14,
             "name": "shanxia",
             "url": "http://localhost:8080/Apps/SampleData/shanxia/tileset.json"
+        },
+        {
+            "id":15,
+            "name": "huatai",
+            "url": "http://localhost:8080/Apps/SampleData/huatai/tileset.json"
+        },
+        {
+            "id":16,
+            "name": "shanxia2",
+            "url": "http://localhost:8080/Apps/SampleData/PhShanxia/tileset.json"
         }
-
-
     ]
 }
 

@@ -138,7 +138,7 @@ class BingMap extends Component {
                 viewer.clock.shouldAnimate = true
                 break
             case "maxlaogang":
-                let laogangMax=add3dtiles(viewer, tileset3dtilesUrl.bimModel[9].url)
+                let laogangMax = add3dtiles(viewer, tileset3dtilesUrl.bimModel[9].url)
                 // laogangMax.readyPromise.then(function (laogangMax) {
                 //     let shadowMap = viewer.shadowMap;
                 //     viewer.shadows = true
@@ -148,12 +148,16 @@ class BingMap extends Component {
                 //     viewer.clock.multiplier = 6000.0;
                 // })
                 break
+            case "huatai":
+                let huatai = add3dtiles(viewer, tileset3dtilesUrl.bimModel[14].url)
+                break
         }
     }
     render() {
         return (
             <div className="map-image" ref="map" id="cesiumContain">
                 <Select defaultValue="click me" className="bingMapStyle" onChange={this.handleChange}>
+                    <Option value="huatai">华泰</Option>
                     <Option value="photography_osgb">保利osgb倾斜模型</Option>
                     <Option value="city_newyork">纽约城市模型</Option>
                     <Option value="city_chongqin">重庆智慧园区</Option>
