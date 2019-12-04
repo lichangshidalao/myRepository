@@ -21,7 +21,7 @@ class Map extends Component {
                 for (let i = 0; i < p.length; i++) {
                     p[i].polygon.extrudedHeight = p[i].properties.elevation.getValue();
                     //p[i].polygon.extrudedHeight = Math.round(Math.random()*10000)
-                    p[i].polygon.outlineColor = Cesium.Color.GREEN
+                    p[i].polygon.outlineColor = Cesium.Color.fromRandom()
                     p[i].polygon.outlineWidth = 3
                 }
             });

@@ -24,6 +24,20 @@ class BingMap extends Component {
         viewer.shadows = true
         //viewer.extend(Cesium.viewerCesium3DTilesInspectorMixin);
         addBingMapLayer(viewer, Cesium.BingMapsStyle.CANVAS_LIGHT)
+        let pickhandle = new Cesium.ScreenSpaceEventHandler(viewer.scene.canvas)
+        pickhandle.setInputAction((movement) => {
+            let pickedFeature = viewer.scene.pick(movement.position);
+            if (pickedFeature instanceof Cesium.Cesium3DTileFeature) {
+                var propertyNames = pickedFeature.getPropertyNames();
+                var length = propertyNames.length;
+                for (var i = 0; i < length; ++i) {
+                    var propertyName = propertyNames[i];
+                    console.log(propertyName + ': ' + pickedFeature.getProperty(propertyName));
+                }
+                //pickArray.push(pickedFeature)
+                console.log(pickedFeature.getProperty("name"))
+            }
+        }, Cesium.ScreenSpaceEventType.LEFT_CLICK)
     }
     handleChange(value) {
         switch (value) {
@@ -74,19 +88,6 @@ class BingMap extends Component {
                 const bimZhuhe = add3dtiles(viewer, tileset3dtilesUrl.bimModel[7].url)
                 bimZhuhe.colorBlendMode = Cesium.Cesium3DTileColorBlendMode.REPLACE;
                 let pickArray = []
-                let pickhandle = new Cesium.ScreenSpaceEventHandler(viewer.scene.canvas)
-                pickhandle.setInputAction((movement) => {
-                    let pickedFeature = viewer.scene.pick(movement.position);
-                    if (pickedFeature instanceof Cesium.Cesium3DTileFeature) {
-                        var propertyNames = pickedFeature.getPropertyNames();
-                        var length = propertyNames.length;
-                        for (var i = 0; i < length; ++i) {
-                            var propertyName = propertyNames[i];
-                            console.log(propertyName + ': ' + pickedFeature.getProperty(propertyName));
-                        }
-                        pickArray.push(pickedFeature)
-                    }
-                }, Cesium.ScreenSpaceEventType.LEFT_CLICK)
                 bimZhuhe.tileVisible.addEventListener((tile) => {
                     var content = tile.content;
                     var featuresLength = content.featuresLength;
