@@ -19,7 +19,7 @@ const cameraPosition = (viewer) => {
         cameraArray.push(cameraLongitude)
         cameraArray.push(cameraLatitude)
         cameraArray.push(cameraHeight)
-        cameraArray.push(cameraHeading)
+        cameraArray.push(camera.heading)
         cameraArray.push(camera.pitch)
         cameraArray.push(camera.roll)
     });

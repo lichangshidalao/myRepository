@@ -105,7 +105,7 @@ class Map extends Component {
         var particleSystem = viewer.scene.primitives.add(new Cesium.ParticleSystem({
             // Particle appearance
             image: smoke,
-            startColor: Cesium.Color.LIGHTSEAGREEN.withAlpha(0.7),
+            startColor: Cesium.Color.LIGHTSEAGREEN.withAlpha(0.6),
             endColor: Cesium.Color.WHITE.withAlpha(0.0),
             startScale: 6.0,
             endScale: 10.0,
