@@ -62,8 +62,6 @@ class TerrainMap extends Component {
             destination: Cesium.Cartesian3.fromDegrees(106.61555630933752, 29.57325490506234, 28000), // 设置位置
             orientation: {
                 heading: Cesium.Math.toRadians(191.33645721607235), // 方向
-                // pitch: Cesium.Math.toRadians(-0.2715277692998441),// 倾斜角度
-                // roll: 6.282501220859469
             }
         });
     }

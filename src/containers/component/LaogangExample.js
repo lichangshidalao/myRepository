@@ -7,6 +7,8 @@ import { update3dtilesMaxtrix } from "../CesiumViewer/3dtiles/transformTileset";
 import green from '../img/green2.jpg'
 import './viewer.css';
 import { IntegerStep } from '../antdComponent/slider';
+import colorImage from "../img/colors.png"
+
 
 let viewer, tileset
 //示例数据
@@ -50,13 +52,13 @@ class Map extends Component {
             rectangle: rectangle,
             maximumLevel: 16,
         }), {
-                show: true
-            });
+            show: true
+        });
         viewer.imageryLayers.add(imagelayers);
         // tileset = new Cesium.Cesium3DTileset({
         //     url: 'http://172.16.108.203:9002/api/folder/3c744bce08944c1eaa556a425010e55e/tileset.json'
         // });
-        
+
 
 
 
@@ -75,9 +77,41 @@ class Map extends Component {
             shadowMap.maxmimumDistance = 10000.0;
             tileset.maximumScreenSpaceError = 1
         })
+        tileset.style = new Cesium.Cesium3DTileStyle({
+            meta: {
+                description: '"Building id ${id} has height ${Height}."'
+            }
+        });
+        var fs =
+            'uniform sampler2D colorTexture;\n' +
+            'varying vec2 v_textureCoordinates;\n' +
+            'uniform vec4 highlight;\n' +
+            'void main() {\n' +
+            '    vec4 color = texture2D(colorTexture, v_textureCoordinates);\n' +
+            '    if (czm_selected()) {\n' +
+            '        vec3 highlighted = highlight.a * highlight.rgb + (1.0 - highlight.a) * color.rgb;\n' +
+            '        gl_FragColor = vec4(highlighted, 1.0);\n' +
+            '    } else { \n' +
+            '        gl_FragColor = color;\n' +
+            '    }\n' +
+            '}\n';
+
+
         let pickhandle = new Cesium.ScreenSpaceEventHandler(viewer.scene.canvas)
-        pickhandle.setInputAction((momvent) => {
-            console.log(viewer.clock.currentTime)
+        pickhandle.setInputAction((movement) => {
+            let pickedFeature = viewer.scene.pick(movement.position);
+            if (pickedFeature instanceof Cesium.Cesium3DTileFeature) {
+                var stage = viewer.scene.postProcessStages.add(new Cesium.PostProcessStage({
+                    fragmentShader: fs,
+                    uniforms: {
+                        highlight: function () {
+                            return new Cesium.Color(1.0, 0.0, 0.0, 0.5);
+                        },
+                        image: colorImage
+                    }
+                }));
+                stage.selected = [pickedFeature]
+            }
         }, Cesium.ScreenSpaceEventType.LEFT_CLICK)
     }
     getColorR(value) {

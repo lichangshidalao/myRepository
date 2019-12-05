@@ -1,6 +1,7 @@
 import Cesium from "cesium/Cesium";
 import poi from "../img/poi.png"
 
+console.log(Cesium)
 const pinBuilder = new Cesium.PinBuilder();
 const positions = Cesium.Cartesian3.fromDegrees(116.30556276328068, 40.02850674067971)
 const billboardLabelPin = (viewer, position = positions, texts = "this is pin") => {

@@ -184,7 +184,7 @@ const ROUTERS = [
                 component: BillboardLabel,
                 type: 'item',
                 child: [],
-                disabled: false
+                disabled: true
             },
             {
                 key: 'DrawEntity',

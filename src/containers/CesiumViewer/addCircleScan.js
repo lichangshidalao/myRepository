@@ -84,7 +84,10 @@ function AddCircleScanPostStage(viewer, cartographicCenter, maxRadius, scanColor
 
 }
 function addCircleScan(viewer, data) {
-    viewer.scene.globe.depthTestAgainstTerrain = true; //防止移动、放大缩小会视觉偏移depthTestAgainstTerrain // 设置该属性为true之后，标绘将位于地形的顶部；如果设为false（默认值），那么标绘将位于平面上。缺陷：开启该属性有可能在切换图层时会引发标绘消失的bug。
+    //防止移动、放大缩小会视觉偏移depthTestAgainstTerrain
+    //设置该属性为true之后，标绘将位于地形的顶部；如果设为false（默认值），那么标绘将位于平面上。
+    //缺陷：开启该属性有可能在切换图层时会引发标绘消失的bug。
+    viewer.scene.globe.depthTestAgainstTerrain = true;
     var CartographicCenter = new Cesium.Cartographic(Cesium.Math.toRadians(data.lon), Cesium.Math.toRadians(data.lat), 0); //中心位子
     return AddCircleScanPostStage(viewer, CartographicCenter, data.r, data.scanColor, data.interval);
 }
