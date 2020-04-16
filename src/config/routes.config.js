@@ -42,6 +42,7 @@ import Clamp3dtile from "../containers/component/Clamp3dtile"
 import ShanxiaPh from "../containers/component/ShanxiaPh"
 import Webglbase_03 from "../containers/webgl/Webglbase_03"
 import Roaming from "../containers/component/Roaming"
+import FullColor from '../containers/component/FullColor'
 
 const ROUTERS = [
     {
@@ -98,10 +99,10 @@ const ROUTERS = [
         disabled: false,
         child: [
             {
-                key: 'SceneCover',
-                link: '/SceneCover',
-                text: '场景蒙皮',
-                component: SceneCover,
+                key: 'FullColor',
+                link: '/FullColor',
+                text: '全屏动态颜色',
+                component: FullColor,
                 type: 'item',
                 child: [],
                 disabled: false
