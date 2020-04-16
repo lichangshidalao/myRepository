@@ -16,10 +16,33 @@ class Map extends Component {
     }
     componentDidMount() {
         viewer = viewerInit(this.refs.map)
+        let promise = Cesium.Resource.fetchJson('http://localhost:8080/Apps/SampleData/sf.geojson')
+        let arr = []
+        promise.then(function (dataSource) {
+            let feature = dataSource.features
+            for (let i of feature) {
+                arr.push(i.geometry.coordinates)
+                viewer.entities.add({
+                    position : Cesium.Cartesian3.fromDegrees(i.geometry.coordinates[0],i.geometry.coordinates[1]),
+                    point : {
+                        show : true, // default
+                        color : Cesium.Color.SKYBLUE, // default: WHITE
+                        pixelSize : 10, // default: 1
+                        outlineColor : Cesium.Color.YELLOW, // default: BLACK
+                        outlineWidth : 3 // default: 0
+                    }
+                });
+            }
+            console.log(arr)
+        }).otherwise(function (error) {
+            //Display any errrors encountered while loading.
+            window.alert(error);
+        });
     }
     handleChange(value) {
         viewer.imageryLayers.removeAll()
         addTdtMap(viewer, value)
+
     }
     render() {
         return (

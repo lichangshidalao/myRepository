@@ -159,7 +159,9 @@ const AMAP_CONFIG = {
 const model_config = {
     //等高线
     contour: "http://localhost:8080/Apps/SampleData/rainier-countours.geojson",
-    beijing: "http://localhost:8080/Apps/SampleData/beijing.json"
+    beijing: "http://localhost:8080/Apps/SampleData/beijing.json",
+    cesiumAir:"http://localhost:8080/Apps/SampleData/models/CesiumAir/Cesium_Air.glb"
+
 }
 
 //tree data

@@ -139,15 +139,22 @@ class BingMap extends Component {
                 viewer.clock.shouldAnimate = true
                 break
             case "maxlaogang":
-                let laogangMax = add3dtiles(viewer, tileset3dtilesUrl.bimModel[9].url)
-                // laogangMax.readyPromise.then(function (laogangMax) {
-                //     let shadowMap = viewer.shadowMap;
-                //     viewer.shadows = true
-                //     shadowMap.maxmimumDistance = 10000.0;
-                //     let startTime = new Cesium.JulianDate(2458696, 57273.178999936106)
-                //     viewer.clock.startTime = startTime
-                //     viewer.clock.multiplier = 6000.0;
-                // })
+                var tileset = viewer.scene.primitives.add(
+                    new Cesium.Cesium3DTileset({
+                        url: "http://59.110.157.48/data/models/guangchang/tileset.json"
+                    })
+                );
+                tileset.readyPromise.then(function (tileset) {
+                    viewer.zoomTo(tileset, new Cesium.HeadingPitchRange(0.5, -0.2, tileset.boundingSphere.radius * 4.0));
+                    tileset.maximumScreenSpaceError = 1
+                    tileset.dynamicScreenSpaceError = true
+                    tileset.maximumMemoryUsage = 2048
+                    tileset.preferLeaves = true
+                    tileset.immediatelyLoadDesiredLevelOfDetail = true
+                }).otherwise(function (error) {
+                    console.log(error);
+                });
+
                 break
             case "huatai":
                 let huatai = add3dtiles(viewer, tileset3dtilesUrl.bimModel[14].url)
@@ -168,7 +175,7 @@ class BingMap extends Component {
                     <Option value="jingjian-ws">精简污水</Option>
                     <Option value="ws-2">污水2</Option>
                     <Option value="ball">球</Option>
-                    <Option value="maxlaogang">max老港</Option>
+                    <Option value="maxlaogang">bim建筑物</Option>
                 </Select>
             </div>
         );

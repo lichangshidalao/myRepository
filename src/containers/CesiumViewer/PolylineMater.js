@@ -62,7 +62,7 @@ Cesium.Material._materialCache.addMaterial(Cesium.Material.PolylineTrailLinkType
         uniforms: {
             color: new Cesium.Color(1.0, 0.0, 0.0, 0.5),
             image: Cesium.Material.PolylineTrailLinkImage,
-            time: 0
+            time: 0.5
         },
         source: Cesium.Material.PolylineTrailLinkSource
     },

@@ -41,6 +41,7 @@ import LizhiforShanXia from "../containers/component/LizhiforShanXia"
 import Clamp3dtile from "../containers/component/Clamp3dtile"
 import ShanxiaPh from "../containers/component/ShanxiaPh"
 import Webglbase_03 from "../containers/webgl/Webglbase_03"
+import Roaming from "../containers/component/Roaming"
 
 const ROUTERS = [
     {
@@ -245,6 +246,15 @@ const ROUTERS = [
                 link: '/DynamicDiv',
                 text: '自定义柱体弹窗',
                 component: DynamicDiv,
+                type: 'item',
+                child: [],
+                disabled: false
+            },
+            {
+                key: '',
+                link: '/Roaming',
+                text: 'Roaming',
+                component: Roaming,
                 type: 'item',
                 child: [],
                 disabled: false
