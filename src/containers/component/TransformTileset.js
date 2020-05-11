@@ -55,7 +55,7 @@ class Map extends Component {
         viewer.clock.multiplier = 1
         viewer.clock.shouldAnimate = true
         viewer.clock.clockStep = Cesium.ClockStep.SYSTEM_CLOCK_MULTIPLIER; // 时钟设置为当前系统时间; 忽略所有其他设置。
-        tileset = add3dtiles(viewer, tileset3dtilesUrl.bimModel[13].url)
+        tileset = add3dtiles(viewer, tileset3dtilesUrl.bimModel[16].url)
         tileset.readyPromise.then(function (tileset) {
             //深拷贝
             originalParam = JSON.parse(JSON.stringify(params))
@@ -178,7 +178,7 @@ const setFlagStatus = (key, value) => {
             break;
         case 88:
             // +
-            numZ += 1
+            numZ += 10
             break;
         case 90:
             // +

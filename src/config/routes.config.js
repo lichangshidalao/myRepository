@@ -8,7 +8,7 @@ import BillboardLabel from "../containers/component/BillboardLabel";
 import Tileset3dtiles from "../containers/component/Tileset3dtiles";
 import IonExample from "../containers/component/IonExample";
 import TilesetStyle from "../containers/component/TilesetStyle"
-import TransformTileset from "../containers/component/TransformTilesetA";
+import TransformTileset from "../containers/component/TransformTileset";
 import DrawEntity from "../containers/component/DrawEntity"
 import Shangdi from "../containers/component/Shangdi"
 import DataSources from "../containers/component/DataSources"
@@ -43,6 +43,11 @@ import ShanxiaPh from "../containers/component/ShanxiaPh"
 import Webglbase_03 from "../containers/webgl/Webglbase_03"
 import Roaming from "../containers/component/Roaming"
 import FullColor from '../containers/component/FullColor'
+import FeaturePickLight from '../containers/component/FeaturePickLight'
+import GlslColor from '../containers/component/GlslColor'
+import GlslShake from '../containers/component/GlslShake'
+import Fenping from '../containers/component/Fenping'
+import FeaturePickShake from '../containers/component/FeaturePickShake'
 
 const ROUTERS = [
     {
@@ -103,6 +108,51 @@ const ROUTERS = [
                 link: '/FullColor',
                 text: '全屏动态颜色',
                 component: FullColor,
+                type: 'item',
+                child: [],
+                disabled: false
+            },
+            {
+                key: 'GlslColor',
+                link: '/GlslColor',
+                text: 'Glsl颜色特效',
+                component: GlslColor,
+                type: 'item',
+                child: [],
+                disabled: false
+            },
+            {
+                key: 'GlslShake',
+                link: '/GlslShake',
+                text: '屏幕特效',
+                component: GlslShake,
+                type: 'item',
+                child: [],
+                disabled: false
+            },
+            {
+                key: 'Fenping',
+                link: '/Fenping',
+                text: '分屏',
+                component: Fenping,
+                type: 'item',
+                child: [],
+                disabled: false
+            },
+            {
+                key: 'FeaturePickLight',
+                link: '/FeaturePickLight',
+                text: '动态高亮',
+                component: FeaturePickLight,
+                type: 'item',
+                child: [],
+                disabled: false
+            },
+            {
+                key: 'FeaturePickShake',
+                link: '/FeaturePickShake',
+                text: 'pickShake',
+                component: FeaturePickShake,
                 type: 'item',
                 child: [],
                 disabled: false
