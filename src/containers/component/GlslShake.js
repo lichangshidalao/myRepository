@@ -15,6 +15,7 @@ class Map extends Component {
     }
     componentDidMount() {
         viewer = viewerInit(this.refs.map)
+        viewer.shouldAnimate = true
         var fs =
             'uniform sampler2D colorTexture;\n' +
             'varying vec2 v_textureCoordinates;\n' +
@@ -33,6 +34,15 @@ class Map extends Component {
                 vibrance: 1
             }
         }));
+        var position = Cesium.Cartesian3.fromDegrees(-123.0744619, 44.0503706);
+        var url = "http://localhost:8080/Apps/SampleData/models/CesiumMan/Cesium_Man.glb";
+        viewer.trackedEntity = viewer.entities.add({
+            name: url,
+            position: position,
+            model: {
+                uri: url,
+            },
+        });
     }
     handleChange(value) {
         viewer.scene.postProcessStages.removeAll()
@@ -149,6 +159,30 @@ class Map extends Component {
                     gl_FragColor = mask * (1.0 - amplitude) + whiteMask * amplitude;
                 }`
                 break;
+            case 'shendu':
+                fs = `
+                uniform sampler2D colorTexture;
+                varying vec2 v_textureCoordinates;
+                uniform sampler2D depthTexture;
+                float near = 0.1; 
+                float far  = 100.0; 
+                float getDepth(in vec4 depth){
+                float z_window = czm_unpackDepth(depth);
+                    z_window = czm_reverseLogDepth(z_window);
+                    float n_range = czm_depthRange.near;
+                    float f_range = czm_depthRange.far;
+                    return (2.0 * z_window - n_range - f_range) / (f_range - n_range);
+                }
+                float LinearizeDepth(float depth) {
+                    float z = depth * 2.0 - 1.0; // back to NDC 
+                    return (2.0 * near * far) / (far + near - z * (far - near));    
+                }
+                void main(){             
+                    float depth = getDepth( texture2D(depthTexture, v_textureCoordinates));
+                    float depth2 = LinearizeDepth(depth) / far; 
+                    gl_FragColor = vec4(vec3(depth2), 1.0);
+                }`
+                break;
             default:
                 throw new Error('不支持的特效类型：' + value);
         }
@@ -166,6 +200,7 @@ class Map extends Component {
         return (
             <div className="map-image" ref="map" id="cesiumContain" >
                 <Select defaultValue="click me" className="bingMapStyle" onChange={this.handleChange}>
+                    <Option value="shendu">深度图</Option>
                     <Option value="laozhaopian">灵魂出窍</Option>
                     <Option value="darkgreen">抖动</Option>
                     <Option value="freeze">毛刺</Option>

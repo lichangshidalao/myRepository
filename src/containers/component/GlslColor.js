@@ -116,6 +116,30 @@ class Map extends Component {
                     ' gl_FragColor.a = 1.0;\n' +
                     '}\n';
                 break;
+            case 'gerys':
+                fs = `
+                uniform sampler2D colorTexture;
+                varying vec2 v_textureCoordinates;
+                const highp vec3 W = vec3(0.2125, 0.7154, 0.0721);
+                
+                void main()
+                {
+                    lowp vec4 textureColor = texture2D(colorTexture, v_textureCoordinates);
+                    float luminance = dot(textureColor.rgb, W);
+                    
+                    gl_FragColor = vec4(vec3(luminance), textureColor.a);
+                }`
+                break;
+            case 'daozhi':
+                fs = `
+                varying vec2 colorTexture;
+                uniform sampler2D v_textureCoordinates;
+                void main()
+                {
+                    vec4 color = texture2D(colorTexture, vec2(v_textureCoordinates.x, 1.0 - v_textureCoordinates.y));
+                    gl_FragColor = color;
+                }`
+
             default:
                 throw new Error('不支持的特效类型：' + value);
         }
@@ -133,6 +157,8 @@ class Map extends Component {
                     <Option value="rongzhu">熔铸</Option>
                     <Option value="dark">暗调</Option>
                     <Option value="Swap">对调</Option>
+                    <Option value="gerys">灰度图</Option>
+                    {/* <Option value="daozhi">颠倒</Option> */}
                 </Select>
             </div>
         );
