@@ -33,6 +33,16 @@ class Map extends Component {
                 vibrance: 1
             }
         }));
+        var position = Cesium.Cartesian3.fromDegrees(116.2317, 39.5427);
+        var url = "http://localhost:8080/Apps/SampleData/models/CesiumMan/Cesium_Man.glb";
+        var entity = viewer.entities.add({
+            name: url,
+            position: position,
+            model: {
+                uri: url,
+            },
+        });
+        viewer.trackedEntity = entity
     }
     handleChange(value) {
         viewer.scene.postProcessStages.removeAll()
@@ -132,18 +142,55 @@ class Map extends Component {
                 break;
             case 'daozhi':
                 fs = `
-                varying vec2 colorTexture;
-                uniform sampler2D v_textureCoordinates;
+                uniform sampler2D colorTexture;
+                varying vec2 v_textureCoordinates;
                 void main()
                 {
                     vec4 color = texture2D(colorTexture, vec2(v_textureCoordinates.x, 1.0 - v_textureCoordinates.y));
                     gl_FragColor = color;
                 }`
+                break;
+            case 'Vignette':
+                fs = `
+                uniform sampler2D colorTexture;
+                varying vec2 v_textureCoordinates;
+                    void main()
+                    {
+                        vec2 uv = v_textureCoordinates;
 
+                        uv *=  1.0 - uv.yx;   //vec2(1.0)- uv.yx; -> 1.-u.yx; Thanks FabriceNeyret !
+    
+                        float vig = uv.x*uv.y * 15.0; // multiply with sth for intensity
+    
+                        vig = pow(vig, 0.25); // change pow for modifying the extend of the  vignette
+
+                        vec4 color = texture2D(colorTexture, v_textureCoordinates);
+
+                        gl_FragColor = vec4(vig) * color;
+                    }`
+                break;
+            case 'FrostedGlass':
+                fs = `
+                    uniform sampler2D colorTexture;
+                    varying vec2 v_textureCoordinates;
+                    float rand(vec2 uv) {
+                        float a = dot(uv, vec2(92.0, 80.0));
+                        float b = dot(uv, vec2(41.0, 62.0));
+                        float x = (sin(a) + cos(b)) * 51.0;
+                        return fract(x);
+                    }
+                        void main()
+                        {
+                            vec2 uv = v_textureCoordinates;
+                            vec2 rnd = vec2(rand(uv), rand(uv));
+                            uv += rnd * 0.05;
+                            gl_FragColor = texture2D(colorTexture, uv);
+                        }`
+                break;
             default:
                 throw new Error('不支持的特效类型：' + value);
         }
-        viewer.scene.postProcessStages.add(new Cesium.PostProcessStage({
+        var stage = viewer.scene.postProcessStages.add(new Cesium.PostProcessStage({
             fragmentShader: fs
         }));
     }
@@ -158,7 +205,9 @@ class Map extends Component {
                     <Option value="dark">暗调</Option>
                     <Option value="Swap">对调</Option>
                     <Option value="gerys">灰度图</Option>
-                    {/* <Option value="daozhi">颠倒</Option> */}
+                    <Option value="Vignette">Vignette</Option>
+                    <Option value="daozhi">颠倒</Option>
+                    <Option value="FrostedGlass">Frosted Glass</Option>
                 </Select>
             </div>
         );

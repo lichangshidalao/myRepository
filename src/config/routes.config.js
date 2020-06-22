@@ -8,7 +8,7 @@ import BillboardLabel from "../containers/component/BillboardLabel";
 import Tileset3dtiles from "../containers/component/Tileset3dtiles";
 import IonExample from "../containers/component/IonExample";
 import TilesetStyle from "../containers/component/TilesetStyle"
-import TransformTileset from "../containers/component/TransformTileset";
+import TransformTileset from "../containers/component/TransformTilesetA";
 import DrawEntity from "../containers/component/DrawEntity"
 import Shangdi from "../containers/component/Shangdi"
 import DataSources from "../containers/component/DataSources"

@@ -58,17 +58,17 @@ class Maps extends Component {
         tileset.readyPromise.then((tileset) => {
             tilesetMat = update3dtilesMaxtrix(tileset, params)
             tileset.colorBlendMode = Cesium.Cesium3DTileColorBlendMode.HIGHLIGHT;
-            viewer.camera.flyTo({
-                destination: Cesium.Cartesian3.fromDegrees(119.0863200518221, 32.26306790366665, 141.07604784710622),
-                orientation: {
-                    heading: Cesium.Math.toRadians(356.4567557519004),
-                    pitch: Cesium.Math.toRadians(-15),
-                    roll: 6.282986978306287
-                }
-            });
-            console.log('Maximum building height: ' + tileset.properties.height.maximum);
-            console.log('Minimum building height: ' + tileset.properties.height.minimum);
-            //viewer.zoomTo(tileset)
+            // viewer.camera.flyTo({
+            //     destination: Cesium.Cartesian3.fromDegrees(119.0863200518221, 32.26306790366665, 141.07604784710622),
+            //     orientation: {
+            //         heading: Cesium.Math.toRadians(356.4567557519004),
+            //         pitch: Cesium.Math.toRadians(-15),
+            //         roll: 6.282986978306287
+            //     }
+            // });
+            // console.log('Maximum building height: ' + tileset.properties.height.maximum);
+            // console.log('Minimum building height: ' + tileset.properties.height.minimum);
+            viewer.zoomTo(tileset)
             tileset.tileVisible.addEventListener(function (tile) {
                 content = tile.content
                 let featuresLength = content.featuresLength;
@@ -112,7 +112,6 @@ class Maps extends Component {
                 <div className="map-image" ref="map" id="cesiumContain">
                     <div className="treeStyleBox">
                         {modelTree ? <Tree
-                            className="treeStyle"
                             onSelect={this.onSelect.bind(this)}
                             onCheck={this.onCheck.bind(this)}
                         >

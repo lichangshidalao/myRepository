@@ -73,9 +73,8 @@
 
 .treeStyle {
   position: absolute;
-  width: 250px;
+  width: 300px;
   top: 30px;
-  left: 300px;
   z-index: 100;
 }
 
