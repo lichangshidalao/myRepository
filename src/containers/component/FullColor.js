@@ -62,6 +62,7 @@ class Map extends Component {
                 vigScale: function () {
                     if (shrink) {
                         startVig += 0.1
+                        
                     } else {
                         startVig -= 0.1
                     }
