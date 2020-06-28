@@ -80,7 +80,7 @@ class Map extends Component {
         viewer.clock.multiplier = 1
         viewer.clock.shouldAnimate = true
 
-        tileset = add3dtiles(viewer, tileset3dtilesUrl.bimModel[15].url, false)
+        tileset = add3dtiles(viewer, tileset3dtilesUrl.bimModel[13].url, false)
         tileset.readyPromise.then(function (tileset) {
             update3dtilesMaxtrix(tileset, params)
             tileset.maximumScreenSpaceError = 1
