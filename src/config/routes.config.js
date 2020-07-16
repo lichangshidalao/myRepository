@@ -48,6 +48,7 @@ import GlslColor from '../containers/component/GlslColor'
 import GlslShake from '../containers/component/GlslShake'
 import Fenping from '../containers/component/Fenping'
 import FeaturePickShake from '../containers/component/FeaturePickShake'
+import BaiduModelGai from '../containers/component/BaiduModelGai'
 
 const ROUTERS = [
     {
@@ -236,7 +237,7 @@ const ROUTERS = [
                 component: BillboardLabel,
                 type: 'item',
                 child: [],
-                disabled: true
+                disabled: false
             },
             {
                 key: 'DrawEntity',
@@ -414,6 +415,15 @@ const ROUTERS = [
                 link: '/BaiduModel',
                 text: '百度模式',
                 component: BaiduModel,
+                type: 'item',
+                child: [],
+                disabled: false
+            },
+            {
+                key: 'BaiduModelGai',
+                link: '/BaiduModelGai',
+                text: '模型动画',
+                component: BaiduModelGai,
                 type: 'item',
                 child: [],
                 disabled: false
