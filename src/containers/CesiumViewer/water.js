@@ -1,4 +1,4 @@
-import Cesium from "cesium/Cesium";
+import * as Cesium from "cesium/Cesium";
 import water from "../img/water.png"
 //degreesArrayHeights是一个组成多边形顶点数组[lon,lat,alt]
 const CreateGeometry = (degreesArrayHeights, extrudedHeight) => {

@@ -1,4 +1,4 @@
-import Cesium from "cesium/Cesium";
+import * as Cesium from "cesium/Cesium";
 
 
 const addBingMapLayer = (viewer, mapStyle = Cesium.BingMapsStyle.CANVAS_GRAY) => {

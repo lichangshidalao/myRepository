@@ -1,5 +1,5 @@
 
-import Cesium from "cesium/Cesium";
+import * as Cesium from "cesium/Cesium";
 import colorImage from "../img/colors.png"
 /*
   流动纹理线

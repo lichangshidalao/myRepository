@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Cesium from "cesium/Cesium";
+import * as Cesium from "cesium/Cesium";
 import viewerInit from "../CesiumViewer/viewer";
 import { update3dtilesMaxtrix } from "../CesiumViewer/3dtiles/transformTileset";
 import transformTileset from "../CesiumViewer/3dtiles/transformTileset";

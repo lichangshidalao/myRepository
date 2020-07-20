@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Cesium } from "../CesiumViewer/PolylineMater"
+import * as Cesium from "cesium/Cesium";
 import viewerInit from "../CesiumViewer/viewer";
 import bjLoad from "../../data/bj/bjxcxd_03.json"
 import { addTdtMap } from "../CesiumViewer/addTdtMap";

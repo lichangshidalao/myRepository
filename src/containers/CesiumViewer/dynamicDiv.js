@@ -1,4 +1,4 @@
-import Cesium from "cesium/Cesium";
+import * as Cesium from "cesium/Cesium";
 import circle1 from "../img/circle1.png"
 import circle2 from "../img/circle2.png"
 /**

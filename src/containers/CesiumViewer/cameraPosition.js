@@ -1,4 +1,4 @@
-import Cesium from "cesium/Cesium";
+import * as Cesium from "cesium/Cesium";
 //获取相机位置
 const cameraPosition = (viewer) => {
     let cameraLongitude = 0,

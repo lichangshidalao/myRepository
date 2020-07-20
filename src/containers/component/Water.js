@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Cesium from "cesium/Cesium";
+import * as Cesium from "cesium/Cesium";
 import viewerInit from "../CesiumViewer/viewer";
 import { CreateGeometry, CreateAppearence, FSWaterFace } from "../CesiumViewer/water"
 import water from "../img/water.png"

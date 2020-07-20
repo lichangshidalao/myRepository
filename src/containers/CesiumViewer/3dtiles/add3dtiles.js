@@ -1,4 +1,4 @@
-import Cesium from "cesium/Cesium";
+import * as Cesium from "cesium/Cesium";
 const add3dtiles = (viewer, url, focus = true) => {
     const scene = viewer.scene
     const tileset = scene.primitives.add(

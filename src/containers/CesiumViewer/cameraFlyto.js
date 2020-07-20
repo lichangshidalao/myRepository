@@ -1,4 +1,4 @@
-import Cesium from "cesium/Cesium";
+import * as Cesium from "cesium/Cesium";
 import { getLonLat } from "../CesiumViewer/getLonLat";
 let positions = Cesium.Cartesian3.fromDegrees(-73.98580932617188, 40.74843406689482, 363.34038727246224)
 let headings = Cesium.Math.toRadians(0)

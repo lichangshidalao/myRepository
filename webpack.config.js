@@ -29,7 +29,11 @@ module.exports = [{
     },
     node: {
         // Resolve node module use of fs
-        fs: "empty"
+        fs: "empty",
+        Buffer: false,
+        http: "empty",
+        https: "empty",
+        zlib: "empty"
     },
     resolve: {
         alias: {
@@ -69,21 +73,14 @@ module.exports = [{
         new HtmlWebpackPlugin({
             template: 'src/index.html'
         }),
-        // Copy Cesium Assets, Widgets, and Workers to a static directory
-        new CopyWebpackPlugin([{ from: path.join(cesiumSource, cesiumWorkers), to: 'Workers' }]),
-        new CopyWebpackPlugin([{ from: path.join(cesiumSource, 'Assets'), to: 'Assets' }]),
-        new CopyWebpackPlugin([{ from: path.join(cesiumSource, 'Widgets'), to: 'Widgets' }]),
+        new CopyWebpackPlugin([{ from: 'node_modules/cesium/Build/Cesium/Workers', to: 'Workers' }]),
+        new CopyWebpackPlugin([{ from: 'node_modules/cesium/Build/Cesium/ThirdParty', to: 'ThirdParty' }]),
+        new CopyWebpackPlugin([{ from: 'node_modules/cesium/Build/Cesium/Assets', to: 'Assets' }]),
+        new CopyWebpackPlugin([{ from: 'node_modules/cesium/Build/Cesium/Widgets', to: 'Widgets' }]),
         new webpack.DefinePlugin({
             // Define relative base path in cesium for loading assets
             CESIUM_BASE_URL: JSON.stringify('')
-        }),
-        // Split cesium into a seperate bundle
-        new webpack.optimize.CommonsChunkPlugin({
-            name: 'cesium',
-            minChunks: function (module) {
-                return module.context && module.context.indexOf('cesium') !== -1;
-            }
-        }),
+        })
         // new webpack.optimize.UglifyJsPlugin({    //压缩代码
         //     compress: {
         //         warnings: false

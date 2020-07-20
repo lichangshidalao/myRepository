@@ -1,4 +1,4 @@
-import Cesium from "cesium/Cesium";
+import * as Cesium from "cesium/Cesium";
 import { shequ, xiaoqu, community_build } from "../../data/community";
 import { tileset3dtilesUrl } from "../../config/data.config";
 import xiaoqupoi from "../img/xiaoqupoi.png"

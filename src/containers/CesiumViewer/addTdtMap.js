@@ -1,4 +1,4 @@
-import Cesium from "cesium/Cesium";
+import * as Cesium from "cesium/Cesium";
 import { TDTURL_CONFIG } from "../../config/data.config";
 
 

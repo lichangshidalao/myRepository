@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import viewerInit from "../CesiumViewer/viewer";
-import Cesium from "cesium/Cesium";
+import * as Cesium from "cesium/Cesium";
 import add3dtiles from "../CesiumViewer/3dtiles/add3dtiles";
 import cameraFlyto from "../CesiumViewer/cameraFlyto";
 import { tileset3dtilesUrl } from "../../config/data.config";

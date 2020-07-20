@@ -1,4 +1,4 @@
-import Cesium from "cesium/Cesium";
+import * as Cesium from "cesium/Cesium";
 const getLonLat = (cartesian) => {
     const cartographic = Cesium.Cartographic.fromCartesian(cartesian);
     const longitudeString = Cesium.Math.toDegrees(cartographic.longitude);

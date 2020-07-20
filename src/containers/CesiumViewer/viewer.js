@@ -1,4 +1,4 @@
-import Cesium from "cesium/Cesium";
+import * as Cesium from "cesium/Cesium";
 import { OpenStreetMapNominatimGeocoder } from "../CesiumViewer/customGeocoder"
 import { addTdtMap } from "../CesiumViewer/addTdtMap"
 const viewerInit = (cesiumContain, istdt = true) => {

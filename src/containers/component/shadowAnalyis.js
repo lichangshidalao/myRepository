@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Cesium from "cesium/Cesium";
+import * as Cesium from "cesium/Cesium";
 import viewerInit from "../CesiumViewer/viewer";
 import add3dtiles from "../CesiumViewer/3dtiles/add3dtiles";
 import { tileset3dtilesUrl } from "../../config/data.config";

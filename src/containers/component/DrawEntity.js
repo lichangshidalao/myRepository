@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Cesium from "cesium/Cesium";
+import * as Cesium from "cesium/Cesium";
 import viewerInit from "../CesiumViewer/viewer";
 import cameraFlyto from "../CesiumViewer/cameraFlyto";
 import { addBingMapLayer } from "../CesiumViewer/addBingMapLayer"

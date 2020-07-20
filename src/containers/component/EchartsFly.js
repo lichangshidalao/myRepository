@@ -250,7 +250,7 @@ const option = {
     series: series
 };
 import React, { Component } from 'react';
-import Cesium from "cesium/Cesium";
+import * as Cesium from "cesium/Cesium";
 import viewerInit from "../CesiumViewer/viewer";
 import { echartsCombineCesium } from "../CesiumViewer/EchartsCesium"
 import './viewer.css';

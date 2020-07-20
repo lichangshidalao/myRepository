@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import viewerInit from "../CesiumViewer/viewer";
-import Cesium from "cesium/Cesium";
+import * as Cesium from "cesium/Cesium";
 //const viewer
 class Map extends Component {
     constructor() {

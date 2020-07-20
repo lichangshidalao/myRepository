@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import echarts from "echarts"
-import Cesium from "cesium/Cesium";
+import * as Cesium from "cesium/Cesium";
 import viewerInit from "../CesiumViewer/viewer";
 import gifs from "../img/xiaoren.gif"
 import { cameraPosition } from "../CesiumViewer/cameraPosition"
