@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import viewerInit from "../CesiumViewer/viewer";
-import Cesium from "cesium/Cesium"
+import * as Cesium from "cesium/Cesium";
 
 import { tileset3dtilesUrl } from "../../config/data.config";
 import { addTdtMap } from "../CesiumViewer/addTdtMap";
@@ -24,7 +24,7 @@ const { TreeNode } = Tree;
 let params = {
     tx: 119.0910393016583,  //模型中心X轴坐标（经度，单位：十进制度）
     ty: 32.26718715540471,     //模型中心Y轴坐标（纬度，单位：十进制度）  
-    tz: 10,    //模型中心Z轴坐标（高程，单位：米） 
+    tz: -10,    //模型中心Z轴坐标（高程，单位：米） 
     rx: 0,     //X轴（经度）方向旋转角度（单位：度）  
     ry: 0,     //Y轴（纬度）方向旋转角度（单位：度）  
     rz: 0,       //Z轴（高程）方向旋转角度（单位：度）
@@ -48,7 +48,19 @@ class Maps extends Component {
     }
     componentDidMount() {
         viewer = viewerInit(this.refs.map)
-        addTdtMap(viewer, "TDT_VEC_W")
+        let scene = viewer.scene;
+        let globe = scene.globe;
+        // viewer.terrainProvider = Cesium.createWorldTerrain()
+
+        scene.screenSpaceCameraController.enableCollisionDetection = false;
+        globe.translucency.enabled = true
+        globe.translucency.frontFaceAlphaByDistance = new Cesium.NearFarScalar(
+            450.0,
+            0.0,
+            900.0,
+            1.0
+        );
+        addTdtMap(viewer, "TDT_IMG_W")
         tileset = viewer.scene.primitives.add(
             new Cesium.Cesium3DTileset({
                 url: tileset3dtilesUrl.bimModel[1].url,
@@ -130,7 +142,7 @@ const tree = (data) => {
         bimMap.set(data[i].name, data[i].sphere)
         if (data[i].children == undefined) {
             //去除无用字符
-            if(data[i].name.indexOf("ColladaAutoName") == -1){
+            if (data[i].name.indexOf("ColladaAutoName") == -1) {
                 arr.push(
                     <TreeNode title={data[i].name} key={data[i].name}></TreeNode>
                 )

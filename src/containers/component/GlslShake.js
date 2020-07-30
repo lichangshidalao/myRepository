@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import viewerInit from "../CesiumViewer/viewer";
 import * as Cesium from "cesium/Cesium";
 import { Select } from 'antd';
+import waters from '../img/water.png';
+import yun from '../img/yun.png';
 
 const Option = Select.Option;
 let viewer
@@ -46,7 +48,7 @@ class Map extends Component {
     }
     handleChange(value) {
         viewer.scene.postProcessStages.removeAll()
-        let fs
+        let fs, imagesProcess = waters, timeHz = 600
         switch (value) {
             case 'laozhaopian':
                 fs =
@@ -183,18 +185,107 @@ class Map extends Component {
                     gl_FragColor = vec4(vec3(depth2), 1.0);
                 }`
                 break;
+            case 'heart':
+                timeHz = 600
+                fs = `
+                    uniform sampler2D colorTexture;
+                    varying vec2 v_textureCoordinates;
+                    uniform float Time;
+                    void main(){ 
+                        vec2 resolution = czm_viewport.zw;
+                        vec2 p=(gl_FragCoord.xy*2.-resolution.xy)/min(resolution.x,resolution.y);
+                        vec4 bcol = texture2D(colorTexture, v_textureCoordinates);            
+                        // animate
+                        float tt = mod(Time,1.5)/1.5;
+                        float ss = pow(tt,.2)*0.5 + 0.5;
+                        ss = 1.0 + ss*0.5*sin(tt*6.2831*3.0 + p.y*0.5)*exp(-tt*4.0);
+                        p *= vec2(0.5,1.5) + ss*vec2(0.5,-0.5);
+                    
+                        // shape
+                    #if 0
+                        p *= 0.5;
+                        p.y = -0.1 - p.y*1.2 + abs(p.x)*(1.0-abs(p.x));
+                        float r = length(p);
+                        float d = 0.5;
+                    #else
+                        p.y -= 0.25;
+                        float a = atan(p.x,p.y)/3.141593;
+                        float r = length(p);
+                        float h = abs(a);
+                        float d = (13.0*h - 22.0*h*h + 10.0*h*h*h)/(6.0-5.0*h);
+                    #endif
+                        
+                        // color
+                        float s = 0.75 + 0.75*p.x;
+                        s *= 1.0-0.4*r;
+                        s = 0.3 + 0.7*s;
+                        s *= 0.5+0.5*pow( 1.0-clamp(r/d, 0.0, 1.0 ), 0.1 );
+                        vec3 hcol = vec3(1.0,0.5*r,0.3)*s;
+                        vec3 col = mix(bcol.rgb,hcol, smoothstep( -0.01, 0.01, d-r));
+                        gl_FragColor = vec4(col,1.0);
+                    }`
+                break;
+            case 'image':
+                imagesProcess = waters
+                timeHz = 9000
+                fs = `
+                    uniform sampler2D colorTexture;
+                    varying vec2 v_textureCoordinates;
+                    uniform sampler2D Images;
+                    uniform sampler2D depthTexture;
+                    uniform float Heights;
+                    uniform float Time;
+                    void main(){             
+                        vec4 bcol = texture2D(colorTexture, v_textureCoordinates);
+                        float depth = czm_readDepth(depthTexture, v_textureCoordinates);
+                        vec4 scol = texture2D(Images, vec2(fract(v_textureCoordinates.x - Time), v_textureCoordinates.y));
+                        if(depth<1.0 - 0.000001 && Heights>140000.0 &&scol.a>0.3){
+                            gl_FragColor = mix(bcol,scol,0.5);
+                        }else{
+                            gl_FragColor = bcol;
+                        }
+                    }`
+                break;
+            case 'image2':
+                imagesProcess = yun
+                timeHz = 29000
+                fs = `
+                        uniform sampler2D colorTexture;
+                        varying vec2 v_textureCoordinates;
+                        uniform sampler2D Images;
+                        uniform sampler2D depthTexture;
+                        uniform float Heights;
+                        uniform float Time;
+                        void main(){             
+                            vec4 bcol = texture2D(colorTexture, v_textureCoordinates);
+                            float depth = czm_readDepth(depthTexture, v_textureCoordinates);
+                            vec4 scol = texture2D(Images, vec2(fract(v_textureCoordinates.x - Time), v_textureCoordinates.y));
+                            if(depth<1.0 - 0.000001 && Heights>140000.0 &&scol.a>0.3){
+                                gl_FragColor = mix(bcol,scol,0.5);
+                            }else{
+                                gl_FragColor = bcol;
+                            }
+                        }`
+                break;
             default:
                 throw new Error('不支持的特效类型：' + value);
         }
         var _time = new Date()
-        viewer.scene.postProcessStages.add(new Cesium.PostProcessStage({
+        let postStage = new Cesium.PostProcessStage({
             fragmentShader: fs,
             uniforms: {
                 Time: function () {
-                    return ((new Date()).getTime() - _time) / 600;
+                    return ((new Date()).getTime() - _time) / timeHz;
+                },
+                Images: imagesProcess,
+                Heights: function () {
+                    let position = viewer.scene.camera.position
+                    let p = Cesium.Cartographic.fromCartesian(position);
+                    return p.height
                 }
             }
-        }));
+        })
+        viewer.scene.postProcessStages.add(postStage);
     }
     render() {
         return (
@@ -205,6 +296,9 @@ class Map extends Component {
                     <Option value="darkgreen">抖动</Option>
                     <Option value="freeze">毛刺</Option>
                     <Option value="rongzhu">闪白</Option>
+                    <Option value="heart">跳动的心</Option>
+                    <Option value="image">图片混合</Option>
+                    <Option value="image2">图片混合2</Option>
                 </Select>
             </div>
         );

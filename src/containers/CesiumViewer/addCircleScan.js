@@ -1,4 +1,4 @@
-import Cesium from "cesium/Cesium"
+import * as Cesium from "cesium/Cesium";
 
 /**
    *圆形扩大扫描圈

@@ -31,7 +31,8 @@ const viewerInit = (cesiumContain, istdt = true) => {
     viewer.scene.screenSpaceCameraController.inertiaTranslate = 0 //相机惯性
     //3dtiles 调试
     //viewer.extend(Cesium.viewerCesium3DTilesInspectorMixin);
-
+    //抗锯齿属性调整
+    viewer.resolutionScale = window.devicePixelRatio;
     //homebutton
     viewer.homeButton.viewModel.command.beforeExecute.addEventListener(function (e) {
         e.cancel = true;
