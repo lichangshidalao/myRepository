@@ -55,7 +55,7 @@ const update3dtilesMaxtrix = (tileset, params) => {
     let mss = tileset.modelMatrix
     tileset.root.transform = Cesium.Matrix4.multiply(m, mss, m);
     //tileset.modelMatrix = m
-    return [Pmat, tileset.root.transform]
+    return [Pmat, tileset.root.transform, m]
 }
 
 

@@ -16,6 +16,7 @@ OpenStreetMapNominatimGeocoder.prototype.geocode = function (input) {
             var bboxDegrees;
             return results.map(function (resultObject) {
                 bboxDegrees = resultObject.boundingbox;
+                console.log(bboxDegrees)
                 return {
                     displayName: resultObject.display_name,
                     destination: Cesium.Rectangle.fromDegrees(

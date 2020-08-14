@@ -267,6 +267,133 @@ class Map extends Component {
                             }
                         }`
                 break;
+            case 'image3':
+                imagesProcess = waters
+                timeHz = 1000
+                fs = `
+                            #define TAU 6.28318530718
+                            #define MAX_ITER 5
+                            uniform sampler2D colorTexture;
+                            varying vec2 v_textureCoordinates;
+                            uniform sampler2D depthTexture;
+                            uniform float Time;
+                            void main(){
+                                vec2 iResolution = czm_viewport.zw;             
+                                float time = Time * .5+23.0;
+                              // uv should be the 0-1 uv of texture...
+                                vec2 uv = gl_FragCoord.xy / iResolution.xy;  
+                                #ifdef SHOW_TILING
+                                vec2 p = mod(uv*TAU*2.0, TAU)-250.0;
+                                #else
+                                vec2 p = mod(uv*TAU, TAU)-250.0;
+                                #endif
+                                vec2 i = vec2(p);
+                                float c = 1.0;
+                                float inten = .005;
+        
+                                for (int n = 0; n < MAX_ITER; n++) 
+                                {
+                                    float t = time * (1.0 - (3.5 / float(n+1)));
+                                    i = p + vec2(cos(t - i.x) + sin(t + i.y), sin(t - i.y) + cos(t + i.x));
+                                    c += 1.0/length(vec2(p.x / (sin(i.x+t)/inten),p.y / (cos(i.y+t)/inten)));
+                                }
+                                c /= float(MAX_ITER);
+                                c = 1.17-pow(c, 1.4);
+                                vec3 colour = vec3(pow(abs(c), 8.0));
+                                colour = clamp(colour + vec3(0.0, 0.35, 0.5), 0.0, 1.0);
+            
+        
+                                #ifdef SHOW_TILING
+                                // Flash tile borders...
+                                vec2 pixel = 2.0 / iResolution.xy;
+                                uv *= 2.0;
+        
+                                float f = floor(mod(iTime*.5, 2.0)); 	// Flash value.
+                                vec2 first = step(pixel, uv) * f;		   	// Rule out first screen pixels and flash.
+                                uv  = step(fract(uv), pixel);				// Add one line of pixels per tile.
+                                colour = mix(colour, vec3(1.0, 1.0, 0.0), (uv.x + uv.y) * first.x * first.y); // Yellow line
+            
+                                #endif
+                                vec4 bcol = texture2D(colorTexture, v_textureCoordinates);
+                                float depth = czm_readDepth(depthTexture, v_textureCoordinates);
+                                if(depth<1.0 - 0.000001){
+                                    gl_FragColor = vec4(mix(bcol.rgb,colour,0.5),1);
+                                }else{
+                                    gl_FragColor = bcol;
+                                }
+                            }`
+                break;
+            case 'scaning':
+                imagesProcess = waters
+                timeHz = 1000
+                fs = `
+                         
+                            uniform sampler2D colorTexture;
+                            varying vec2 v_textureCoordinates;
+                            uniform sampler2D depthTexture;
+                            uniform sampler2D Images;
+                            float RGB2Luminance(in vec3 rgb)
+                            {
+                                return 0.2126 * rgb.r + 0.7152 * rgb.g + 0.0722 * rgb.b;
+                            }
+                            uniform float Time;
+                            void main(){
+                                vec2 iResolution = czm_viewport.zw;             
+                              
+                                vec2 uv = gl_FragCoord.xy / iResolution.xy;  
+                                vec2 pixelSize = vec2(1.0) / iResolution.xy;
+                                
+    // sobel stuff
+    float tl = RGB2Luminance(texture2D(colorTexture, uv + -pixelSize.xy).rgb);
+    float t = RGB2Luminance(texture2D(colorTexture, uv + vec2(0.0, -pixelSize.y)).rgb);
+    float tr = RGB2Luminance(texture2D(colorTexture, uv + vec2(pixelSize.y, -pixelSize.x)).rgb);
+
+    float cl = RGB2Luminance(texture2D(colorTexture, uv + vec2(-pixelSize.y, 0.0)).rgb);
+	float c = RGB2Luminance(texture2D(colorTexture, uv).rgb);
+    float cr = RGB2Luminance(texture2D(colorTexture, uv + vec2(pixelSize.y, 0.0)).rgb);
+
+    float bl = RGB2Luminance(texture2D(colorTexture, uv + vec2(-pixelSize.y, pixelSize.x)).rgb);
+	float b = RGB2Luminance(texture2D(colorTexture, uv + vec2(0.0, pixelSize.y)).rgb);
+    float br = RGB2Luminance(texture2D(colorTexture, uv + vec2(pixelSize.y, pixelSize.x)).rgb);
+
+    float sobelX = tl * -1.0 + tr * 1.0 + cl * -2.0 + cr * 2.0 + bl * -1.0 + br * 1.0;
+    float sobelY = tl * -1.0 + t * -2.0 + tr * -1.0 + bl * 1.0 + b * 2.0 + br * 1.0;
+
+    float sobel = sqrt(sobelX * sobelX + sobelY * sobelY);
+
+    // scanline stuff
+    float scanlineX = sin(Time * 2.0) * 0.5 + 0.5;
+    vec4 textureColor = texture2D(colorTexture, uv);
+    float pixelWidth = 1.0 / iResolution.y;
+    float fragCoordX = gl_FragCoord.y / float(iResolution.y);
+
+    const float scanWindowsWidthInPixels = 200.0;
+
+    float distanceToScanline = clamp(0.0, pixelWidth * scanWindowsWidthInPixels, distance(scanlineX, fragCoordX)) / (pixelWidth * scanWindowsWidthInPixels);
+    float depth = czm_readDepth(depthTexture, v_textureCoordinates);
+    if(depth<1.0 - 0.000001){
+        if (scanlineX > fragCoordX - pixelWidth * scanWindowsWidthInPixels && scanlineX < fragCoordX + pixelWidth * scanWindowsWidthInPixels)
+    {
+        if (sobel < 0.7)
+        {
+            gl_FragColor = vec4(mix(vec3(c), textureColor.rgb, smoothstep(0.4, 0.6, distanceToScanline)), 1.0);
+        }
+        else
+        {
+            gl_FragColor = vec4(mix(vec3(1.0, 140.0/255.0, 10.0/255.0), textureColor.rgb, smoothstep(0.1, 0.9, distanceToScanline)), 1.0);
+        }
+    }
+    else
+    {
+		gl_FragColor = vec4(vec3(textureColor), 1.0);
+    }
+    }else{
+        gl_FragColor = texture2D(colorTexture, v_textureCoordinates);
+    }
+    
+
+    }`
+                break;
             default:
                 throw new Error('不支持的特效类型：' + value);
         }
@@ -299,6 +426,8 @@ class Map extends Component {
                     <Option value="heart">跳动的心</Option>
                     <Option value="image">图片混合</Option>
                     <Option value="image2">图片混合2</Option>
+                    <Option value="image3">纹理混合</Option>
+                    <Option value="scaning">扫描</Option>
                 </Select>
             </div>
         );

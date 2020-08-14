@@ -49,6 +49,7 @@ import GlslShake from '../containers/component/GlslShake'
 import Fenping from '../containers/component/Fenping'
 import FeaturePickShake from '../containers/component/FeaturePickShake'
 import BaiduModelGai from '../containers/component/BaiduModelGai'
+import RotationProcess from '../containers/component/RotationProcess'
 
 const ROUTERS = [
     {
@@ -190,6 +191,15 @@ const ROUTERS = [
                 link: '/CircleScan',
                 text: '圆形放大扫描',
                 component: CircleScan,
+                type: 'item',
+                child: [],
+                disabled: false
+            },
+            {
+                key: 'RotationProcess',
+                link: '/RotationProcess',
+                text: 'RotationTranslation',
+                component: RotationProcess,
                 type: 'item',
                 child: [],
                 disabled: false
