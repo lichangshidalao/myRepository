@@ -81,20 +81,7 @@ module.exports = [{
             // Define relative base path in cesium for loading assets
             CESIUM_BASE_URL: JSON.stringify('')
         })
-        // new webpack.optimize.UglifyJsPlugin({    //压缩代码
-        //     compress: {
-        //         warnings: false
-        //     },
-        //     except: ['$super', '$', 'exports', 'require']    //排除关键字
-        // })
     ],
-    // optimization: {
-    //     minimize: true,
-    //     minimizer: [
-    //         new UglifyJSPlugin()
-    //     ]
-    // },
-    // development server options
     devServer: {
         //contentBase: path.join(__dirname, "dist"),
         contentBase: path.join(__dirname, 'public'),

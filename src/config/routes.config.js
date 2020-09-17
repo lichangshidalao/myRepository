@@ -556,6 +556,24 @@ const ROUTERS = [
                 disabled: false
             }
         ]
+    },
+    {
+        key: 'sub7',
+        iconType: 'smile',
+        text: 'Three',
+        type: 'SubMenu',
+        disabled: true,
+        child: [
+            {
+                key: 'Webglbase_03',
+                link: '/Webglbase_03',
+                text: '渐变立方体 图片纹理 旋转',
+                component: Webglbase_03,
+                type: 'item',
+                child: [],
+                disabled: false
+            }
+        ]
     }
 ]
 
