@@ -17,6 +17,7 @@ class Map extends Component {
     }
     componentDidMount() {
         viewer = viewerInit(this.refs.map)
+        viewer.scene.primitives.add(Cesium.createOsmBuildings());
         viewer.shouldAnimate = true
         var fs =
             'uniform sampler2D colorTexture;\n' +
@@ -255,9 +256,10 @@ class Map extends Component {
                         uniform sampler2D Images;
                         uniform sampler2D depthTexture;
                         uniform float Heights;
+                        uniform sampler2D czm_idTexture;
                         uniform float Time;
                         void main(){             
-                            vec4 bcol = texture2D(colorTexture, v_textureCoordinates);
+                            vec4 bcol = texture2D(czm_idTexture, v_textureCoordinates);
                             float depth = czm_readDepth(depthTexture, v_textureCoordinates);
                             vec4 scol = texture2D(Images, vec2(fract(v_textureCoordinates.x - Time), v_textureCoordinates.y));
                             if(depth<1.0 - 0.000001 && Heights>140000.0 &&scol.a>0.3){
@@ -331,7 +333,7 @@ class Map extends Component {
                             uniform sampler2D colorTexture;
                             varying vec2 v_textureCoordinates;
                             uniform sampler2D depthTexture;
-                            uniform sampler2D Images;
+                            uniform vec4 Colors;
                             float RGB2Luminance(in vec3 rgb)
                             {
                                 return 0.2126 * rgb.r + 0.7152 * rgb.g + 0.0722 * rgb.b;
@@ -374,7 +376,7 @@ class Map extends Component {
     if(depth<1.0 - 0.000001){
         if (scanlineX > fragCoordX - pixelWidth * scanWindowsWidthInPixels && scanlineX < fragCoordX + pixelWidth * scanWindowsWidthInPixels)
     {
-        if (sobel < 0.7)
+        if (sobel < 0.5)
         {
             gl_FragColor = vec4(mix(vec3(c), textureColor.rgb, smoothstep(0.4, 0.6, distanceToScanline)), 1.0);
         }
@@ -409,7 +411,8 @@ class Map extends Component {
                     let position = viewer.scene.camera.position
                     let p = Cesium.Cartographic.fromCartesian(position);
                     return p.height
-                }
+                },
+                Colors: Cesium.Color.POWDERBLUE
             }
         })
         viewer.scene.postProcessStages.add(postStage);

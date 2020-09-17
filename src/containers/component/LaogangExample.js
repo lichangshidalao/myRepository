@@ -10,7 +10,7 @@ import { IntegerStep } from '../antdComponent/slider';
 import colorImage from "../img/colors.png"
 
 
-let viewer, tileset
+let viewer, tileset, bloom, select = []
 //示例数据
 let params = {
     tx: 116.42721600000016,//模型中心X轴坐标（经度，单位：十进制度）
@@ -32,6 +32,9 @@ class Map extends Component {
     }
     componentDidMount() {
         viewer = viewerInit(this.refs.map)
+        bloom = viewer.scene.postProcessStages.bloom;
+        bloom.enabled = true;
+
         var startTime = new Cesium.JulianDate(2458718, 19208.351);
         //var startTime = Cesium.JulianDate.now()
         //console.log(startTime)
@@ -146,6 +149,7 @@ class Map extends Component {
 }
 const modelColor = (r, g, b, a = 1) => {
     tileset.tileVisible.addEventListener(function (tile) {
+        bloom.selected = tile.content
         let content = tile.content
         let featuresLength = content.featuresLength;
         for (let i = 0; i < featuresLength; i++) {
