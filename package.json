@@ -52,6 +52,7 @@
     "react-router": "^4.3.1",
     "react-router-dom": "^4.3.1",
     "three": "^0.120.1",
+    "three-orbitcontrols": "^2.110.3",
     "xlsx": "^0.14.1"
   }
 }

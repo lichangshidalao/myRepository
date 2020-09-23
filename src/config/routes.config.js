@@ -50,6 +50,7 @@ import Fenping from '../containers/component/Fenping'
 import FeaturePickShake from '../containers/component/FeaturePickShake'
 import BaiduModelGai from '../containers/component/BaiduModelGai'
 import RotationProcess from '../containers/component/RotationProcess'
+import HelloWorldThree from '../containers/Three/HelloWorld'
 
 const ROUTERS = [
     {
@@ -565,10 +566,10 @@ const ROUTERS = [
         disabled: true,
         child: [
             {
-                key: 'Webglbase_03',
-                link: '/Webglbase_03',
-                text: '渐变立方体 图片纹理 旋转',
-                component: Webglbase_03,
+                key: 'HelloWorldThree',
+                link: '/HelloWorldThree',
+                text: 'HelloWorld',
+                component: HelloWorldThree,
                 type: 'item',
                 child: [],
                 disabled: false
