@@ -119,6 +119,12 @@ const tileset3dtilesUrl = {
             "id":17,
             "name": "shanxia2",
             "url": "http://59.110.157.48/data/models/lanhai/tileset.json"
+        },
+        {
+            "id":18,
+            "name": "model_shap2",
+            "url": "http://localhost:8080/Apps/SampleData/model_shap2/tileset.json",
+            "sceneTree":"http://localhost:8080/Apps/SampleData/model_shap2/scenetree.json"
         }
     ]
 }
