@@ -239,7 +239,7 @@ class Map extends Component {
                     void main(){             
                         vec4 bcol = texture2D(colorTexture, v_textureCoordinates);
                         float depth = czm_readDepth(depthTexture, v_textureCoordinates);
-                        vec4 scol = texture2D(Images, vec2(fract(v_textureCoordinates.x - Time), v_textureCoordinates.y));
+                        vec4 scol = texture2D(Images, vec2(fract(v_textureCoordinates.x + fract(czm_frameNumber / 360.0)), v_textureCoordinates.y));
                         if(depth<1.0 - 0.000001 && Heights>140000.0 &&scol.a>0.3){
                             gl_FragColor = mix(bcol,scol,0.5);
                         }else{

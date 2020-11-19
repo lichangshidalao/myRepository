@@ -51,6 +51,7 @@ import FeaturePickShake from '../containers/component/FeaturePickShake'
 import BaiduModelGai from '../containers/component/BaiduModelGai'
 import RotationProcess from '../containers/component/RotationProcess'
 import HelloWorldThree from '../containers/Three/HelloWorld'
+import ThreeGeomerty from '../containers/Three/ThreeGeomerty'
 
 const ROUTERS = [
     {
@@ -570,6 +571,15 @@ const ROUTERS = [
                 link: '/HelloWorldThree',
                 text: 'HelloWorld',
                 component: HelloWorldThree,
+                type: 'item',
+                child: [],
+                disabled: false
+            },
+            {
+                key: 'ThreeGeomerty',
+                link: '/ThreeGeomerty',
+                text: 'three内置几何',
+                component: ThreeGeomerty,
                 type: 'item',
                 child: [],
                 disabled: false
