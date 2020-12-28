@@ -52,6 +52,7 @@ import BaiduModelGai from '../containers/component/BaiduModelGai'
 import RotationProcess from '../containers/component/RotationProcess'
 import HelloWorldThree from '../containers/Three/HelloWorld'
 import ThreeGeomerty from '../containers/Three/ThreeGeomerty'
+import Earth from '../containers/Three/Earth.js'
 
 const ROUTERS = [
     {
@@ -580,6 +581,15 @@ const ROUTERS = [
                 link: '/ThreeGeomerty',
                 text: 'three内置几何',
                 component: ThreeGeomerty,
+                type: 'item',
+                child: [],
+                disabled: false
+            },
+            {
+                key: 'Earth',
+                link: '/Earth',
+                text: 'Earth',
+                component: Earth,
                 type: 'item',
                 child: [],
                 disabled: false

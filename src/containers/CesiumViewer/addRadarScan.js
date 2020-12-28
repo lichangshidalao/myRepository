@@ -5,11 +5,6 @@ import * as Cesium from "cesium/Cesium";
    * */
 function AddRadarScanPostStage(viewer, cartographicCenter, radius, scanColor, duration) {
 
-    var strs =`
-    float powerRatio = fract(czm_frameNumber / 30.0) + 1.0;
-    float alpha = pow(1.0 - v_st.t, powerRatio);
-    gl_FragColor = vec4(u_color.rgb, alpha*u_color.a);
-    `
     var ScanSegmentShader =
         "uniform sampler2D colorTexture;\n" +
         "uniform sampler2D depthTexture;\n" +
